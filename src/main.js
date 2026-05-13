@@ -14,6 +14,12 @@ const config = {
   width: GAME.width,
   height: GAME.height,
   backgroundColor: GAME.backgroundColor,
+  physics: {
+    default: 'arcade',
+    arcade: {
+      debug: GAME.debug,  // Wenn true: Bounding Boxes und Positionen werden eingezeichnet
+    },
+  },
   scene: GameScene, // Welche Scene im Spiel geladen wird
 };
 

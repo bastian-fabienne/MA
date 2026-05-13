@@ -7,6 +7,7 @@ export const GAME = {
   width: 640,
   height: 480,
   backgroundColor: '#161649',
+  debug: true,  // Debug-Modus: Bounding Boxes und Positionen einzeichnen
 };
 
 // Objekt-Typen mit ihren Texturnamen und Punktwerten.

@@ -66,6 +66,10 @@ export class GameScene extends Phaser.Scene {
       this._ui.addPoints(clicked.points);
     });
 
+    // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
+    // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
+    this.physics.add.existing(obj.sprite, true);
+
     // Fügt das Objekt in die Liste von dieser Szene ein, so wissen wir wie viele Objekte aktuell auf dem Bildschirm sind.
     this._objects.push(obj);
   }
