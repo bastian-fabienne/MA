@@ -6,7 +6,7 @@
 
 import Phaser from 'phaser';  // Importiert die GameEngine
 import { GAME } from './config.js';   // Importiert Konfigurationen
-import { GameScene } from './GameScene.js'; // Importiert die erste Szene
+import { GameScene } from './scenes/GameScene.js'; // Importiert die erste Szene
 
 const config = {
   type: Phaser.AUTO,      // AUTO: bevorzugt WebGL, fällt auf Canvas zurück

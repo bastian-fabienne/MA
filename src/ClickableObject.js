@@ -30,6 +30,8 @@ export class ClickableObject {
 
     const typeDef = OBJECT_TYPES.find((t) => t.key === textureKey);
     this.points = typeDef?.points ?? 10;
+    this.sceneName = typeDef?.sceneName ?? null;
+    this.sceneClass = typeDef?.sceneClass ?? null;
 
     // Sprite anlegen
     this.sprite = scene.add.image(x, y, textureKey);
