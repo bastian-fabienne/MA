@@ -35,6 +35,8 @@ export class ClickableObject {
     this.sprite = scene.add.image(x, y, textureKey);
 
    
+    // Das hier brauchen wir damit die Form der Figur Pixelperfekt verwendet wird.
+    // Ansonsten wäre es nur die Boundingbox, und diese ist ein Rechteck.
     this.sprite.setInteractive({
       pixelPerfect: true,
       alphaTolerance: ALPHA_TOLERANCE,
@@ -51,12 +53,14 @@ export class ClickableObject {
 
   // ── Private Methoden ──────────────────────────────────────────────────────
 
+  // Das ist ein Handler der sagt was passieren soll wenn das Objekt gehovered wird.
   _onHover(isOver) {
     if (!this.alive) return;
     this.sprite.setScale(isOver ? 1.15 : 1.0);
     this.scene.game.canvas.style.cursor = isOver ? 'pointer' : 'default';
   }
 
+  // Dieser Handler sagt was passieren soll wenn das Objekt angeklickt wird.
   _handleClick() {
     if (!this.alive) return;
     this.alive = false;
@@ -77,35 +81,8 @@ export class ClickableObject {
       },
     });
 
-    // Punkte-Label kurz einblenden
-    this._spawnPointsLabel();
-
     // Callback aufrufen
+    // Das Callback wird beim erstellen des Objekts übergeben, damit ein verhalten später ausgeführt werden kann.
     this.onClicked(this);
-  }
-
-  _spawnPointsLabel() {
-    const label = this.scene.add.text(
-      this.sprite.x,
-      this.sprite.y - 10,
-      `+${this.points}`,
-      {
-        fontSize: '22px',
-        fontFamily: 'monospace',
-        fontStyle: 'bold',
-        color: '#ffffff',
-        stroke: '#000000',
-        strokeThickness: 3,
-      },
-    ).setOrigin(0.5);
-
-    this.scene.tweens.add({
-      targets: label,
-      y: label.y - 55,
-      alpha: 0,
-      duration: 700,
-      ease: 'Power1',
-      onComplete: () => label.destroy(),
-    });
   }
 }
