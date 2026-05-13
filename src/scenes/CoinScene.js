@@ -30,7 +30,9 @@ export class CoinScene extends Phaser.Scene {
     this._drawBackground();
     this._ui = new UI(this);
 
-    this.add.text(640 / 2, 480 / 4, "Zu welchem Level möchtest du?").setOrigin(0.5, 0.5)
+    this.add.text(640 / 2, 480 / 4, "Klicke auf Münzen, um Punkte zu sammeln!").setOrigin(0.5, 0.5);
+
+    this._addBackButton();
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
@@ -63,9 +65,29 @@ export class CoinScene extends Phaser.Scene {
     bg.fillRect(0, 0, width, height);
   }
 
+  // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
+  _addBackButton() {
+    const btn = this.add.text(16, 16, '← Zurück', {
+      fontSize: '18px',
+      color: '#ffffff',
+      backgroundColor: '#333366',
+      padding: { x: 10, y: 6 },
+    }).setDepth(20).setInteractive({ useHandCursor: true });
+
+    btn.on('pointerover', () => btn.setStyle({ color: '#ffff00' }));
+    btn.on('pointerout',  () => btn.setStyle({ color: '#ffffff' }));
+    btn.on('pointerdown', () => this.scene.start('GameScene'));
+  }
+
   _placeObject(key, x, y) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
       this._ui.addPoints(clicked.points);
+
+      // Wenn alle Objekte weggeklickt wurden, zurück zur GameScene.
+      // delayedCall wartet bis die Pop-Animation (180ms) fertig ist.
+      if (this._objects.every(obj => !obj.alive)) {
+        this.time.delayedCall(300, () => this.scene.start('GameScene'));
+      }
     });
 
     // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box

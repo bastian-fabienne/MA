@@ -67,14 +67,7 @@ export class GameScene extends Phaser.Scene {
 
   _placeObject(key, x, y) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
-      console.log(clicked)
-      const sceneName = clicked.sceneName
-      const sceneClass = clicked.sceneClass
-      if (!this.scene.manager.keys[sceneName]) {
-        this.scene.add(sceneName, sceneClass, false)
-      }
-
-      this.scene.start(sceneName)
+      this._startScene(clicked.sceneName, clicked.sceneClass);
     });
 
     // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
@@ -83,5 +76,13 @@ export class GameScene extends Phaser.Scene {
 
     // Fügt das Objekt in die Liste von dieser Szene ein, so wissen wir wie viele Objekte aktuell auf dem Bildschirm sind.
     this._objects.push(obj);
+  }
+
+  // Registriert eine Szene lazily (falls noch nicht bekannt) und startet sie.
+  _startScene(sceneName, sceneClass) {
+    if (!this.scene.manager.keys[sceneName]) {
+      this.scene.add(sceneName, sceneClass, false);
+    }
+    this.scene.start(sceneName);
   }
 }
