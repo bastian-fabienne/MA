@@ -1,11 +1,11 @@
 // ---------------------------------------------------------------------------
 // GameScene.js
-// Hauptszene: orchestriert Spawn-Logik, Objekte und UI.
-// Enthält keine Render- oder Input-Details – diese liegen in den Entities.
+// Hauptszene: lädt Assets, erzeugt programmatische Texturen und platziert
+// alle Spielobjekte anhand der in config.js definierten PLACED_OBJECTS-Liste.
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';
-import { GAME } from './config.js';
+import { GAME, OBJECT_TYPES, PLACED_OBJECTS } from './config.js';
 import { createTextures } from './TextureFactory.js';
 import { ClickableObject } from './ClickableObject.js';
 import { UI } from './UI.js';
@@ -18,26 +18,26 @@ export class GameScene extends Phaser.Scene {
     this._objects = [];
   }
 
-  // Lifecycle:
-  // Jede Phaser Szene hat das, so Teilt sich die GameEngine die einzelnen
-  // Frames auf. Zuerst wird `create()` automatisch aufgerufen, dann in
-  // jedem neuen Frame wird `update()` aufgerufen.
+  // Lifecycle Schritt 1: Assets laden.
+  // Phaser ruft preload() automatisch vor create() auf.
+  // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
+  preload() {
+    for (const type of OBJECT_TYPES) {
+      if (type.image) {
+        this.load.image(type.key, `/assets/images/${type.key}.png`);
+      }
+    }
+  }
+
+  // Lifecycle Schritt 2: Szene aufbauen.
+  // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
     this._drawBackground();
-    createTextures(this);
+    createTextures(this);  // Programmatische Texturen (star, gem, circle) erzeugen
 
     this._ui = new UI(this);
 
-    // Hier kannst du die Objekte manuell platzieren.
-    // Jeder Eintrag: { key: 'star'|'gem'|'circle', x: number, y: number }
-    const PLACED_OBJECTS = [
-      { key: 'star',   x: 100, y: 150 },
-      { key: 'gem',    x: 320, y: 240 },
-      { key: 'circle', x: 540, y: 350 },
-      { key: 'circle', x: 560, y: 350 },
-    ];
-
-    // Alle manuell definierten Objekte aus der Config platzieren
+    // Alle Objekte aus config.js an ihren festen Positionen platzieren
     for (const { key, x, y } of PLACED_OBJECTS) {
       this._placeObject(key, x, y);
     }

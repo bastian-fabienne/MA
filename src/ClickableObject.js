@@ -34,13 +34,12 @@ export class ClickableObject {
     // Sprite anlegen
     this.sprite = scene.add.image(x, y, textureKey);
 
-    // ── Pixel-perfect Input aktivieren ──────────────────────────────────────
-    // pixelPerfect: true  → Phaser liest den Alpha-Kanal der Textur aus.
-    // alphaTolerance       → Pixel unter diesem Alpha-Wert gelten als "nicht getroffen".
+   
     this.sprite.setInteractive({
       pixelPerfect: true,
       alphaTolerance: ALPHA_TOLERANCE,
     });
+    
 
     // Hover-Feedback
     this.sprite.on('pointerover', () => this._onHover(true));

@@ -9,8 +9,8 @@ import { GAME } from './config.js';   // Importiert Konfigurationen
 import { GameScene } from './GameScene.js'; // Importiert die erste Szene
 
 const config = {
-  type: Phaser.CANVAS,    // Kann auch Phaser.WEBGL verwenden, bessere Performance
-  canvas: document.getElementById('game-canvas'),   // In welches Element das Spiel geladen wird
+  type: Phaser.AUTO,      // AUTO: bevorzugt WebGL, fällt auf Canvas zurück
+  parent: 'game-container', // Phaser erstellt das Canvas selbst in diesem Element
   width: GAME.width,
   height: GAME.height,
   backgroundColor: GAME.backgroundColor,
