@@ -16,13 +16,7 @@ export const OBJECT_TYPES = [
   { key: 'circle',  points: 10, size: 48 },
 ];
 
-export const SPAWN = {
-  intervalMs: 1200,   // Millisekunden zwischen neuen Objekten
-  maxObjects: 12,     // Maximale gleichzeitige Objekte auf dem Feld
-  marginX: 60,        // Randabstand links/rechts beim Spawnen
-  marginY: 60,        // Randabstand oben/unten beim Spawnen
-  fallSpeed: 80,      // Pixel/Sekunde nach unten
-};
+
 
 export const COLORS = {
   star:   0xfbbf24,   // Gold

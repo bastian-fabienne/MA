@@ -5,18 +5,17 @@
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';
-import { GAME, OBJECT_TYPES, SPAWN } from './config.js';
+import { GAME } from './config.js';
 import { createTextures } from './TextureFactory.js';
 import { ClickableObject } from './ClickableObject.js';
 import { UI } from './UI.js';
 
 export class GameScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'GameScene' });  // Name der Scene, wird gebraucht
-    
-    // Private Objekte die nur in diesem Objekt verwendet werden dürfen.
+    super({ key: 'GameScene' });
+
+    // Alle aktuell platzierten Objekte in der Szene
     this._objects = [];
-    this._spawnTimer = null;
   }
 
   // Lifecycle:
@@ -29,41 +28,22 @@ export class GameScene extends Phaser.Scene {
 
     this._ui = new UI(this);
 
-    // Spawn-Timer starten
-    this._spawnTimer = this.time.addEvent({
-      delay: SPAWN.intervalMs,
-      callback: this._spawnObject,
-      callbackScope: this,
-      loop: true,
-    });
+    // Hier kannst du die Objekte manuell platzieren.
+    // Jeder Eintrag: { key: 'star'|'gem'|'circle', x: number, y: number }
+    const PLACED_OBJECTS = [
+      { key: 'star',   x: 100, y: 150 },
+      { key: 'gem',    x: 320, y: 240 },
+      { key: 'circle', x: 540, y: 350 },
+      { key: 'circle', x: 560, y: 350 },
+    ];
 
-    // Ersten Schwung sofort spawnen
-    for (let i = 0; i < 4; i++) this._spawnObject();
-  }
-
-  update(_time, delta) {
-    const deltaSeconds = delta / 1000;
-
-    // Alle lebenden Objekte nach unten bewegen
-    for (let i = this._objects.length - 1; i >= 0; i--) {
-      const obj = this._objects[i];
-
-      if (!obj.alive) {
-        // Bereits per Klick erledigt – aus Liste entfernen
-        this._objects.splice(i, 1);
-        continue;
-      }
-
-      const newY = obj.getY() + SPAWN.fallSpeed * deltaSeconds;
-      obj.setY(newY);
-
-      // Objekt ist unten aus dem Bild → entfernen (Punktabzug möglich)
-      if (newY > GAME.height + 40) {
-        obj.destroy();
-        this._objects.splice(i, 1);
-      }
+    // Alle manuell definierten Objekte aus der Config platzieren
+    for (const { key, x, y } of PLACED_OBJECTS) {
+      this._placeObject(key, x, y);
     }
   }
+
+  // update() wird hier nicht benötigt, da die Objekte feststehen.
 
   // ── Private Hilfsmethoden ─────────────────────────────────────────────────
 
@@ -81,29 +61,8 @@ export class GameScene extends Phaser.Scene {
     bg.fillRect(0, 0, width, height);
   }
 
-  _spawnObject() {
-    // Das ist ein Funktion-Guard: Wenn es mehr Objekte schon in der Szene gibt, wie die 
-    // maximale Anzahl an Objekten, dann wird einfach nichts gemacht.
-    if (this._objects.length >= SPAWN.maxObjects) return;
-
-    const { width } = this.scale;
-
-    // Zufälligen Typ wählen
-    const typeDef = Phaser.Utils.Array.GetRandom(OBJECT_TYPES);
-
-    // Zufällige X-Position mit Randabstand
-    const x = Phaser.Math.Between(
-      SPAWN.marginX,
-      width - SPAWN.marginX,
-    );
-
-    // Startet knapp über dem oberen Rand
-    const y = 10
-
-    console.log("Neues Objekt erstellen")
-
-    // Hier wird das neue Objekt erstellt und zur Szene hinzugefügt.
-    const obj = new ClickableObject(this, x, y, typeDef.key, (clicked) => {
+  _placeObject(key, x, y) {
+    const obj = new ClickableObject(this, x, y, key, (clicked) => {
       this._ui.addPoints(clicked.points);
     });
 

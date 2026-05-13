@@ -109,22 +109,4 @@ export class ClickableObject {
       onComplete: () => label.destroy(),
     });
   }
-
-  // ── Öffentliche Methoden ──────────────────────────────────────────────────
-
-  /** Setzt die Y-Position (für Fall-Bewegung aus der GameScene). */
-  setY(y) {
-    this.sprite.setY(y);
-  }
-
-  getY() {
-    return this.sprite.y;
-  }
-
-  /** Aufräumen ohne Animation (z.B. wenn Objekt unten aus dem Bild fällt). */
-  destroy() {
-    this.alive = false;
-    this.scene.game.canvas.style.cursor = 'default';
-    this.sprite.destroy();
-  }
 }
