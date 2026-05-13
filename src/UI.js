@@ -9,8 +9,6 @@ export class UI {
    * @param {Phaser.Scene} scene
    */
   constructor(scene) {
-    const { width } = scene.scale;
-
     this._score = 0;
 
     this._scoreText = scene.add
@@ -22,20 +20,6 @@ export class UI {
         stroke: '#000000',
         strokeThickness: 3,
       })
-      .setDepth(10);
-
-    scene.add
-      .text(
-        width / 2,
-        14,
-        'Objekte anklicken – nur die sichtbare Form trifft!',
-        {
-          fontSize: '13px',
-          fontFamily: 'monospace',
-          color: '#94a3b8',
-        },
-      )
-      .setOrigin(0.5, 0)
       .setDepth(10);
   }
 
