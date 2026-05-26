@@ -1,2 +1,8 @@
+# Für das Spielprojekt
 dist
 node_modules
+
+# Für den schriftlichen Teil
+pdf/
+*.pdf
+.aux-files

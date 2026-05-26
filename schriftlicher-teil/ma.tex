@@ -1,0 +1,39 @@
+\documentclass[class=4A,draft]{gymmureport}
+
+\addbibresource{bibliography.bib}
+
+
+\title{Maturarbeit}
+\author{Name der Autorin}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Dies ist eine Vorlage für eine Maturarbeit in der Informatik am
+    Gymnasium Muttenz. Sie dient dazu, die Arbeit schnell und einfach zu starten
+    und sollte einen guten Überblick über die Arbeit bieten.
+\end{abstract}
+
+\tableofcontents
+
+\chapter{Einführung}
+
+Hier kommt die Einführung.\todo{Einführung noch ausformulieren} Der Text hier
+sollte eigentlich noch viel länger sein, so das hier nicht so merkwürdige
+Umbrüche entstehen.
+
+Ich kann weitere Kapitel auch importieren.
+
+\input{chapter_methode.tex}
+
+\section{Etwas mit Quellen}
+
+Wenn ich eine Quelle zitieren möchte, kann ich das ganze einfach am Ende des
+Satzes machen \citep{ai-wikipedia}. Oder wie gesagt, auch mitten im Text.
+
+\printbibliography
+
+\end{document}

@@ -1,11 +1,16 @@
 // ---------------------------------------------------------------------------
 // config.js
 // Zentrale Spielkonfiguration – alle Magic Numbers an einem Ort.
+// Diese Datei wird verwendet, um alle Werte die in verschiedenen Dateien
+// verwendet werden, zu speichern. So gibt es weniger Probleme wenn ein Wert
+// einmal geändert werden muss. Zusätzlich haben die Werte im Code dann einen
+// Namen, statt nur eine Zahl, das macht den Code besser lesbar.
 // ---------------------------------------------------------------------------
 
 import { CoinScene } from "./scenes/CoinScene";
 import { StarScene } from "./scenes/StarScene";
 
+// In diesem Objekt wird alles definiert was mit dem Spiel zu tun hat.
 export const GAME = {
   width: 640,
   height: 480,

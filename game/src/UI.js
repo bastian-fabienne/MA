@@ -9,6 +9,15 @@ export class UI {
    * @param {Phaser.Scene} scene
    */
   constructor(scene) {
+    // Erklärung: Hier wird ein Muster mit "Sichtbarkeit" von Variablen verwendet.
+    // Man macht das, weil diese Variable einer bestimmten Logik folgen soll. Das 
+    // heisst Score kann nicht irgendwie gesetzt werden, sondern es kann nur über
+    // die Funktionen in dieser Klasse verändert werden. So hat man Kontrolle darüber
+    // wie sich eine Variable verändert. Man sagt das diese Variable "privat" ist,
+    // und somit nur für die Klasse selber lesbar. Man macht eine Variable "privat"
+    // indem man this._score verwendet. Das "this" bezieht sich auf "diese" Klasse,
+    // und mit dem "_" sagt man das die Variable "privat" ist. Es braucht immer beide
+    // Teile.
     this._score = 0;
 
     this._scoreText = scene.add

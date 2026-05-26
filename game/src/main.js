@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';  // Importiert die GameEngine
-import { GAME } from './config.js';   // Importiert Konfigurationen
+import { GAME } from './config.js';   // Importiert Konfigurationen; WICHTIG: Mehr dazu lesen in config.js
 import { GameScene } from './scenes/GameScene.js'; // Importiert die erste Szene
 import { InventoryScene } from './scenes/InventoryScene.js';
 
