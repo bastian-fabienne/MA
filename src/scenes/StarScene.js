@@ -6,6 +6,7 @@ import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
 import { UI } from '../UI.js';
+import { store } from '../Store.js';
 
 export class StarScene extends Phaser.Scene {
   constructor() {
@@ -35,6 +36,7 @@ export class StarScene extends Phaser.Scene {
     this.add.text(640 / 2, 480 / 4, "Klicke auf Sterne, um Punkte zu sammeln!").setOrigin(0.5, 0.5);
 
     this._addBackButton();
+    this._setupInventoryToggle();
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
@@ -65,6 +67,17 @@ export class StarScene extends Phaser.Scene {
     bg.fillRect(0, 0, width, height);
   }
 
+  // Leertaste öffnet / schließt das Inventar-Overlay.
+  _setupInventoryToggle() {
+    this.input.keyboard.on('keydown-SPACE', () => {
+      if (this.scene.isActive('InventoryScene')) {
+        this.scene.stop('InventoryScene');
+      } else {
+        this.scene.launch('InventoryScene');
+      }
+    });
+  }
+
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
     const btn = this.add.text(16, 16, '← Zurück', {
@@ -83,6 +96,9 @@ export class StarScene extends Phaser.Scene {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
       this._ui.addPoints(clicked.points);
 
+      // Eingesammeltes Objekt im globalen Store vermerken
+      store.collect(clicked.textureKey);
+
       // Wenn alle Objekte weggeklickt wurden, zurück zur GameScene.
       // delayedCall wartet bis die Pop-Animation (180ms) fertig ist.
       if (this._objects.every(obj => !obj.alive)) {
@@ -94,7 +110,8 @@ export class StarScene extends Phaser.Scene {
     // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
     this.physics.add.existing(obj.sprite, true);
 
-    // Fügt das Objekt in die Liste von dieser Szene ein, so wissen wir wie viele Objekte aktuell auf dem Bildschirm sind.
+    // Objekt in die Liste eintragen und den Store über die Gesamtanzahl informieren
     this._objects.push(obj);
+    store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
 }

@@ -45,6 +45,8 @@ export class GameScene extends Phaser.Scene {
     for (const { key, x, y } of PLACED_OBJECTS) {
       this._placeObject(key, x, y);
     }
+
+    this._setupInventoryToggle();
   }
 
   // update() wird hier nicht benötigt, da die Objekte feststehen.
@@ -76,6 +78,17 @@ export class GameScene extends Phaser.Scene {
 
     // Fügt das Objekt in die Liste von dieser Szene ein, so wissen wir wie viele Objekte aktuell auf dem Bildschirm sind.
     this._objects.push(obj);
+  }
+
+  // Leertaste öffnet / schließt das Inventar-Overlay.
+  _setupInventoryToggle() {
+    this.input.keyboard.on('keydown-SPACE', () => {
+      if (this.scene.isActive('InventoryScene')) {
+        this.scene.stop('InventoryScene');
+      } else {
+        this.scene.launch('InventoryScene');
+      }
+    });
   }
 
   // Registriert eine Szene lazily (falls noch nicht bekannt) und startet sie.

@@ -7,6 +7,7 @@
 import Phaser from 'phaser';  // Importiert die GameEngine
 import { GAME } from './config.js';   // Importiert Konfigurationen
 import { GameScene } from './scenes/GameScene.js'; // Importiert die erste Szene
+import { InventoryScene } from './scenes/InventoryScene.js';
 
 const config = {
   type: Phaser.AUTO,      // AUTO: bevorzugt WebGL, fällt auf Canvas zurück
@@ -20,7 +21,9 @@ const config = {
       debug: GAME.debug,  // Wenn true: Bounding Boxes und Positionen werden eingezeichnet
     },
   },
-  scene: GameScene, // Welche Scene im Spiel geladen wird
+  // InventoryScene wird als Overlay über allen anderen Szenen gestartet,
+  // daher muss sie von Anfang an registriert sein.
+  scene: [GameScene, InventoryScene],
 };
 
 // Startet das Spiel mit der oben vorgegebenen Konfiguration
