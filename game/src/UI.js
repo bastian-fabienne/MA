@@ -18,6 +18,9 @@ export class UI {
     // indem man this._score verwendet. Das "this" bezieht sich auf "diese" Klasse,
     // und mit dem "_" sagt man das die Variable "privat" ist. Es braucht immer beide
     // Teile.
+    // Damit wir die Variable gewollt verändern können, braucht es noch weitere Teile,
+    // das sind "setter" und "getter". Sie setzen/verändern die Variable, oder geben
+    // den Wert nach aussen zurück. Hier sind das addPoints() und getScore()
     this._score = 0;
 
     this._scoreText = scene.add

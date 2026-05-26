@@ -32,13 +32,13 @@ export class GameScene extends Phaser.Scene {
     this._drawBackground();
     this._ui = new UI(this);
 
-    this.add.text(640 / 2, 480 / 4, "Zu welchem Level möchtest du?").setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 4, "Zu welchem Level möchtest du?").setOrigin(0.5, 0.5)
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
-      { key: 'star',   x: 640 / 4, y: 480 / 2 },
-      { key: 'coin',   x: 640 * 3 / 4, y: 480 / 2 },
+      { key: 'star',   x: GAME.width / 4, y: GAME.height / 2 },
+      { key: 'coin',   x: GAME.width * 3 / 4, y: GAME.height / 2 },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
