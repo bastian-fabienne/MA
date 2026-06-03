@@ -74,7 +74,7 @@ export class KuMuScene extends Phaser.Scene {
         this.scene.launch('InventoryScene');
       }
     });
-  }
+  } 
 
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
