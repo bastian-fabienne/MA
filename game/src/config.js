@@ -9,6 +9,7 @@
 
 import { CoinScene } from "./scenes/CoinScene";
 import { StarScene } from "./scenes/StarScene";
+import { KuMuScene } from "./scenes/KuMuScene";
 
 // In diesem Objekt wird alles definiert was mit dem Spiel zu tun hat.
 export const GAME = {
@@ -24,4 +25,5 @@ export const GAME = {
 export const OBJECT_TYPES = [
   { key: 'star', sceneName: "StarScene", sceneClass: StarScene },
   { key: 'coin', sceneName: "CoinScene", sceneClass: CoinScene },
+  { key: 'KuMu_Türe', sceneName: "KuMuScene", sceneClass: KuMuScene },
 ];

@@ -1,17 +1,16 @@
 // ---------------------------------------------------------------------------
-// GameScene.js
-// Hauptszene: lädt Assets, erzeugt programmatische Texturen und platziert
-// alle Spielobjekte anhand der in config.js definierten PLACED_OBJECTS-Liste.
+// KuMuScene.js
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
 import { UI } from '../UI.js';
+import { store } from '../Store.js';
 
-export class GameScene extends Phaser.Scene {
+export class KuMuScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'GameScene' });
+    super({ key: 'KuMuScene' });
 
     // Alle aktuell platzierten Objekte in der Szene
     this._objects = [];
@@ -23,32 +22,29 @@ export class GameScene extends Phaser.Scene {
   preload() {
     for (const type of OBJECT_TYPES) {
       this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image('KuMuOhniTüre1', `/assets/images/KuMuOhniTüre1.png`);
     }
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
-    this._drawBackground();
+    this.add.image(640 / 2, 480 / 2, 'KuMuOhniTüre1');
     this._ui = new UI(this);
 
-    this.add.text(GAME.width / 2, GAME.height / 4, "Zu welchem Level möchtest du?").setOrigin(0.5, 0.5)
+    this._addBackButton();
+    this._setupInventoryToggle();
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
-      { key: 'star',   x: GAME.width / 4, y: GAME.height / 2 },
-      { key: 'coin',   x: GAME.width * 3 / 4, y: GAME.height / 2 },
-      { key: 'KuMu_Türe', x: GAME.width / 2, y: GAME.height / 2 },
+      { key: 'KuMu_Türe', x: 640 / 2, y: 480 / 2 },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
     for (const { key, x, y } of PLACED_OBJECTS) {
       this._placeObject(key, x, y);
     }
-
-    this._setupInventoryToggle();
-    this._setupKuMu();
   }
 
   // update() wird hier nicht benötigt, da die Objekte feststehen.
@@ -69,19 +65,6 @@ export class GameScene extends Phaser.Scene {
     bg.fillRect(0, 0, width, height);
   }
 
-  _placeObject(key, x, y) {
-    const obj = new ClickableObject(this, x, y, key, (clicked) => {
-      this._startScene(clicked.sceneName, clicked.sceneClass);
-    });
-
-    // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
-    // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
-    this.physics.add.existing(obj.sprite, true);
-
-    // Fügt das Objekt in die Liste von dieser Szene ein, so wissen wir wie viele Objekte aktuell auf dem Bildschirm sind.
-    this._objects.push(obj);
-  }
-
   // Leertaste öffnet / schließt das Inventar-Overlay.
   _setupInventoryToggle() {
     this.input.keyboard.on('keydown-SPACE', () => {
@@ -93,22 +76,18 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  _setupKuMu() {
-    this.input.keyboard.on('keydown-M', () => {
-      if (this.scene.isActive('KuMuScene')) {
-        this.scene.stop('KuMuScene');
-      } else {
-        this.scene.launch('KuMuScene');
-      }
-    });
+  // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
+  _addBackButton() {
+    const btn = this.add.text(16, 16, '← Zurück', {
+      fontSize: '18px',
+      color: '#ffffff',
+      backgroundColor: '#333366',
+      padding: { x: 10, y: 6 },
+    }).setDepth(20).setInteractive({ useHandCursor: true });
+
+    btn.on('pointerover', () => btn.setStyle({ color: '#ffff00' }));
+    btn.on('pointerout',  () => btn.setStyle({ color: '#ffffff' }));
+    btn.on('pointerdown', () => this.scene.start('GameScene'));
   }
 
-
-  // Registriert eine Szene lazily (falls noch nicht bekannt) und startet sie.
-  _startScene(sceneName, sceneClass) {
-    if (!this.scene.manager.keys[sceneName]) {
-      this.scene.add(sceneName, sceneClass, false);
-    }
-    this.scene.start(sceneName);
-  }
 }
