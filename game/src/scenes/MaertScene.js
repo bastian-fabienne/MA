@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// KuMuScene.js
+// CoinScene.js
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';
@@ -7,11 +7,10 @@ import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
 import { UI } from '../UI.js';
 import { store } from '../Store.js';
-//importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
 
-export class KuMuScene extends Phaser.Scene {
+export class MaertScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'KuMuScene' });
+    super({ key: 'MaertScene' });
 
     // Alle aktuell platzierten Objekte in der Szene
     this._objects = [];
@@ -23,24 +22,26 @@ export class KuMuScene extends Phaser.Scene {
   preload() {
     for (const type of OBJECT_TYPES) {
       this.load.image(type.key, `/assets/images/${type.key}.png`);
-      this.load.image('KuMuOhniTüre1', `/assets/images/KuMuOhniTüre1.png`);
     }
+    this.load.image('HintergrundMaert', '/assets/images/Hintergruende/Zolli.png');
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
-    this.add.image(640 / 2, 480 / 2, 'KuMuOhniTüre1');
+    this.add.image(640 / 2, 480 / 2, 'HintergrundMaert');
     this._ui = new UI(this);
 
+    this.add.text(640 / 2, 480 / 4, "Klicke auf Münzen, um Punkte zu sammeln!").setOrigin(0.5, 0.5);
+
     this._addBackButton();
-    this._addMaertButton();
     this._setupInventoryToggle();
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
-      { key: 'KuMu_Türe', x: 640 / 2, y: 480 / 2 },
+      { key: 'coin',   x: 640 / 4, y: 480 / 2 },
+      { key: 'coin',   x: 640 * 3 / 4, y: 480 / 2 },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
@@ -76,8 +77,7 @@ export class KuMuScene extends Phaser.Scene {
         this.scene.launch('InventoryScene');
       }
     });
-  } 
-
+  }
 
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
@@ -93,16 +93,26 @@ export class KuMuScene extends Phaser.Scene {
     btn.on('pointerdown', () => this.scene.start('GameScene'));
   }
 
-  _addMaertButton() {
-    const butn = this.add.text(160,300, 'Märt', {
-      fontSize: '18px',
-      color: '#ffffff',
-      backgroundColor: '#333322',
-      padding: { x: 3, y: 6},
-    }).setDepth(20).setInteractive({ useHandCursor: true});
+  _placeObject(key, x, y) {
+    const obj = new ClickableObject(this, x, y, key, (clicked) => {
+      this._ui.addPoints(clicked.points);
 
-    butn.on('pointerover', () => butn.setStyle({ color: '#ffff00' }));
-    butn.on('pointerout',  () => butn.setStyle({ color: '#ffffff' }));
-    butn.on('pointerdown', () => this.scene.start('MaertScene'));
+      // Eingesammeltes Objekt im globalen Store vermerken
+      store.collect(clicked.textureKey);
+
+      // Wenn alle Objekte weggeklickt wurden, zurück zur GameScene.
+      // delayedCall wartet bis die Pop-Animation (180ms) fertig ist.
+      if (this._objects.every(obj => !obj.alive)) {
+        this.time.delayedCall(300, () => this.scene.start('GameScene'));
+      }
+    });
+
+    // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
+    // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
+    this.physics.add.existing(obj.sprite, true);
+
+    // Objekt in die Liste eintragen und den Store über die Gesamtanzahl informieren
+    this._objects.push(obj);
+    store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
 }

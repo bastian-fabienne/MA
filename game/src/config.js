@@ -10,6 +10,8 @@
 import { CoinScene } from "./scenes/CoinScene";
 import { StarScene } from "./scenes/StarScene";
 import { KuMuScene } from "./scenes/KuMuScene";
+import { MaertScene } from "./scenes/MaertScene";
+
 
 // In diesem Objekt wird alles definiert was mit dem Spiel zu tun hat.
 export const GAME = {

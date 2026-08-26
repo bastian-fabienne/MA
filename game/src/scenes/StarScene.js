@@ -78,6 +78,7 @@ export class StarScene extends Phaser.Scene {
     });
   }
 
+
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
     const btn = this.add.text(16, 16, '← Zurück', {
