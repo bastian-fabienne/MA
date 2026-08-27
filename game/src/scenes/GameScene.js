@@ -7,6 +7,7 @@
 import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
+import { Dialog } from '../Dialog.js';
 import { UI } from '../UI.js';
 
 export class GameScene extends Phaser.Scene {
@@ -32,19 +33,35 @@ export class GameScene extends Phaser.Scene {
     this._drawBackground();
     this._ui = new UI(this);
 
+    // Dialog-Box anlegen (ist zu Beginn unsichtbar).
+    this._dialog = new Dialog(this);
+
     this.add.text(GAME.width / 2, GAME.height / 4, "Zu welchem Level möchtest du?").setOrigin(0.5, 0.5)
 
     // Hier kannst du die Objekte manuell platzieren.
-    // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
+    // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number, dialog? }
+    //   dialog (optional): Array von Textzeilen. Ist es gesetzt, erscheint
+    //   beim Klick zuerst ein Dialog. Sobald der Dialog fertig gelesen ist,
+    //   wird (falls vorhanden) zum passenden Level gewechselt.
     const PLACED_OBJECTS = [
-      { key: 'star',   x: GAME.width / 4, y: GAME.height / 2 },
+      {
+        key: 'star',
+        x: GAME.width / 4,
+        y: GAME.height / 2,
+        dialog: [
+          "Du hast den Stern angeklickt!",
+          "Drücke Enter um weiterzulesen.",
+          "Danach geht es zum Level.",
+          "Los geht's!",
+        ],
+      },
       { key: 'coin',   x: GAME.width * 3 / 4, y: GAME.height / 2 },
       { key: 'KuMu_Türe', x: GAME.width / 2, y: GAME.height / 2 },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
-    for (const { key, x, y } of PLACED_OBJECTS) {
-      this._placeObject(key, x, y);
+    for (const { key, x, y, dialog } of PLACED_OBJECTS) {
+      this._placeObject(key, x, y, dialog);
     }
 
     this._setupInventoryToggle();
@@ -69,9 +86,24 @@ export class GameScene extends Phaser.Scene {
     bg.fillRect(0, 0, width, height);
   }
 
-  _placeObject(key, x, y) {
+  // dialogLines (optional): Ist der Parameter gesetzt, zeigt DIESE Instanz
+  // beim Klick zuerst einen Dialog. Nach dem Schliessen des Dialogs wird zum
+  // Level gewechselt. Ohne Dialog wird sofort gewechselt.
+  _placeObject(key, x, y, dialogLines) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
-      this._startScene(clicked.sceneName, clicked.sceneClass);
+      const goToLevel = () => {
+        if (clicked.sceneName) {
+          this._startScene(clicked.sceneName, clicked.sceneClass);
+        }
+      };
+
+      // Mit Dialog: erst Text zeigen, danach das Level wechseln.
+      // Ohne Dialog: direkt das Level wechseln.
+      if (dialogLines) {
+        this._dialog.show(dialogLines, goToLevel);
+      } else {
+        goToLevel();
+      }
     });
 
     // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
