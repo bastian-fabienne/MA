@@ -130,7 +130,7 @@ export class KuMuScene extends Phaser.Scene {
       };
 
      if (dialogLines) {
-        this._dialog.show(dialogLines, goToMaertScene);
+        this._dialog.show(dialogLines, goToMaertScene, "Herr Kumu");
       } else {
         goToMaertScene();
       }

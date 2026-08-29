@@ -40,14 +40,20 @@ export class Dialog {
 
     // Masse der Dialog-Box.
     const boxHeight = 110; // Höhe der Box
-    const margin = 10; // Abstand zum Bildschirmrand
+    const margin = 100; // Abstand zum Bildschirmrand
     const boxY = height - boxHeight - margin; // obere Kante der Box
 
     // Hintergrund-Box zeichnen
     // Eine Grafik mit dunklem, halbtransparentem Hintergrund und weissem Rand.
     this._box = scene.add.graphics();
     this._box.fillStyle(0x000000, 0.8); // schwarze Füllung
-    this._box.fillRoundedRect(margin, boxY, width - margin * 2, boxHeight, 12);
+    this._box.fillRoundedRect(
+      margin, 
+      boxY, 
+      width - margin * 2, 
+      boxHeight, 
+      12
+    );
     this._box.lineStyle(3, 0xffffff, 1); // weisser Rand
     this._box.strokeRoundedRect(
       margin,
@@ -59,9 +65,60 @@ export class Dialog {
     // Depth hoch setzen, damit die Box über allem anderen liegt.
     this._box.setDepth(100);
 
-    // Text-Objekt anlegen
+
+    const namenBoxHeight = 40;
+    const namenBoxWidth = 180;
+
+    const namenBoxX = margin;
+    const namenBoxY = boxY - namenBoxHeight;
+
+    this._namenBox = scene.add.graphics();
+    this._namenBox.fillStyle(0x000000, 0.8);
+
+    this._namenBox.fillRoundedRect(
+      namenBoxX, 
+      namenBoxY, 
+      namenBoxWidth, 
+      namenBoxHeight, 
+      12
+    );
+    
+    this._namenBox.lineStyle(3, 0xffffff, 1); // weisser Rand
+
+    this._namenBox.strokeRoundedRect(
+       namenBoxX,
+      namenBoxY,
+      namenBoxWidth,
+      namenBoxHeight,
+     12
+    );
+    this._namenBox.setDepth(100);
+
+
+    this._nameText = scene.add.text(
+  namenBoxX + 15,
+  namenBoxY + 8,
+  "",
+  
+  {
+    fontSize: "20px",
+    fontFamily: "monospace",
+    color: "#ffffff",
+   }
+  );
+
+    this._nameText.setDepth(101);
+
+    this._namenBox.setVisible(false);
+    this._nameText.setVisible(false);
+   
+    // Text-Objekt 
     // Der eigentliche Text startet leicht eingerückt in der Box.
-    this._text = scene.add.text(margin + 20, boxY + 20, "", {
+    this._text = scene.add.text(
+      margin + 20, 
+      boxY + 20, 
+      "", 
+      {
       fontSize: "20px",
       fontFamily: "monospace",
       color: "#ffffff",
@@ -87,7 +144,10 @@ export class Dialog {
 
     // Enter-Taste abhören
     // Bei jedem Druck auf Enter blättern wir eine Seite weiter.
-    scene.input.keyboard.on("keydown-ENTER", () => this._advance());
+    scene.input.keyboard.on(
+      "keydown-ENTER", 
+      () => this._advance()
+    );
   }
 
   /**
@@ -95,10 +155,11 @@ export class Dialog {
    * @param {string[]} lines – Array von Zeilen, z.B. ['Hallo!', 'Wie geht es dir?']
    * @param {function} [onComplete] – wird aufgerufen sobald der Dialog geschlossen wird
    */
-  show(lines, onComplete) {
+  show(lines, onComplete, speakerName = "") {
     this._lines = lines;
     this._currentLine = 0;
     this._onComplete = onComplete ?? null;
+    this._nameText.setText(speakerName);
     this._setVisible(true);
     this._render();
   }
@@ -146,8 +207,12 @@ export class Dialog {
 
   // Blendet Box, Text und Hinweis gemeinsam ein oder aus.
   _setVisible(visible) {
+
     this._visible = visible;
+
     this._box.setVisible(visible);
+    this._namenBox.setVisible(visible);
+    this._nameText.setVisible(visible);
     this._text.setVisible(visible);
     this._hint.setVisible(visible);
   }
