@@ -17,7 +17,7 @@ import { MaertScene } from "./scenes/MaertScene";
 export const GAME = {
   width: 640,
   height: 480,
-  backgroundColor: '#161649',
+  backgroundColor: '#020205',
   debug: true,  // Debug-Modus: Bounding Boxes und Positionen einzeichnen
 };
 

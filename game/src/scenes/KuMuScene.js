@@ -7,6 +7,8 @@ import { ClickableObject } from "../ClickableObject.js";
 import { GAME, OBJECT_TYPES } from "../config.js";
 import { store } from "../Store.js";
 import { UI } from "../UI.js";
+import { Dialog } from '../Dialog.js';
+import { MaertScene } from "./MaertScene.js";
 //importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
 
 export class KuMuScene extends Phaser.Scene {
@@ -31,6 +33,10 @@ export class KuMuScene extends Phaser.Scene {
         `/assets/images/Hintergruende/KuMuOhniTüre1.png`,
       );
     }
+    this.load.image(
+        "KuMu_Türe", 
+        `/assets/images/KuMu_Türe.png`,
+      );
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.
@@ -38,20 +44,29 @@ export class KuMuScene extends Phaser.Scene {
   create() {
     this.add.image(640 / 2, 480 / 2, "KuMuOhniTüre1");
     this._ui = new UI(this);
-
+    this._dialog = new Dialog(this);
     this._addBackButton();
     this._addMaertButton();
     this._setupInventoryToggle();
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
-    const PLACED_OBJECTS = [{ key: "KuMu_Türe", x: 640 / 2, y: 480 / 2 }];
-
+    const PLACED_OBJECTS = [
+      {
+         key: "KuMu_Türe",
+          x: 670 / 2, 
+          y: 565 / 2,
+        }
+    ];
+    for (const { key, x, y } of PLACED_OBJECTS) {
+    this._placeObject(key, x, y);
+}
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
     // REVIEW: Ich denke das können Sie entfernen, sieht nicht so aus als
     // würden Sie das in dieser Szene verwenden
     for (const { key, x, y } of PLACED_OBJECTS) {
       this._placeObject(key, x, y);
+      
     }
   }
 
@@ -117,6 +132,26 @@ export class KuMuScene extends Phaser.Scene {
 
     butn.on("pointerover", () => butn.setStyle({ color: "#ffff00" }));
     butn.on("pointerout", () => butn.setStyle({ color: "#ffffff" }));
-    butn.on("pointerdown", () => this.scene.start("MaertScene"));
+    butn.on("pointerdown", () => {
+  this.scene.start('MaertScene');
+});
+  };
+
+  _placeObject(key, x, y) {
+    const obj = new ClickableObject(this, x, y, key, (clicked) => {
+      this._ui.addPoints(clicked.points);
+
+
+      // Wenn alle Objekte weggeklickt wurden, zurück zur GameScene.
+      // delayedCall wartet bis die Pop-Animation (180ms) fertig ist.
+      if (this._objects.every(obj => !obj.alive)) {
+        this.time.delayedCall(300, () => this.scene.start('MaertScene'));
+      }
+    });
+
+    // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
+    // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
+    this.physics.add.existing(obj.sprite, true);
+
   }
 }

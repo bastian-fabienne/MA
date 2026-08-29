@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// CoinScene.js
+// MaertScene.js
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';
@@ -23,17 +23,19 @@ export class MaertScene extends Phaser.Scene {
     for (const type of OBJECT_TYPES) {
       this.load.image(type.key, `/assets/images/${type.key}.png`);
     }
-    this.load.image('HintergrundMaert', '/assets/images/Hintergruende/Zolli.png');
-  }
+    this.load.image(
+        "Maert",
+        `/assets/images/Hintergruende/Maert.png`,
+      );
+  };
 
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
-    this.add.image(640 / 2, 480 / 2, 'HintergrundMaert');
     this._ui = new UI(this);
 
-    this.add.text(640 / 2, 480 / 4, "Klicke auf Münzen, um Punkte zu sammeln!").setOrigin(0.5, 0.5);
 
+    this.add.image(640 / 2, 480 / 2, 'Maert');
     this._addBackButton();
     this._setupInventoryToggle();
 
@@ -95,7 +97,7 @@ export class MaertScene extends Phaser.Scene {
 
   _placeObject(key, x, y) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
-      this._ui.addPoints(clicked.points);
+      
 
       // Eingesammeltes Objekt im globalen Store vermerken
       store.collect(clicked.textureKey);
