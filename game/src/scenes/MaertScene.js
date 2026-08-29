@@ -42,7 +42,7 @@ export class MaertScene extends Phaser.Scene {
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
-      { key: 'coin',   x: 640 / 4, y: 480 / 2 },
+      { key: 'star',   x: 640 / 4, y: 480 / 2 },
       { key: 'coin',   x: 640 * 3 / 4, y: 480 / 2 },
     ];
 

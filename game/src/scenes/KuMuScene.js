@@ -8,7 +8,6 @@ import { GAME, OBJECT_TYPES } from "../config.js";
 import { store } from "../Store.js";
 import { UI } from "../UI.js";
 import { Dialog } from '../Dialog.js';
-import { MaertScene } from "./MaertScene.js";
 //importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
 
 export class KuMuScene extends Phaser.Scene {
