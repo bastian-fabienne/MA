@@ -42,30 +42,34 @@ export class KuMuScene extends Phaser.Scene {
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
     this.add.image(640 / 2, 480 / 2, "KuMuOhniTüre1");
+
     this._ui = new UI(this);
     this._dialog = new Dialog(this);
+
     this._addBackButton();
-    this._addMaertButton();
     this._setupInventoryToggle();
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
       {
-         key: "KuMu_Türe",
-          x: 670 / 2, 
-          y: 565 / 2,
+      key: "KuMu_Türe",
+      x: 670 / 2,
+      y: 565 / 2,
+      dialog: [
+        "Suche Otto Abt",
+        "und finde seine Grusskarte",
+        "Viel Glück!",
+        "Auf ins Jahre 1967!"
+      ]
         }
     ];
-    for (const { key, x, y } of PLACED_OBJECTS) {
-    this._placeObject(key, x, y);
-}
+
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
     // REVIEW: Ich denke das können Sie entfernen, sieht nicht so aus als
     // würden Sie das in dieser Szene verwenden
-    for (const { key, x, y } of PLACED_OBJECTS) {
-      this._placeObject(key, x, y);
-      
+    for (const { key, x, y,dialog } of PLACED_OBJECTS) {
+      this._placeObject(key, x, y, dialog);
     }
   }
 
@@ -118,38 +122,21 @@ export class KuMuScene extends Phaser.Scene {
     btn.on("pointerdown", () => this.scene.start("GameScene"));
   }
 
-  _addMaertButton() {
-    const butn = this.add
-      .text(160, 300, "Märt", {
-        fontSize: "18px",
-        color: "#ffffff",
-        backgroundColor: "#333322",
-        padding: { x: 3, y: 6 },
-      })
-      .setDepth(20)
-      .setInteractive({ useHandCursor: true });
 
-    butn.on("pointerover", () => butn.setStyle({ color: "#ffff00" }));
-    butn.on("pointerout", () => butn.setStyle({ color: "#ffffff" }));
-    butn.on("pointerdown", () => {
-  this.scene.start('MaertScene');
-});
-  };
-
-  _placeObject(key, x, y) {
+  _placeObject(key, x, y, dialogLines) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
-      this._ui.addPoints(clicked.points);
+     const goToMaertScene = () => {
+        this.scene.start("MaertScene");
+      };
 
-
-      // Wenn alle Objekte weggeklickt wurden, zurück zur GameScene.
-      // delayedCall wartet bis die Pop-Animation (180ms) fertig ist.
-      if (this._objects.every(obj => !obj.alive)) {
-        this.time.delayedCall(300, () => this.scene.start('MaertScene'));
+     if (dialogLines) {
+        this._dialog.show(dialogLines, goToMaertScene);
+      } else {
+        goToMaertScene();
       }
     });
 
-    // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
-    // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
+   this._objects.push(obj);
     this.physics.add.existing(obj.sprite, true);
 
   }
