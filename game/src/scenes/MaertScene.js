@@ -83,7 +83,7 @@ export class MaertScene extends Phaser.Scene {
 
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
-    const btn = this.add.text(16, 16, '← Zurück', {
+    const btn = this.add.text(16, 16, 'Exit', {
       fontSize: '18px',
       color: '#ffffff',
       backgroundColor: '#333366',

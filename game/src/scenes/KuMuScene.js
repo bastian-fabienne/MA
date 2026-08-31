@@ -108,7 +108,7 @@ export class KuMuScene extends Phaser.Scene {
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
     const btn = this.add
-      .text(16, 16, "← Zurück", {
+      .text(16, 16, "Exit", {
         fontSize: "18px",
         color: "#ffffff",
         backgroundColor: "#333366",
@@ -130,7 +130,7 @@ export class KuMuScene extends Phaser.Scene {
       };
 
      if (dialogLines) {
-        this._dialog.show(dialogLines, goToMaertScene, "Herr Kumu");
+        this._dialog.show(dialogLines, goToMaertScene, "Museumsleiter");
       } else {
         goToMaertScene();
       }

@@ -36,7 +36,7 @@ export class GameScene extends Phaser.Scene {
     // Dialog-Box anlegen (ist zu Beginn unsichtbar).
     this._dialog = new Dialog(this);
 
-    this.add.text(GAME.width / 2, GAME.height / 4, "Zu welchem Level möchtest du?").setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 4, "Drüke Start").setOrigin(0.5, 0.5)
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number, dialog? }
@@ -56,9 +56,8 @@ export class GameScene extends Phaser.Scene {
         ],
       },
       { key: 'coin',   x: GAME.width * 3 / 4, y: GAME.height / 2 },
-      { key: 'KuMu_Türe', x: GAME.width / 2, y: GAME.height / 2 },
     ];
-
+    
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
     for (const { key, x, y, dialog } of PLACED_OBJECTS) {
       this._placeObject(key, x, y, dialog);
@@ -66,6 +65,7 @@ export class GameScene extends Phaser.Scene {
 
     this._setupInventoryToggle();
     this._setupKuMu();
+  this._addStartButton();
   }
 
   // update() wird hier nicht benötigt, da die Objekte feststehen.
@@ -124,6 +124,25 @@ export class GameScene extends Phaser.Scene {
       }
     });
   }
+
+  
+  _addStartButton() {
+    const btn = this.add
+      .text(GAME.width / 2, GAME.height / 2 , "Start", {
+        fontSize: "18px",
+        color: "#000000",
+        backgroundColor: "#00d8f9",
+        padding: { x: 20, y: 8 },
+      })
+      .setOrigin(0.5)
+      .setDepth(20)
+      .setInteractive({ useHandCursor: true });
+
+    btn.on("pointerover", () => btn.setStyle({ color: "#ffffff" }));
+    btn.on("pointerout", () => btn.setStyle({ color: "#000000" }));
+    btn.on("pointerdown", () => this.scene.start("KuMuScene"));
+  }
+
 
   _setupKuMu() {
     this.input.keyboard.on('keydown-M', () => {
