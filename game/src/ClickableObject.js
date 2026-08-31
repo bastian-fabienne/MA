@@ -65,23 +65,11 @@ export class ClickableObject {
   // Dieser Handler sagt was passieren soll wenn das Objekt angeklickt wird.
   _handleClick() {
     if (!this.alive) return;
-    this.alive = false;
 
     // Cursor zurücksetzen
     this.scene.game.canvas.style.cursor = 'default';
 
-    // Pop-Animation: kurz skalieren, dann zerstören
-    this.scene.tweens.add({
-      targets: this.sprite,
-      scaleX: 1.6,
-      scaleY: 1.6,
-      alpha: 0,
-      duration: 180,
-      ease: 'Power2',
-      onComplete: () => {
-        this.sprite.destroy();
-      },
-    });
+    
 
     // Callback aufrufen
     // Das Callback wird beim erstellen des Objekts übergeben, damit ein verhalten später ausgeführt werden kann.

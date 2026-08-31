@@ -7,6 +7,7 @@ import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
 import { UI } from '../UI.js';
 import { store } from '../Store.js';
+import { Dialog } from '../Dialog.js';
 
 export class MaertScene extends Phaser.Scene {
   constructor() {
@@ -34,6 +35,8 @@ export class MaertScene extends Phaser.Scene {
   create() {
     this._ui = new UI(this);
 
+    this._dialog = new Dialog(this);
+
 
     this.add.image(640 / 2, 480 / 2, 'Maert');
     this._addBackButton();
@@ -42,13 +45,19 @@ export class MaertScene extends Phaser.Scene {
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
-      { key: 'star',   x: 640 / 4, y: 480 / 2 },
-      { key: 'coin',   x: 640 * 3 / 4, y: 480 / 2 },
+      {key: 'OttoFull', 
+        x: 640 / 3.1, 
+        y: 480 / 1.310,
+        dialog: [
+          "Hallo",
+          "Mein Name ist Otto Abt",
+        ]
+      },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
-    for (const { key, x, y } of PLACED_OBJECTS) {
-      this._placeObject(key, x, y);
+    for (const { key, x, y, dialog } of PLACED_OBJECTS) {
+      this._placeObject(key, x, y,dialog);
     }
   }
 
@@ -86,7 +95,7 @@ export class MaertScene extends Phaser.Scene {
     const btn = this.add.text(16, 16, 'Exit', {
       fontSize: '18px',
       color: '#ffffff',
-      backgroundColor: '#333366',
+      backgroundColor: '#474789',
       padding: { x: 10, y: 6 },
     }).setDepth(20).setInteractive({ useHandCursor: true });
 
@@ -95,26 +104,19 @@ export class MaertScene extends Phaser.Scene {
     btn.on('pointerdown', () => this.scene.start('GameScene'));
   }
 
-  _placeObject(key, x, y) {
+  _placeObject(key, x, y, dialogLines) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
-      
-
-      // Eingesammeltes Objekt im globalen Store vermerken
-      store.collect(clicked.textureKey);
-
-      // Wenn alle Objekte weggeklickt wurden, zurück zur GameScene.
-      // delayedCall wartet bis die Pop-Animation (180ms) fertig ist.
-      if (this._objects.every(obj => !obj.alive)) {
-        this.time.delayedCall(300, () => this.scene.start('GameScene'));
+      const goToLevel = () => {
+        if (clicked.sceneName) {
+          this._startScene(clicked.sceneName, clicked.sceneClass);
+        }
+      };
+      if (dialogLines) {
+        this._dialog.show(dialogLines, goToLevel);
+      } else {
+        goToLevel();
       }
     });
 
-    // Static Physics Body hinzufügen, damit Arcade Physics die Bounding Box
-    // kennt und im Debug-Modus einzeichnen kann. true = statisch (bewegt sich nicht).
-    this.physics.add.existing(obj.sprite, true);
-
-    // Objekt in die Liste eintragen und den Store über die Gesamtanzahl informieren
-    this._objects.push(obj);
-    store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
 }
