@@ -22,7 +22,7 @@ export class MaertScene extends Phaser.Scene {
   // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image(type.key, `/assets/images/Personen/${type.key}.png`);
     }
     this.load.image(
         "Maert",
@@ -41,6 +41,7 @@ export class MaertScene extends Phaser.Scene {
     this.add.image(640 / 2, 480 / 2, 'Maert');
     this._addBackButton();
     this._setupInventoryToggle();
+    this.add.image()
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
@@ -48,16 +49,46 @@ export class MaertScene extends Phaser.Scene {
       {key: 'OttoFull', 
         x: 640 / 3.1, 
         y: 480 / 1.310,
+        speakerName: "Otto Abt",
         dialog: [
           "Hallo",
-          "Mein Name ist Otto Abt",
+          "Mein Name ist Otto Abt.",
+          "Ich bin Künstler.",
+          "Freut mich dich kennenzulernen.",
+        ]
+      },
+
+      {key: 'Statist_2',
+        x: 640 / 1.01,
+        y: 480 / 1.310,
+        speakerName: 'Mann',
+        dialog: [
+          "Ich bin verspätet.",
+          "Bitte lass mich in Ruhe.",
+        ]
+      },
+      {key: 'Statist_5',
+        x: 640 / 13,
+        y: 480 / 1.37,
+        speakerName: 'Frau',
+        dialog: [
+          "Hallo.",
+          "Ich habe zu tun.",
+        ]
+      },
+      {key: 'Reservierer_full',
+        x: 640 / 1.31,
+        y: 480 / 1.3,
+        speakerName: 'Herr in grau',
+        dialog: [
+          "Guten Tag.",
         ]
       },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
-    for (const { key, x, y, dialog } of PLACED_OBJECTS) {
-      this._placeObject(key, x, y,dialog);
+    for (const { key, x, y, dialog, speakerName } of PLACED_OBJECTS) {
+      this._placeObject(key, x, y, dialog, speakerName);
     }
   }
 
@@ -104,7 +135,7 @@ export class MaertScene extends Phaser.Scene {
     btn.on('pointerdown', () => this.scene.start('GameScene'));
   }
 
-  _placeObject(key, x, y, dialogLines) {
+  _placeObject(key, x, y, dialogLines, speakerName) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
       const goToLevel = () => {
         if (clicked.sceneName) {
@@ -112,7 +143,7 @@ export class MaertScene extends Phaser.Scene {
         }
       };
       if (dialogLines) {
-        this._dialog.show(dialogLines, goToLevel);
+        this._dialog.show(dialogLines, goToLevel, speakerName);
       } else {
         goToLevel();
       }
