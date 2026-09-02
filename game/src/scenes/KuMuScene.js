@@ -29,7 +29,7 @@ export class KuMuScene extends Phaser.Scene {
       // funktioniert es.
       this.load.image(
         "KuMuOhniTüre1",
-        `/assets/images/Hintergruende/KuMuOhniTüre1.png`,
+        `/assets/images/KuMuOhniTüre1.png`,
       );
     }
     this.load.image(

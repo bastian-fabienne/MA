@@ -22,11 +22,11 @@ export class MaertScene extends Phaser.Scene {
   // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/Personen/${type.key}.png`);
+      this.load.image(type.key, `/assets/images/${type.key}.png`);
     }
     this.load.image(
         "Maert",
-        `/assets/images/Hintergruende/Maert.png`,
+        `/assets/images/Maert.png`,
       );
   };
 
@@ -82,6 +82,17 @@ export class MaertScene extends Phaser.Scene {
         speakerName: 'Herr in grau',
         dialog: [
           "Guten Tag.",
+        ]
+      },
+      {key: 'ZitigsBueb_ganz',
+        x: 640 / 2,
+        y: 480 / 1.31,
+        speakerName: 'Zeitungsjunge',
+        dialog: [
+          "Ich verkaufe Zeitungen.",
+          "Leider habe ich nur noch eine übrig.",
+          "Und die ist für den netten Mann",
+          "in Grau reserviert."
         ]
       },
     ];

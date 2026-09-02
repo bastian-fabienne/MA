@@ -32,4 +32,5 @@ export const OBJECT_TYPES = [
   {key: 'Statist_5', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'Statist_2', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'Reservierer_full', sceneName: "MaertScene", sceneClass: MaertScene},
+  {key: 'ZitigsBueb_ganz', sceneName: "MaertScene", sceneClass: MaertScene},
 ];
