@@ -27,7 +27,7 @@ export class MaertScene extends Phaser.Scene {
     this.load.image(
         "Maert",
         `/assets/images/Maert.png`,
-      );
+    );
 
     const SPEAKER_IMAGES = [
     "OttoAbt",
@@ -115,6 +115,10 @@ export class MaertScene extends Phaser.Scene {
           "in Grau reserviert."
         ]
       },
+      {key: 'Atelier_Türe',
+        x: 640 / 6,
+        y: 480 / 1.49,
+      },
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
@@ -165,6 +169,10 @@ export class MaertScene extends Phaser.Scene {
     btn.on('pointerout',  () => btn.setStyle({ color: '#ffffff' }));
     btn.on('pointerdown', () => this.scene.start('GameScene'));
   }
+
+  _startScene(sceneName, sceneClass) {
+    this.scene.start(sceneName);
+}
 
   _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {

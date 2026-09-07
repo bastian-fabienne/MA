@@ -10,6 +10,7 @@ import { GameScene } from './scenes/GameScene.js'; // Importiert die erste Szene
 import { InventoryScene } from './scenes/InventoryScene.js';
 import { MaertScene } from './scenes/MaertScene.js';
 import { KuMuScene } from './scenes/KuMuScene.js';
+import { AtelierScene } from './scenes/AtelierScene.js';
 
 const config = {
   type: Phaser.AUTO,      // AUTO: bevorzugt WebGL, fällt auf Canvas zurück
@@ -25,7 +26,7 @@ const config = {
   },
   // InventoryScene wird als Overlay über allen anderen Szenen gestartet,
   // daher muss sie von Anfang an registriert sein.
-  scene: [GameScene, InventoryScene, KuMuScene,  MaertScene],
+  scene: [GameScene, InventoryScene, KuMuScene,  MaertScene, AtelierScene],
 };
 
 // Startet das Spiel mit der oben vorgegebenen Konfiguration
