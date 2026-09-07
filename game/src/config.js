@@ -12,6 +12,7 @@ import { StarScene } from "./scenes/StarScene";
 import { KuMuScene } from "./scenes/KuMuScene";
 import { MaertScene } from "./scenes/MaertScene";
 import { AtelierScene } from "./scenes/AtelierScene";
+import { ZolliScene } from "./scenes/ZolliScene";
 
 
 // In diesem Objekt wird alles definiert was mit dem Spiel zu tun hat.
@@ -35,4 +36,5 @@ export const OBJECT_TYPES = [
   {key: 'Reservierer_full', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'ZitigsBueb_ganz', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
+  {key: 'Zoowärter_full', sceneName: "CoinScene", sceneClass: CoinScene},
 ];
