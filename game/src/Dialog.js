@@ -82,7 +82,7 @@ export class Dialog {
       namenBoxHeight, 
       12
     );
-    
+
     this._namenBox.lineStyle(3, 0xffffff, 1); // weisser Rand
 
     this._namenBox.strokeRoundedRect(
@@ -112,6 +112,46 @@ export class Dialog {
     this._namenBox.setVisible(false);
     this._nameText.setVisible(false);
    
+
+    
+    const bilderBoxHeight = 100;
+    const bilderBoxWidth = 100;
+
+    const bilderBoxX = margin - bilderBoxWidth;
+    const bilderBoxY = boxY;
+
+    this._bilderBox = scene.add.graphics();
+    this._bilderBox.fillStyle(0x000000, 0.8);
+
+    this._bilderBox.fillRoundedRect(
+      bilderBoxX, 
+      bilderBoxY, 
+      bilderBoxWidth, 
+      bilderBoxHeight, 
+      12
+    );
+
+    this._bilderBox.lineStyle(3, 0xffffff, 1); // weisser Rand
+
+    this._bilderBox.strokeRoundedRect(
+      bilderBoxX,
+      bilderBoxY,
+      bilderBoxWidth,
+      bilderBoxHeight,
+     12
+    );
+    this._bilderBox.setDepth(100);
+    this._bilderBox.setVisible(false);
+
+this._speakerImage = scene.add.image(
+  bilderBoxX + bilderBoxWidth / 2,
+  bilderBoxY + bilderBoxHeight / 2,
+  ""
+);
+
+this._speakerImage.setDisplaySize(50, 50);
+this._speakerImage.setDepth(101);
+
     // Text-Objekt 
     // Der eigentliche Text startet leicht eingerückt in der Box.
     this._text = scene.add.text(
@@ -155,14 +195,22 @@ export class Dialog {
    * @param {string[]} lines – Array von Zeilen, z.B. ['Hallo!', 'Wie geht es dir?']
    * @param {function} [onComplete] – wird aufgerufen sobald der Dialog geschlossen wird
    */
-  show(lines, onComplete, speakerName = "") {
+  show(lines, onComplete, speakerName = "", speakerImage = "") {
     this._lines = lines;
     this._currentLine = 0;
     this._onComplete = onComplete ?? null;
     this._nameText.setText(speakerName);
-    this._setVisible(true);
-    this._render();
+    
+  if (speakerImage) {
+    this._speakerImage.setTexture(speakerImage);
+    this._speakerImage.setVisible(true);
+  } else {
+    this._speakerImage.setVisible(false);
   }
+
+  this._setVisible(true);
+  this._render();
+}
 
   /** Gibt zurück ob der Dialog gerade sichtbar ist. */
   isVisible() {
@@ -207,13 +255,16 @@ export class Dialog {
 
   // Blendet Box, Text und Hinweis gemeinsam ein oder aus.
   _setVisible(visible) {
+  this._visible = visible;
 
-    this._visible = visible;
+  this._box.setVisible(visible);
+  this._namenBox.setVisible(visible);
+  this._nameText.setVisible(visible);
 
-    this._box.setVisible(visible);
-    this._namenBox.setVisible(visible);
-    this._nameText.setVisible(visible);
-    this._text.setVisible(visible);
-    this._hint.setVisible(visible);
+  this._bilderBox.setVisible(visible);
+  this._speakerImage.setVisible(visible);
+
+  this._text.setVisible(visible);
+  this._hint.setVisible(visible);
   }
 }

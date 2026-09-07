@@ -36,6 +36,10 @@ export class KuMuScene extends Phaser.Scene {
         "KuMu_Türe", 
         `/assets/images/KuMu_Türe.png`,
       );
+    this.load.image(
+      "Rektor",
+      `/assets/images/Rektor.png`
+    );
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.
@@ -62,7 +66,7 @@ export class KuMuScene extends Phaser.Scene {
         "Viel Glück!",
         "Auf ins Jahre 1967!"
       ]
-        }
+      }
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
@@ -130,7 +134,7 @@ export class KuMuScene extends Phaser.Scene {
       };
 
      if (dialogLines) {
-        this._dialog.show(dialogLines, goToMaertScene, "Museumsleiter");
+        this._dialog.show(dialogLines, goToMaertScene, "Museumsleiter", "Rektor");
       } else {
         goToMaertScene();
       }
