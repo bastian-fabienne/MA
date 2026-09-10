@@ -38,7 +38,7 @@ export class MaertScene extends Phaser.Scene {
     ];
 
     for (const key of SPEAKER_IMAGES) {
-  this.load.image(
+    this.load.image(
     key,
     `/assets/images/${key}.png`,
   );
@@ -114,7 +114,9 @@ export class MaertScene extends Phaser.Scene {
           "Und die ist für den netten Mann",
           "in Grau reserviert."
         ]
+        
       },
+      
       {key: 'Atelier_Türe',
         x: 640 / 6,
         y: 480 / 1.49,

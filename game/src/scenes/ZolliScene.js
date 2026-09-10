@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// CoinScene.js
+// ZolliScene.js
 // ---------------------------------------------------------------------------
 
 import Phaser from 'phaser';
@@ -9,9 +9,9 @@ import { UI } from '../UI.js';
 import { store } from '../Store.js';
 import { Dialog } from '../Dialog.js';
 
-export class CoinScene extends Phaser.Scene {
+export class ZolliScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'CoinScene' });
+    super({ key: 'ZolliScene' });
  // Alle aktuell platzierten Objekte in der Szene
     this._objects = [];
   }

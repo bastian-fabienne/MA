@@ -98,7 +98,7 @@ export class AtelierScene extends Phaser.Scene {
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
     const btn = this.add
-      .text(16, 16, "Exit", {
+      .text(16, 16, "Zurück", {
         fontSize: "18px",
         color: "#ffffff",
         backgroundColor: "#333366",
@@ -109,7 +109,7 @@ export class AtelierScene extends Phaser.Scene {
 
     btn.on("pointerover", () => btn.setStyle({ color: "#ffff00" }));
     btn.on("pointerout", () => btn.setStyle({ color: "#ffffff" }));
-    btn.on("pointerdown", () => this.scene.start("GameScene"));
+    btn.on("pointerdown", () => this.scene.start("MaertScene"));
   }
 
 
