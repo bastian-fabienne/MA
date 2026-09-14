@@ -66,23 +66,57 @@ export class MaertScene extends Phaser.Scene {
         y: 480 / 1.310,
         speakerName: "Otto Abt",
         speakerImage: "OttoAbt",
-        dialog: [
-          "Hallo",
-          "Mein Name ist Otto Abt.",
-          "Ich bin Künstler.",
-          "Freut mich dich kennenzulernen.",
-        ]
+        dialog: () => {
+         const count = store.getTalkCount('Otto Abt');
+          if ((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) {
+            return [
+              "Was?",
+              "Die letzte Zeitung ist reserviert?",
+              "Und der Mann tauscht sie nur",
+              "gegen eine Zigarette?",
+              "*Seufz*",
+              "",
+              "Ich wollte sowieso mit",
+              "dem Rauchen aufhören.",
+              "Hier bitteschön.",
+            ]
+          }
+          if (count > 0) {
+            return [
+           "Bevor ich mit dir plaudere,",
+           "möchte ich die heutige Zeitung lesen.",
+           "Kaufst du mir bitte eine",
+           "von dem Zeitungsjungen dort drüben?",
+           ]
+          }
+          return [ 
+            "Hallo",
+            "Mein Name ist Otto Abt.",
+            "Ich bin Künstler.",
+            "Freut mich dich kennenzulernen.", 
+            ];  
+          }
       },
 
+      
       {key: 'Statist_2',
         x: 640 / 1.01,
         y: 480 / 1.310,
         speakerName: 'Mann',
         speakerImage: "Statist_2",
-        dialog: [
-          "Ich bin verspätet.",
+        dialog: () => {
+         const count = store.getTalkCount('Mann');
+         if (count > 0) {
+            return [
+           "ich habe wirklch keine Zeit",
+           "für so etwas.",
+           ]
+          }
+          return [
+            "Ich bin verspätet.",
           "Bitte lass mich in Ruhe.",
-        ]
+          ]
+        }
       },
       {key: 'Statist_5',
         x: 640 / 13,
@@ -99,9 +133,25 @@ export class MaertScene extends Phaser.Scene {
         y: 480 / 1.3,
         speakerName: 'Herr in grau',
         speakerImage: "Reservierer_cut",
-        dialog: [
-          "Guten Tag.",
-        ]
+        dialog: () => {
+         const count = store.getTalkCount('Herr in grau');
+           if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0)) {
+            return [
+            "mir liegt sehr viel Wert",
+            "an meiner Zeigung.",
+            "Aber ich würde sie",
+            "gegen eine Zigarette tauschen."
+          ];
+          }
+          if (count > 0) {
+            return [
+           "Suchen Sie jemanden?",
+           ]
+          }
+          return [ 
+            "Guten Tag.", 
+            ];  
+          }
       },
       {key: 'ZitigsBueb_ganz',
         x: 640 / 2,
@@ -184,11 +234,18 @@ export class MaertScene extends Phaser.Scene {
         }
       };
       if (dialogLines) {
-        this._dialog.show(dialogLines, goToLevel, speakerName, speakerImage);
-      } else {
-        goToLevel();
-      }
+        const lines = typeof dialogLines === 'function' ? dialogLines() : dialogLines;
+        if (speakerName) {
+           store.timesTalked(speakerName);
+          }
+           this._dialog.show(lines, goToLevel, speakerName, speakerImage);
+           } else {
+            goToLevel();
+          }
+          
     });
-
+      this._objects.push(obj);
+      store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
+  
 }

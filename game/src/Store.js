@@ -18,7 +18,9 @@
 class Store {
   constructor() {
     this._state = {};
+    this.talkCounter = {};
   }
+
 
   /**
    * Registriert einen Objekt-Typ mit der Gesamtanzahl in der aktuellen Szene.
@@ -36,6 +38,7 @@ class Store {
     }
   }
 
+  
   /**
    * Markiert ein Objekt als eingesammelt.
    *
@@ -58,23 +61,20 @@ class Store {
     return structuredClone(this._state);
   }
 
-  /**
-   * Gibt den Eintrag für einen einzelnen Typ zurück.
-   *
-   * @param {string} key
-   * @returns {{ collected: number, total: number } | undefined}
-   */
-  getType(key) {
-    return this._state[key] ? { ...this._state[key] } : undefined;
+  
+  timesTalked(person) {
+    if (!this.talkCounter[person]) {
+      this.talkCounter[person] = 0;
+    }
+    {
+      this.talkCounter[person] += 1;
+    return this.talkCounter[person];
+  }
   }
 
-  /**
-   * Gibt zurück ob alle registrierten Objekte eingesammelt wurden.
-   *
-   * @returns {boolean}
-   */
-  isComplete() {
-    return Object.values(this._state).every(({ collected, total }) => collected >= total);
+  
+  getTalkCount(person) {
+    return this.talkCounter[person];
   }
 }
 
