@@ -68,12 +68,12 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "OttoAbt",
         dialog: () => {
          const count = store.getTalkCount('Otto Abt');
-          if ((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) {
+          if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
             return [
-              "Was?",
-              "Die letzte Zeitung ist reserviert?",
-              "Und der Mann tauscht sie nur",
-              "gegen eine Zigarette?",
+              "Du hast den Typen gefunden?",
+              "Super!",
+              "Wie bitte?",
+              "Er möchte eine Zigarette defür?",
               "*Seufz*",
               "",
               "Ich wollte sowieso mit",
@@ -81,10 +81,20 @@ export class MaertScene extends Phaser.Scene {
               "Hier bitteschön.",
             ]
           }
+          if ((store.getTalkCount('Zeitungsjunge') >0) && (store.getTalkCount('Otto Abt') > 1)) {
+            return [
+              "Was?",
+              "Die letzte Ausgabe ist reserviert?",
+              "Ich bin überzeugt,",
+              "wir finden einen Weg.",
+              "Sprich doch einmal mit dem Herrn,",
+              "Der die Zeitung reserviert hat.",
+            ]
+          }
           if (count > 0) {
             return [
            "Bevor ich mit dir plaudere,",
-           "möchte ich die heutige Zeitung lesen.",
+           "Möchte ich die heutige Zeitung lesen.",
            "Kaufst du mir bitte eine",
            "von dem Zeitungsjungen dort drüben?",
            ]
@@ -114,7 +124,7 @@ export class MaertScene extends Phaser.Scene {
           }
           return [
             "Ich bin verspätet.",
-          "Bitte lass mich in Ruhe.",
+            "Bitte lass mich in Ruhe.",
           ]
         }
       },
@@ -135,10 +145,10 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "Reservierer_cut",
         dialog: () => {
          const count = store.getTalkCount('Herr in grau');
-           if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0)) {
+           if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0) && (store.getTalkCount('Otto Abt') > 0)) {
             return [
-            "mir liegt sehr viel Wert",
-            "an meiner Zeigung.",
+            "Ich lege sehr viel Wert",
+            "auf meine Zeigung.",
             "Aber ich würde sie",
             "gegen eine Zigarette tauschen."
           ];
@@ -158,14 +168,26 @@ export class MaertScene extends Phaser.Scene {
         y: 480 / 1.31,
         speakerName: 'Zeitungsjunge',
         speakerImage: "ZitigsBueb_cut",
-        dialog: [
+       dialog: () => {
+        const count = store.getTalkCount('Zeitungsjunge');
+        if (store.getTalkCount('Otto Abt') > 0) {
+          return [
+            "Eine Ausgabe für Otto Abt?",
+          "Tut mir leid.",
+          "Die letzte Ausgabe ist für",
+          "Herr Stone reserviert.",
+          "Das ist der nette Herr in grau",
+          "dort drüben.",
+          ]
+        }
+        return [ 
           "Ich verkaufe Zeitungen.",
-          "Leider habe ich nur noch eine übrig.",
-          "Und die ist für den netten Mann",
-          "in Grau reserviert."
-        ]
-        
-      },
+          "Möchten Sie eine kaufen?",
+          ];
+        },
+      },   
+          
+
       
       {key: 'Atelier_Türe',
         x: 640 / 6,
