@@ -38,4 +38,5 @@ export const OBJECT_TYPES = [
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
   {key: 'Zoowärter_full', sceneName: "CoinScene", sceneClass: CoinScene},
   {key: 'Martha', sceneName: "AtelierScene", sceneClass: AtelierScene},
+  {key: 'Larve', sceneName: "AtelierScene", sceneClass: AtelierScene},
 ];

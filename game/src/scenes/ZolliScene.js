@@ -73,7 +73,10 @@ export class ZolliScene extends Phaser.Scene {
              "nicht betreten!",
              "Tut mir leid.",
              "",
-             ""
+             "",
+             "...",
+             "Mann ist mir heiss!",
+             "Jetzt ein leckeres Eis wäre himmlisch.",
            ]
          },
        ];
@@ -134,19 +137,24 @@ export class ZolliScene extends Phaser.Scene {
      }
    
    
-    _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
-       const obj = new ClickableObject(this, x, y, key, (clicked) => {
-         const goToLevel = () => {
-           if (clicked.sceneName) {
-             this._startScene(clicked.sceneName, clicked.sceneClass);
-           }
-         };
-         if (dialogLines) {
-           this._dialog.show(dialogLines, goToLevel, speakerName, speakerImage);
-         } else {
-           goToLevel();
-         }
-       });
-   
-     }
+  _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
+    const obj = new ClickableObject(this, x, y, key, (clicked) => {
+      const goToLevel = () => {
+        if (clicked.sceneName) {
+          this._startScene(clicked.sceneName, clicked.sceneClass);
+        }
+      };
+      if (dialogLines) {
+        const lines = typeof dialogLines === 'function' ? dialogLines() : dialogLines;
+        if (speakerName) {
+           store.timesTalked(speakerName);
+          }
+           this._dialog.show(lines, goToLevel, speakerName, speakerImage);
+           } else {
+            goToLevel();
+          }
+    });
+      this._objects.push(obj);
+      store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
+  }
    }

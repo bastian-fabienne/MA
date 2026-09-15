@@ -8,6 +8,7 @@ import { GAME, OBJECT_TYPES } from "../config.js";
 import { store } from "../Store.js";
 import { UI } from "../UI.js";
 import { Dialog } from '../Dialog.js';
+import { ZolliScene } from "./ZolliScene.js";
 //importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
 
 export class AtelierScene extends Phaser.Scene {
@@ -46,6 +47,7 @@ export class AtelierScene extends Phaser.Scene {
 
     this._addBackButton();
     this._setupInventoryToggle();
+    
 
 
     const PLACED_OBJECTS = [
@@ -56,34 +58,39 @@ export class AtelierScene extends Phaser.Scene {
         speakerImage: "Martha",
         dialog: () => {
         const count = store.getTalkCount('Martha');
-          if ((store.getTalkCount('Otto Abt') > 0) && (store.getTalkCount('Reservierer') > 1)) {
-          return [
-            "töllere Dialog",
-          ]
-        } 
           if ((store.getState().star?.collected ?? 0) > 0) {
-            return [
-              "Juhui es funktioniert!",
+
+            return[
+              "Otto muss erst den Pierro fertigmachen",
+              "Das ist die Larve auf dem Tisch.",
+              "Ihr fehlt noch eine Pfauenfeder.",
+              "Im Zoo findest du sicher eine.",
+
             ]
-          }
-
-          if (count >0) {
-          store.registerType('star', 1)
-          store.collect('star')
-          return [
-            "Hier bitte",
-            "",
-            "!ITEM:star",
-            "star erhalten",
-
-          ]
-        }
-         
+          } 
         return [
           "tolle Dialog?",
         ]
       }
       },
+
+      {key: 'Larve', 
+        x: 640 / 1.75, 
+        y: 480 / 1.70,
+        speakerName: 'Gedanken',
+        speakerImage: "Martha", //Platzhalter!
+       dialog: () => {
+        if (((store.getState().star?.collected ?? 0) > 0) && (store.getTalkCount('Martha') > 0)) {
+        return [
+        this.scene.start("ZolliScene")
+        ]} else {
+          return [
+            "Eine Pierro Larve",
+            "Es fehlt die Feder am Hut.",
+          ]
+      }
+      }
+      }
     ];
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren

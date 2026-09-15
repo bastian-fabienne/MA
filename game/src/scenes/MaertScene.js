@@ -75,6 +75,8 @@ export class MaertScene extends Phaser.Scene {
           ]
          }
           if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
+            store.registerType('star', 1)
+            store.collect('star')
             return [
               "Du hast den Typen gefunden?",
               "Super!",
@@ -85,6 +87,9 @@ export class MaertScene extends Phaser.Scene {
               "Ich wollte sowieso mit",
               "dem Rauchen aufhören.",
               "Hier bitteschön.",
+             "",
+             "!ITEM:star",
+            "star erhalten",
             ]
           }
           if ((store.getTalkCount('Zeitungsjunge') >0) && (store.getTalkCount('Otto Abt') > 1)) {
