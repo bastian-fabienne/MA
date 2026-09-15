@@ -209,7 +209,7 @@ this._speakerImage.setDepth(101);
   }
 
   this._setVisible(true);
-  this._render();
+  this._render() 
 }
 
   /** Gibt zurück ob der Dialog gerade sichtbar ist. */
@@ -250,7 +250,15 @@ this._speakerImage.setDepth(101);
       this._currentLine + LINES_PER_PAGE,
     );
     // Mit '\n' verbunden, damit sie untereinander stehen.
-    this._text.setText(page.join("\n"));
+    const itemLine = page.find(l => typeof l === "string" && l.startsWith("!ITEM:"));
+    if (itemLine) {
+      const itemKey = itemLine.replace("!ITEM:", "");
+      this._speakerImage.setTexture(itemKey).setVisible(true);
+      this._nameText.setText(itemKey);
+  }
+
+  const visibleLines = page.filter(l => !(typeof l === "string" && l.startsWith("!ITEM:")));
+  this._text.setText(visibleLines.join("\n"));
   }
 
   // Blendet Box, Text und Hinweis gemeinsam ein oder aus.

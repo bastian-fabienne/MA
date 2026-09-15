@@ -68,6 +68,12 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "OttoAbt",
         dialog: () => {
          const count = store.getTalkCount('Otto Abt');
+         if ((store.getState().star?.collected ?? 0) > 0) {
+          return [
+            "Oh du hast einen Stern erhalten.",
+            "Wie schön.",
+          ]
+         }
           if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
             return [
               "Du hast den Typen gefunden?",
@@ -91,7 +97,7 @@ export class MaertScene extends Phaser.Scene {
               "Der die Zeitung reserviert hat.",
             ]
           }
-          if (count > 0) {
+          if (count > 2) {
             return [
            "Bevor ich mit dir plaudere,",
            "Möchte ich die heutige Zeitung lesen.",
@@ -103,8 +109,8 @@ export class MaertScene extends Phaser.Scene {
             "Hallo",
             "Mein Name ist Otto Abt.",
             "Ich bin Künstler.",
-            "Freut mich dich kennenzulernen.", 
-            ];  
+            "Freut mich dich kennenzulernen.",  
+          ];  
           }
       },
 

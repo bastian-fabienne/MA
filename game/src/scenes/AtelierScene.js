@@ -30,6 +30,10 @@ export class AtelierScene extends Phaser.Scene {
         "Atelier",
         "/assets/images/Atelier.png"
     );
+    this.load.image(
+      "star", 
+      "/assets/images/star.png"
+    );
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.
@@ -43,17 +47,42 @@ export class AtelierScene extends Phaser.Scene {
     this._addBackButton();
     this._setupInventoryToggle();
 
-    // Hier kannst du die Objekte manuell platzieren.
-    // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
+
     const PLACED_OBJECTS = [
-      {key: '', 
+      {key: 'Martha', 
         x: 640 / 2, 
         y: 480 / 2,
-        speakerName: "",
-        speakerImage: "",
-        dialog: [
-          "Tolle Dialog",
+        speakerName: 'Martha',
+        speakerImage: "Martha",
+        dialog: () => {
+        const count = store.getTalkCount('Martha');
+          if ((store.getTalkCount('Otto Abt') > 0) && (store.getTalkCount('Reservierer') > 1)) {
+          return [
+            "töllere Dialog",
+          ]
+        } 
+          if ((store.getState().star?.collected ?? 0) > 0) {
+            return [
+              "Juhui es funktioniert!",
+            ]
+          }
+
+          if (count >0) {
+          store.registerType('star', 1)
+          store.collect('star')
+          return [
+            "Hier bitte",
+            "",
+            "!ITEM:star",
+            "star erhalten",
+
+          ]
+        }
+         
+        return [
+          "tolle Dialog?",
         ]
+      }
       },
     ];
 
@@ -113,7 +142,7 @@ export class AtelierScene extends Phaser.Scene {
   }
 
 
- _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
+  _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
       const goToLevel = () => {
         if (clicked.sceneName) {
@@ -121,11 +150,18 @@ export class AtelierScene extends Phaser.Scene {
         }
       };
       if (dialogLines) {
-        this._dialog.show(dialogLines, goToLevel, speakerName, speakerImage);
-      } else {
-        goToLevel();
-      }
+        const lines = typeof dialogLines === 'function' ? dialogLines() : dialogLines;
+        if (speakerName) {
+           store.timesTalked(speakerName);
+          }
+           this._dialog.show(lines, goToLevel, speakerName, speakerImage);
+           } else {
+            goToLevel();
+          }
+          
     });
-
+      this._objects.push(obj);
+      store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
+  
 }
