@@ -59,13 +59,13 @@ export class AtelierScene extends Phaser.Scene {
         dialog: () => {
         const count = store.getTalkCount('Martha');
           if ((store.getState().star?.collected ?? 0) > 0) {
-
+            
             return[
               "Otto muss erst den Pierro fertigmachen",
               "Das ist die Larve auf dem Tisch.",
               "Ihr fehlt noch eine Pfauenfeder.",
               "Im Zoo findest du sicher eine.",
-
+              
             ]
           } 
         return [
@@ -92,6 +92,7 @@ export class AtelierScene extends Phaser.Scene {
       }
       }
     ];
+    
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
    for (const { key, x, y, dialog, speakerName, speakerImage} of PLACED_OBJECTS) {

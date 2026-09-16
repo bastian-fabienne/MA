@@ -88,7 +88,7 @@ export class MaertScene extends Phaser.Scene {
               "dem Rauchen aufhören.",
               "Hier bitteschön.",
              "",
-             "!ITEM:star",
+             "!ITEM:star", //Star ist nur ein Platzhalter!
             "star erhalten",
             ]
           }
@@ -102,7 +102,7 @@ export class MaertScene extends Phaser.Scene {
               "Der die Zeitung reserviert hat.",
             ]
           }
-          if (count > 2) {
+          if (count > 0) {
             return [
            "Bevor ich mit dir plaudere,",
            "Möchte ich die heutige Zeitung lesen.",
@@ -197,14 +197,15 @@ export class MaertScene extends Phaser.Scene {
           ];
         },
       },   
-          
-
-      
-      {key: 'Atelier_Türe',
-        x: 640 / 6,
-        y: 480 / 1.49,
-      },
     ];
+    
+  if ((store.getState().star?.collected ?? 0) > 0) {
+    PLACED_OBJECTS.push({
+      key: 'Atelier_Türe',
+      x: 640 / 6,
+      y: 480 / 1.49,
+    });
+}
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
     for (const { key, x, y, dialog, speakerName, speakerImage} of PLACED_OBJECTS) {

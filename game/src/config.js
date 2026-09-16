@@ -36,7 +36,10 @@ export const OBJECT_TYPES = [
   {key: 'Reservierer_full', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'ZitigsBueb_ganz', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
-  {key: 'Zoowärter_full', sceneName: "CoinScene", sceneClass: CoinScene},
   {key: 'Martha', sceneName: "AtelierScene", sceneClass: AtelierScene},
   {key: 'Larve', sceneName: "AtelierScene", sceneClass: AtelierScene},
+  {key: 'Zoowärter_full', sceneName: "ZolliScene", sceneClass: ZolliScene},
+  {key: 'BallKind', sceneName: "ZolliScene", sceneClass: ZolliScene},
+  {key: 'Ballmaa', sceneName: "ZolliScene", sceneClass: ZolliScene},
+  {key: 'Glacema_full', sceneName: "ZolliScene", sceneClass: ZolliScene},
 ];

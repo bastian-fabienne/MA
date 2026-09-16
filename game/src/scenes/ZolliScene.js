@@ -37,6 +37,9 @@ export class ZolliScene extends Phaser.Scene {
       
        const SPEAKER_IMAGES = [
     "Zoowärter_cut",
+    "Glacema_cut",
+    "Ballmaa",
+    "BallKind",
     ];
 
      for (const key of SPEAKER_IMAGES) {
@@ -58,34 +61,87 @@ export class ZolliScene extends Phaser.Scene {
        this._addBackButton();
        this._setupInventoryToggle();
    
-       // Hier kannst du die Objekte manuell platzieren.
-       // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
-       const PLACED_OBJECTS = [
+
+      const PLACED_OBJECTS = [
          {key: 'Zoowärter_full', 
            x: 640 / 4, 
            y: 480 / 1.8,
            speakerName: "Zoowerter",
            speakerImage: "Zoowärter_cut",
-           dialog: [
-             "Stop!",
-             "",
-             "Besucher dürfen das Pfauengehege",
-             "nicht betreten!",
-             "Tut mir leid.",
-             "",
-             "",
-             "...",
-             "Mann ist mir heiss!",
-             "Jetzt ein leckeres Eis wäre himmlisch.",
-           ]
+           dialog: () => {
+            const count = store.getTalkCount('Martha');
+              if ((store.getState().star?.collected ?? 0) > 0) {
+            
+                return[
+                 "Mjam!",  
+               ]
+              } 
+                return [
+                 "Stop!",
+                 "",
+                 "Besucher dürfen das Pfauengehege",
+                 "nicht betreten!",
+                 "Tut mir leid.",
+                  "",
+                 "",
+                  "...",
+                 "Mann ist mir heiss!",
+                  "Jetzt ein leckeres Eis wäre himmlisch.",
+                 ]
+             }
+          },
+
+         {key: 'Glacema_full',
+            x: 640 / 2,
+            y: 480 / 2,
+           speakerName: "Eismann",
+           speakerImage: "Glacema_cut",
+           dialog: () => {
+           const count = store.getTalkCount('Glacema');
+           return [
+              "Eis!",
+              "Leckeres Eis!",
+              "Möchtest du ein Eis kaufen?",
+              "Wie du hast kein Geld?",
+              "Kein Geld, kein Eis.",
+            ]
          },
-       ];
-   
+        },
+
+        {key: 'BallKind',
+          x: 640 / 1.59,
+          y: 480 / 1.42,
+          speakerName: "Kleines Kind",
+          speakerImage: "BallKind",
+          dialog: () => {
+         const count = store.getTalkCount('BallKind');
+         return [
+          "Oh nein!",
+          "Ich habe meinen Ball verloren!",
+          ]
+         }
+        },
+        
+         {key: 'Ballmaa',
+          x: 640 / 1.5,
+          y: 480 / 1.5,
+          speakerName: "Vater",
+          speakerImage: "Ballmaa",
+          dialog: () => {
+         const count = store.getTalkCount('Ballmaa');
+         return [
+          "Oh nein!",
+          "Mein hat seinen Ball verloren!",
+          ]
+         }
+        },
+      ]
+      
        // Alle Objekte aus config.js an ihren festen Positionen platzieren
       for (const { key, x, y, dialog, speakerName, speakerImage} of PLACED_OBJECTS) {
          this._placeObject(key, x, y, dialog, speakerName, speakerImage);
        }
-     }
+  }
    
      // update() wird hier nicht benötigt, da die Objekte feststehen.
    
@@ -157,4 +213,4 @@ export class ZolliScene extends Phaser.Scene {
       this._objects.push(obj);
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
-   }
+}
