@@ -70,13 +70,18 @@ export class ZolliScene extends Phaser.Scene {
            speakerName: "Zoowerter",
            speakerImage: "Zoowärter_cut",
            dialog: () => {
-            const count = store.getTalkCount('Martha');
-              if ((store.getState().star?.collected ?? 0) > 0) {
-            
+            const count = store.getTalkCount('Zoowärter');
+
+            if ((store.getState().Eis?.collected ?? 0) > 0 ) {
+                store.registerType('Eis', 5)
                 return[
-                 "Mjam!",  
+                 "!ITEM:Eis",
+                 "Du hast dem Wärter das Eis gegeben.",
+                 "Er scheint abgelenkt...",
+                 "",
                ]
               } 
+
                 return [
                  "Stop!",
                  "",
@@ -100,6 +105,12 @@ export class ZolliScene extends Phaser.Scene {
            speakerImage: "Glacema_cut",
            dialog: () => {
            const count = store.getTalkCount('Glacema');
+            if ((store.getState().Eis?.collected ?? 0) > 0) {
+                return[
+                 "Noch ein Eis?",
+                 "Du hast doch schon eins!",  
+               ]
+              } 
            return [
               "Eis!",
               "Leckeres Eis!",
@@ -120,7 +131,7 @@ export class ZolliScene extends Phaser.Scene {
          const count = store.getTalkCount('BallKind');
           if ((store.getState().Ball?.collected ?? 0) > 0) {
           return [
-            "Juhu du hast ihn gefunden!",
+            "Juhu ich habe meinen Ball!",
           ]
           }
          return [
@@ -139,13 +150,15 @@ export class ZolliScene extends Phaser.Scene {
           dialog: () => {
          const count = store.getTalkCount('Ballmaa');
          if ((store.getState().Ball?.collected ?? 0) > 0) {
+            store.registerType('Eis', 1)
+            store.collect('Eis') 
           return [
             "Wie kann ich dir nur danken?",
             "",
-            "Du brauchst einen Hut?",
-            "...",
-            "!ITEM:Huet",
-            "Du kannst meinen haben.",
+            "Du möchtest ein Eis?",
+            "Ich kaufe dir eins!",
+            "!ITEM:Eis",
+            "Der Mann hat dir ein Eis gekauft.",
           ]
           }
          return [
@@ -165,7 +178,9 @@ export class ZolliScene extends Phaser.Scene {
           speakerName: "Neues Item",
           dialog: () => {
             const count = store.getTalkCount('Ball');
-             return [
+            store.registerType('Ball', 1)
+            store.collect('Ball') 
+            return [
             "!ITEM:Ball",
             "Du hast einen Ball gefunden!",
           ] 
