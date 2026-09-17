@@ -42,4 +42,5 @@ export const OBJECT_TYPES = [
   {key: 'BallKind', sceneName: "ZolliScene", sceneClass: ZolliScene},
   {key: 'Ballmaa', sceneName: "ZolliScene", sceneClass: ZolliScene},
   {key: 'Glacema_full', sceneName: "ZolliScene", sceneClass: ZolliScene},
+  {key: 'Ball', sceneName: "ZolliScene", sceneClass: ZolliScene},
 ];

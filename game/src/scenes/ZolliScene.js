@@ -66,6 +66,7 @@ export class ZolliScene extends Phaser.Scene {
          {key: 'Zoowärter_full', 
            x: 640 / 4, 
            y: 480 / 1.8,
+           size: 1,
            speakerName: "Zoowerter",
            speakerImage: "Zoowärter_cut",
            dialog: () => {
@@ -92,8 +93,9 @@ export class ZolliScene extends Phaser.Scene {
           },
 
          {key: 'Glacema_full',
-            x: 640 / 2,
+            x: 640 / 1.85,
             y: 480 / 2,
+            size: 0.7,
            speakerName: "Eismann",
            speakerImage: "Glacema_cut",
            dialog: () => {
@@ -111,10 +113,16 @@ export class ZolliScene extends Phaser.Scene {
         {key: 'BallKind',
           x: 640 / 1.59,
           y: 480 / 1.42,
+          size: 1,
           speakerName: "Kleines Kind",
           speakerImage: "BallKind",
           dialog: () => {
          const count = store.getTalkCount('BallKind');
+          if ((store.getState().Ball?.collected ?? 0) > 0) {
+          return [
+            "Juhu du hast ihn gefunden!",
+          ]
+          }
          return [
           "Oh nein!",
           "Ich habe meinen Ball verloren!",
@@ -125,21 +133,50 @@ export class ZolliScene extends Phaser.Scene {
          {key: 'Ballmaa',
           x: 640 / 1.5,
           y: 480 / 1.5,
+          size: 1,
           speakerName: "Vater",
           speakerImage: "Ballmaa",
           dialog: () => {
          const count = store.getTalkCount('Ballmaa');
+         if ((store.getState().Ball?.collected ?? 0) > 0) {
+          return [
+            "Wie kann ich dir nur danken?",
+            "",
+            "Du brauchst einen Hut?",
+            "...",
+            "!ITEM:Huet",
+            "Du kannst meinen haben.",
+          ]
+          }
          return [
           "Oh nein!",
           "Mein hat seinen Ball verloren!",
+          "Ich wäre dir sehr dankbar,",
+          "Wenn du ihn finden würdest.",
           ]
          }
         },
+
+        {key: 'Ball',
+          x: 648 / 2.18,
+          y: 480 / 2.13,
+          size: 0.8,
+          speakerImage: "Ball",
+          speakerName: "Neues Item",
+          dialog: () => {
+            const count = store.getTalkCount('Ball');
+             return [
+            "!ITEM:Ball",
+            "Du hast einen Ball gefunden!",
+          ] 
+        }
+      },
+        
       ]
       
        // Alle Objekte aus config.js an ihren festen Positionen platzieren
-      for (const { key, x, y, dialog, speakerName, speakerImage} of PLACED_OBJECTS) {
-         this._placeObject(key, x, y, dialog, speakerName, speakerImage);
+      for (const { key, x, y, dialog, speakerName, speakerImage, size} of PLACED_OBJECTS) {
+         this._placeObject(key, x, y, dialog, speakerName, speakerImage, size);
        }
   }
    
@@ -193,24 +230,35 @@ export class ZolliScene extends Phaser.Scene {
      }
    
    
-  _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
+  _placeObject(key, x, y, dialogLines, speakerName, speakerImage, size) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
       const goToLevel = () => {
         if (clicked.sceneName) {
           this._startScene(clicked.sceneName, clicked.sceneClass);
         }
       };
+
+
+
+
       if (dialogLines) {
         const lines = typeof dialogLines === 'function' ? dialogLines() : dialogLines;
+
         if (speakerName) {
            store.timesTalked(speakerName);
           }
+
            this._dialog.show(lines, goToLevel, speakerName, speakerImage);
-           } else {
-            goToLevel();
-          }
-    });
-      this._objects.push(obj);
+           }
+
+       else {
+        goToLevel();
+       }
+        
+    }, size,
+    );
+     
+    this._objects.push(obj);
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
 }

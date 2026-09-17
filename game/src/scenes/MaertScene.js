@@ -199,7 +199,8 @@ export class MaertScene extends Phaser.Scene {
       },   
     ];
     
-  if ((store.getState().star?.collected ?? 0) > 0) {
+  //if ((store.getState().star?.collected ?? 0) > 0) {
+   if (store.getTalkCount('Otto Abt') > 0) {
     PLACED_OBJECTS.push({
       key: 'Atelier_Türe',
       x: 640 / 6,

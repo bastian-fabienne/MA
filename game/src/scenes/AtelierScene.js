@@ -80,7 +80,8 @@ export class AtelierScene extends Phaser.Scene {
         speakerName: 'Gedanken',
         speakerImage: "Martha", //Platzhalter!
        dialog: () => {
-        if (((store.getState().star?.collected ?? 0) > 0) && (store.getTalkCount('Martha') > 0)) {
+       // if (((store.getState().star?.collected ?? 0) > 0) && (store.getTalkCount('Martha') > 0)) {
+       if (store.getTalkCount('Otto Abt') > 0) {
         return [
         this.scene.start("ZolliScene")
         ]} else {

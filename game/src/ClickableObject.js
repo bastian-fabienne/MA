@@ -22,11 +22,12 @@ export class ClickableObject {
    * @param {string}        textureKey  – muss in TextureFactory registriert sein
    * @param {function}      onClicked   – Callback(clickableObject)
    */
-  constructor(scene, x, y, textureKey, onClicked) {
+  constructor(scene, x, y, textureKey, onClicked, scale = 1) {
     this.scene = scene;
     this.textureKey = textureKey;
     this.onClicked = onClicked;
     this.alive = true;
+    this.baseScale = scale;
 
     const typeDef = OBJECT_TYPES.find((t) => t.key === textureKey);
     this.points = typeDef?.points ?? 10;
@@ -35,6 +36,7 @@ export class ClickableObject {
 
     // Sprite anlegen
     this.sprite = scene.add.image(x, y, textureKey);
+    this.sprite.setScale(this.baseScale)
 
    
     // Das hier brauchen wir damit die Form der Figur Pixelperfekt verwendet wird.
@@ -58,7 +60,7 @@ export class ClickableObject {
   // Das ist ein Handler der sagt was passieren soll wenn das Objekt gehovered wird.
   _onHover(isOver) {
     if (!this.alive) return;
-    this.sprite.setScale(isOver ? 1.15 : 1.0);
+    this.sprite.setScale(isOver ? this.baseScale * 1.15 : this.baseScale);
     this.scene.game.canvas.style.cursor = isOver ? 'pointer' : 'default';
   }
 
@@ -66,9 +68,24 @@ export class ClickableObject {
   _handleClick() {
     if (!this.alive) return;
 
+    if (this.textureKey === 'Ball') {
+   this.alive = false;
+   this.scene.tweens.add({
+    targets: this.sprite,
+    scaleX: 1.6,
+    scaleY: 1.6,
+    alpha: 0,
+    duration: 180,
+    ease: 'Power2',
+    onComplete: () => {
+      this.sprite.destroy();
+    },
+    });
+    }
     // Cursor zurücksetzen
     this.scene.game.canvas.style.cursor = 'default';
 
+    
     
 
     // Callback aufrufen
