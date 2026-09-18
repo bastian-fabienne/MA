@@ -37,6 +37,9 @@ export const OBJECT_TYPES = [
   {key: 'Statist_2'},
   {key: 'Reservierer_full'},
   {key: 'ZitigsBueb_ganz'},
+  {key: 'Schlussel'},
+  {key: 'Zigarette'},
+  {key: 'Zitig'},
 
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
   {key: 'Martha'},

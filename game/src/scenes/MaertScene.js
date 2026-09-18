@@ -68,15 +68,20 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "OttoAbt",
         dialog: () => {
          const count = store.getTalkCount('Otto Abt');
-         if ((store.getState().star?.collected ?? 0) > 0) {
+         if ((store.getState().Zitig?.collected ?? 0) > 0) {
           return [
-            "Oh du hast einen Stern erhalten.",
-            "Wie schön.",
+            "Juhu!",
+            "",
+            "!ITEM:Schlussel",
+            "Hier mein Schlüssel.",
+            "Er öffnet dir die Tür",
+            "zu meinem Atelier.",
+            "Es ist gleich dort drüben.",
           ]
          }
           if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
-            store.registerType('star', 1)
-            store.collect('star')
+            store.registerType('Zigarette', 1)
+            store.collect('Zigarette')
             return [
               "Du hast den Typen gefunden?",
               "Super!",
@@ -86,10 +91,8 @@ export class MaertScene extends Phaser.Scene {
               "",
               "Ich wollte sowieso mit",
               "dem Rauchen aufhören.",
+              "!ITEM:Zigarette", 
               "Hier bitteschön.",
-             "",
-             "!ITEM:star", //Star ist nur ein Platzhalter!
-            "star erhalten",
             ]
           }
           if ((store.getTalkCount('Zeitungsjunge') >0) && (store.getTalkCount('Otto Abt') > 1)) {
@@ -156,6 +159,15 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "Reservierer_cut",
         dialog: () => {
          const count = store.getTalkCount('Herr in grau');
+         if ((store.getState().Zigarette?.collected ?? 0) > 0) {
+          return store.registerType('Zitig', 1),
+                 store.collect('Zitig'),
+          [
+            "Vielen dank.",
+            "Hier die Zeitung.",
+            "!ITEM:Zitig",
+          ]
+        }
            if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0) && (store.getTalkCount('Otto Abt') > 0)) {
             return [
             "Ich lege sehr viel Wert",
