@@ -8,6 +8,7 @@ import { ClickableObject } from '../ClickableObject.js';
 import { UI } from '../UI.js';
 import { store } from '../Store.js';
 import { Dialog } from '../Dialog.js';
+import { AtelierScene } from './AtelierScene.js';
 
 export class ZolliScene extends Phaser.Scene {
   constructor() {
@@ -48,6 +49,7 @@ export class ZolliScene extends Phaser.Scene {
     `/assets/images/${key}.png`,
     );
    }
+   
 
       }
      // Lifecycle Schritt 2: Szene aufbauen.
@@ -62,26 +64,37 @@ export class ZolliScene extends Phaser.Scene {
        this._setupInventoryToggle();
    
 
+
+
       const PLACED_OBJECTS = [
-         {key: 'Zoowärter_full', 
-           x: 640 / 4, 
-           y: 480 / 1.8,
-           size: 1,
+      
+         {key: 'ZooTüre',
+          x: 648 / 4.35,
+          y: 480 / 1.9,
+          size: 1,
            speakerName: "Zoowerter",
            speakerImage: "Zoowärter_cut",
-           dialog: () => {
-            const count = store.getTalkCount('Zoowärter');
-
-            if ((store.getState().Eis?.collected ?? 0) > 0 ) {
-                store.registerType('Eis', 5)
-                return[
-                 "!ITEM:Eis",
+           dialog: (clicked) => {
+           if ((store.getState().eis?.collected ?? 0) > 1) {
+               clicked.sceneName = "AtelierScene";
+               clicked.sceneClass = AtelierScene;
+               return [
+                 "!ITEM:Feder",
+                 "Du hast eine Pfauenfeder gefunden!",
+                 "Schnell zurück zum Atelier!",
+               ];
+             }
+            
+            if ((store.getState().eis?.collected ?? 0) > 0 ) {
+                return  store.collect('eis'),
+                [
+                 "!ITEM:eis",
                  "Du hast dem Wärter das Eis gegeben.",
                  "Er scheint abgelenkt...",
                  "",
+
                ]
               } 
-
                 return [
                  "Stop!",
                  "",
@@ -97,6 +110,34 @@ export class ZolliScene extends Phaser.Scene {
              }
           },
 
+          {key: 'Zoowärter_full',
+            x: 648 / 4,
+            y: 480 / 1.9,
+           speakerName: "Zoowerter",
+           speakerImage: "Zoowärter_cut",
+           dialog: () => {
+            if ((store.getState().eis?.collected ?? 0) > 1 ) {
+              return [
+                "Mjam!",
+                "Ich liebe Eis!",
+              ]
+            }
+
+            return [
+              "Stop!",
+                 "",
+                 "Besucher dürfen das Pfauengehege",
+                 "nicht betreten!",
+                 "Tut mir leid.",
+                  "",
+                 "",
+                  "...",
+                 "Mann ist mir heiss!",
+                  "Jetzt ein leckeres Eis wäre himmlisch.",
+                 ]
+          }
+        },
+
          {key: 'Glacema_full',
             x: 640 / 1.85,
             y: 480 / 2,
@@ -105,7 +146,7 @@ export class ZolliScene extends Phaser.Scene {
            speakerImage: "Glacema_cut",
            dialog: () => {
            const count = store.getTalkCount('Glacema');
-            if ((store.getState().Eis?.collected ?? 0) > 0) {
+            if ((store.getState().eis?.collected ?? 0) > 0) {
                 return[
                  "Noch ein Eis?",
                  "Du hast doch schon eins!",  
@@ -150,14 +191,14 @@ export class ZolliScene extends Phaser.Scene {
           dialog: () => {
          const count = store.getTalkCount('Ballmaa');
          if ((store.getState().Ball?.collected ?? 0) > 0) {
-            store.registerType('Eis', 1)
-            store.collect('Eis') 
+            store.registerType('eis', 1)
+            store.collect('eis') 
           return [
             "Wie kann ich dir nur danken?",
             "",
             "Du möchtest ein Eis?",
             "Ich kaufe dir eins!",
-            "!ITEM:Eis",
+            "!ITEM:eis",
             "Der Mann hat dir ein Eis gekauft.",
           ]
           }
@@ -186,9 +227,28 @@ export class ZolliScene extends Phaser.Scene {
           ] 
         }
       },
-        
-      ]
+
+       {key: 'Statist_1',
+        x: 640 / 2.3,
+        y: 480 / 1.40,
+        size: 1.5,
+        speakerName: 'Mann',
+        speakerImage: "Statist_1",
+        dialog: () => {
+         if ((store.getTalkCount('BallKind')) || (store.getTalkCount('Ballmaa')) > 0) {
+            return [
+           "Einen Ball?",
+           "Habe ich nicht gesehen.",
+           "Tut mir leid."
+           ]
+          }
+          return [
+            "Guten Tag.",
+          ]
+        }
+      },
       
+    ]
        // Alle Objekte aus config.js an ihren festen Positionen platzieren
       for (const { key, x, y, dialog, speakerName, speakerImage, size} of PLACED_OBJECTS) {
          this._placeObject(key, x, y, dialog, speakerName, speakerImage, size);
@@ -244,6 +304,9 @@ export class ZolliScene extends Phaser.Scene {
        btn.on("pointerdown", () => this.scene.start("GameScene"));
      }
    
+     _startScene(sceneName, sceneClass) {
+      this.scene.start(sceneName);
+}
    
   _placeObject(key, x, y, dialogLines, speakerName, speakerImage, size) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
@@ -257,7 +320,7 @@ export class ZolliScene extends Phaser.Scene {
 
 
       if (dialogLines) {
-        const lines = typeof dialogLines === 'function' ? dialogLines() : dialogLines;
+        const lines = typeof dialogLines === 'function' ? dialogLines(clicked) : dialogLines;
 
         if (speakerName) {
            store.timesTalked(speakerName);

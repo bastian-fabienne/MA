@@ -29,18 +29,26 @@ export const GAME = {
 export const OBJECT_TYPES = [
   { key: 'star', sceneName: "StarScene", sceneClass: StarScene },
   { key: 'coin', sceneName: "CoinScene", sceneClass: CoinScene },
+
   { key: 'KuMu_Türe', sceneName: "KuMuScene", sceneClass: KuMuScene },
+
   {key: 'OttoFull', sceneName: "MaertScene", sceneClass: MaertScene},
-  {key: 'Statist_5', sceneName: "MaertScene", sceneClass: MaertScene},
-  {key: 'Statist_2', sceneName: "MaertScene", sceneClass: MaertScene},
-  {key: 'Reservierer_full', sceneName: "MaertScene", sceneClass: MaertScene},
-  {key: 'ZitigsBueb_ganz', sceneName: "MaertScene", sceneClass: MaertScene},
+  {key: 'Statist_5'},
+  {key: 'Statist_2'},
+  {key: 'Reservierer_full'},
+  {key: 'ZitigsBueb_ganz'},
+
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
-  {key: 'Martha', sceneName: "AtelierScene", sceneClass: AtelierScene},
-  {key: 'Larve', sceneName: "AtelierScene", sceneClass: AtelierScene},
-  {key: 'Zoowärter_full', sceneName: "ZolliScene", sceneClass: ZolliScene},
-  {key: 'BallKind', sceneName: "ZolliScene", sceneClass: ZolliScene},
-  {key: 'Ballmaa', sceneName: "ZolliScene", sceneClass: ZolliScene},
-  {key: 'Glacema_full', sceneName: "ZolliScene", sceneClass: ZolliScene},
-  {key: 'Ball', sceneName: "ZolliScene", sceneClass: ZolliScene},
+  {key: 'Martha'},
+  {key: 'Larve'},
+
+  {key: 'Zoowärter_full'},
+  {key: 'BallKind'},
+  {key: 'Ballmaa'},
+  {key: 'Glacema_full'},
+  {key: 'Ball'},
+  {key: 'ZooTüre'},
+  {key: 'eis'},
+  {key: 'Feder'},
+  {key: 'Statist_1'},
 ];
