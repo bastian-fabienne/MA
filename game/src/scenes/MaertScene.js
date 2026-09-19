@@ -69,17 +69,37 @@ export class MaertScene extends Phaser.Scene {
         dialog: () => {
          const count = store.getTalkCount('Otto Abt');
          if ((store.getState().Zitig?.collected ?? 0) > 0) {
-          return [
+          return store.registerType('Schluessel', 1),
+                 store.collect('Schluessel'),
+            [
             "Juhu!",
+            "Meine Zeitung!",
+            "Schon wieder Schlagzeilen,",
+            "wie schön es in Locarno sei...",
+            "Ich wollte schon immer mal dorthin.",
+            "Aber die Arbeit hält mich hier fest.",
+            "Wie? Urlaub nehmen?",
+            "Ich?",
             "",
+            "...",
+            "Wieso eigentlich nicht?",
+            "",
+            "Ich wollte schon längst meine",
+            "Verwandten dort besuchen.",
             "!ITEM:Schlussel",
             "Hier mein Schlüssel.",
             "Er öffnet dir die Tür",
             "zu meinem Atelier.",
             "Es ist gleich dort drüben.",
+            "",
+            "!ITEM:OttoAbt",
+            "Dort können wir ungestört reden.",
+            "Ich möchte aber erst meine Zeitung",
+            "fertiglesen.",
+            "Wir treffen uns im Atelier.",
           ]
          }
-          if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr in grau') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
+          if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr Stone') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
             store.registerType('Zigarette', 1)
             store.collect('Zigarette')
             return [
@@ -95,7 +115,7 @@ export class MaertScene extends Phaser.Scene {
               "Hier bitteschön.",
             ]
           }
-          if ((store.getTalkCount('Zeitungsjunge') >0) && (store.getTalkCount('Otto Abt') > 1)) {
+          if ((store.getTalkCount('Zeitungsjunge') >0) && (store.getTalkCount('Otto Abt') > 0)) {
             return [
               "Was?",
               "Die letzte Ausgabe ist reserviert?",
@@ -105,19 +125,15 @@ export class MaertScene extends Phaser.Scene {
               "Der die Zeitung reserviert hat.",
             ]
           }
-          if (count > 0) {
-            return [
-           "Bevor ich mit dir plaudere,",
-           "Möchte ich die heutige Zeitung lesen.",
-           "Kaufst du mir bitte eine",
-           "von dem Zeitungsjungen dort drüben?",
-           ]
-          }
           return [ 
             "Hallo",
             "Mein Name ist Otto Abt.",
             "Ich bin Künstler.",
             "Freut mich dich kennenzulernen.",  
+            "Bevor ich weiter mit dir plaudere,",
+            "Möchte ich die heutige Zeitung lesen.",
+            "Kaufst du mir bitte eine",
+            "von dem Zeitungsjungen dort drüben?",
           ];  
           }
       },
@@ -155,10 +171,10 @@ export class MaertScene extends Phaser.Scene {
       {key: 'Reservierer_full',
         x: 640 / 1.31,
         y: 480 / 1.3,
-        speakerName: 'Herr in grau',
+        speakerName: 'Herr Stone',
         speakerImage: "Reservierer_cut",
         dialog: () => {
-         const count = store.getTalkCount('Herr in grau');
+         const count = store.getTalkCount('Herr Stone');
          if ((store.getState().Zigarette?.collected ?? 0) > 0) {
           return store.registerType('Zitig', 1),
                  store.collect('Zitig'),
@@ -166,6 +182,7 @@ export class MaertScene extends Phaser.Scene {
             "Vielen dank.",
             "Hier die Zeitung.",
             "!ITEM:Zitig",
+            "Du hast die heutige Zeitung erhalten.",
           ]
         }
            if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0) && (store.getTalkCount('Otto Abt') > 0)) {
@@ -178,10 +195,12 @@ export class MaertScene extends Phaser.Scene {
           }
           if (count > 0) {
             return [
+            "!ITEM:Herr in grau",
            "Suchen Sie jemanden?",
            ]
           }
           return [ 
+            "!ITEM:Herr in grau",
             "Guten Tag.", 
             ];  
           }
@@ -211,8 +230,7 @@ export class MaertScene extends Phaser.Scene {
       },   
     ];
     
-  //if ((store.getState().star?.collected ?? 0) > 0) {
-   if (store.getTalkCount('Otto Abt') > 0) {
+  if ((store.getState().Schluessel?.collected ?? 0) > 0) {
     PLACED_OBJECTS.push({
       key: 'Atelier_Türe',
       x: 640 / 6,

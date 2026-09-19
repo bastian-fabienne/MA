@@ -78,7 +78,9 @@ export class ZolliScene extends Phaser.Scene {
            if ((store.getState().eis?.collected ?? 0) > 1) {
                clicked.sceneName = "AtelierScene";
                clicked.sceneClass = AtelierScene;
-               return [
+               return  store.registerType('Feder', 1),
+                store.collect('Feder'), 
+               [
                  "!ITEM:Feder",
                  "Du hast eine Pfauenfeder gefunden!",
                  "Schnell zurück zum Atelier!",
@@ -235,7 +237,7 @@ export class ZolliScene extends Phaser.Scene {
         speakerName: 'Mann',
         speakerImage: "Statist_1",
         dialog: () => {
-         if ((store.getTalkCount('BallKind')) || (store.getTalkCount('Ballmaa')) > 0) {
+         if ((store.getTalkCount('Vater')) || (store.getTalkCount('Kleines Kind')) > 0) {
             return [
            "Einen Ball?",
            "Habe ich nicht gesehen.",
@@ -290,7 +292,7 @@ export class ZolliScene extends Phaser.Scene {
      // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
      _addBackButton() {
        const btn = this.add
-         .text(16, 16, "Exit", {
+         .text(16, 16, "Zurück", {
            fontSize: "18px",
            color: "#ffffff",
            backgroundColor: "#333366",
@@ -301,7 +303,7 @@ export class ZolliScene extends Phaser.Scene {
    
        btn.on("pointerover", () => btn.setStyle({ color: "#ffff00" }));
        btn.on("pointerout", () => btn.setStyle({ color: "#ffffff" }));
-       btn.on("pointerdown", () => this.scene.start("GameScene"));
+       btn.on("pointerdown", () => this.scene.start("AtelierScene"));
      }
    
      _startScene(sceneName, sceneClass) {

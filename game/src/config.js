@@ -36,13 +36,14 @@ export const OBJECT_TYPES = [
   {key: 'Statist_5'},
   {key: 'Statist_2'},
   {key: 'Reservierer_full'},
+  {key: 'Herr in grau'},
   {key: 'ZitigsBueb_ganz'},
   {key: 'Schlussel'},
   {key: 'Zigarette'},
   {key: 'Zitig'},
 
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
-  {key: 'Martha'},
+  {key: 'Martha_full'},
   {key: 'Larve'},
 
   {key: 'Zoowärter_full'},
