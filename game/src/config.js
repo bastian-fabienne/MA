@@ -31,6 +31,7 @@ export const OBJECT_TYPES = [
   { key: 'coin', sceneName: "CoinScene", sceneClass: CoinScene },
 
   { key: 'KuMu_Türe', sceneName: "KuMuScene", sceneClass: KuMuScene },
+  {key: 'Grusskarte'},
 
   {key: 'OttoFull', sceneName: "MaertScene", sceneClass: MaertScene},
   {key: 'Statist_5'},

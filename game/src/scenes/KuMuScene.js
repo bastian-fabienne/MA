@@ -8,6 +8,7 @@ import { GAME, OBJECT_TYPES } from "../config.js";
 import { store } from "../Store.js";
 import { UI } from "../UI.js";
 import { Dialog } from '../Dialog.js';
+import { MaertScene } from "./MaertScene.js";
 //importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
 
 export class KuMuScene extends Phaser.Scene {
@@ -29,7 +30,7 @@ export class KuMuScene extends Phaser.Scene {
       // funktioniert es.
       this.load.image(
         "KuMuOhniTüre1",
-        `/assets/images/KuMuOhniTüre1.png`,
+        `/assets/images/KuMu.png`,
       );
     }
     this.load.image(
@@ -56,25 +57,97 @@ export class KuMuScene extends Phaser.Scene {
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
-      {
-      key: "KuMu_Türe",
+      {key: "Rektor",
+        speakerName: "Museumsleiter",
+        speakerImage: "Rektor",
+        x: GAME.width / 2.5,
+        y: GAME.height / 1.4,
+        size: 2,
+        dialog: () => {
+        const count = store.getTalkCount('Museumsleiter');
+          if (store.getTalkCount('Museumsleiter') > 0) {
+          return [
+            "Geht doch.",
+            "Also ich brauche deine Hilfe.",
+            "Uns wurde ein Kunstwerk gestohlen.",
+            "Eine Gusskarte aus dem Jahre 1967.",
+            "Der Künstler ist der Basler",
+            "Larvenbauer Otto Abt",
+            "Die Türe, durch die du gerade",
+            "gehen wolltest,",
+            "führt dich in meine Zeitmaschine.",
+            "Da wolltest du ja sowieso hin.",
+            "Finde seine Karte aus Locarno",
+            "und bring sie zu mir zurück",
+            "",
+            "",
+            "Bitte.",
+          ]
+          }
+        return [
+          "Guten Tag",
+          "Wilkommen im Basler Kunstmuseum",
+          "Das du uns gerade jetzt besuchst,",
+          "muss Schicksal sein.",
+          "Uns wurde ein Kunstwerk gestohlen!",
+          "Eine Grusskarte aus dem Jahre 1967",
+          "Sie war handbemalt von dem basler",
+          "Larvenbauer und Künstler Otto Abt.",
+          "Ich würde ja auf die",
+          "Polizei vertrauen...",
+          "Aber wieso warten,",
+          "wenn man eine Zeitmaschine hat?",
+          "Du siehst naiv- ähm abendteuerlich",
+          "genug aus, um sie auszutesten!",
+          "Klicke einfach auf die graue Türe",
+          "hinter mir, um einzusteigen.",
+          "Keine Sorge, Ort und Zeit sind schon",
+          "eingestellt.",
+          "Ich schicke dich direkt nach Basel",
+          "ins Jahre 1967.",
+          "Otto sollte dort in der Nähe sein.",
+          "Vielleicht braucht er etwas Überzegung,",
+          "nach Locarno zu gehen.",
+          "Ich habe aber volles Vertrauen in dich.",
+          "Tu was du für nötig hälst.",
+          "Bereit, wenn du es bist.",
+        ]
+      }
+     },
+      
+     {key: "KuMu_Türe",
+      speakerName: "Museumsleiter",
+      speakerImage: "Rektor",
       x: 670 / 2,
       y: 565 / 2,
-      dialog: [
-        "Suche Otto Abt",
-        "und finde seine Grusskarte",
-        "Viel Glück!",
-        "Auf ins Jahre 1967!"
+      dialog: (clicked) => {
+      if (store.getTalkCount('Museumsleiter') > 0) {
+      return clicked.sceneName = "MaertScene",
+        clicked.sceneClass = MaertScene,
+        ["Suche den Künstler Otto Abt",
+        "",
+        "!ITEM:Grusskarte",
+        "     und finde seine Grusskarte",
+        "     Viel Glück!",
+        "     Auf ins Jahre 1967!",]
+        }
+      return [
+        "",
+        "...",
+        "Willst du nicht erst wissen,",
+        "in was du dich da einlässt?",
       ]
       }
+      },
+
     ];
+  
+
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
-    // REVIEW: Ich denke das können Sie entfernen, sieht nicht so aus als
-    // würden Sie das in dieser Szene verwenden
-    for (const { key, x, y,dialog } of PLACED_OBJECTS) {
-      this._placeObject(key, x, y, dialog);
-    }
+   for (const { key, x, y, dialog, speakerName, speakerImage, size} of PLACED_OBJECTS) {
+         this._placeObject(key, x, y, dialog, speakerName, speakerImage, size);
+       }
   }
 
   // update() wird hier nicht benötigt, da die Objekte feststehen.
@@ -112,7 +185,7 @@ export class KuMuScene extends Phaser.Scene {
   // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
   _addBackButton() {
     const btn = this.add
-      .text(16, 16, "Exit", {
+      .text(16, 16, "Zurück", {
         fontSize: "18px",
         color: "#ffffff",
         backgroundColor: "#333366",
@@ -125,23 +198,42 @@ export class KuMuScene extends Phaser.Scene {
     btn.on("pointerout", () => btn.setStyle({ color: "#ffffff" }));
     btn.on("pointerdown", () => this.scene.start("GameScene"));
   }
+    
+    _startScene(sceneName, sceneClass) {
+      this.scene.start(sceneName);
+  }
 
 
-  _placeObject(key, x, y, dialogLines) {
+    
+  _placeObject(key, x, y, dialogLines, speakerName, speakerImage, size) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
-     const goToMaertScene = () => {
-        this.scene.start("MaertScene");
+      const goToLevel = () => {
+        if (clicked.sceneName) {
+          this._startScene(clicked.sceneName, clicked.sceneClass);
+        }
       };
 
-     if (dialogLines) {
-        this._dialog.show(dialogLines, goToMaertScene, "Museumsleiter", "Rektor");
-      } else {
-        goToMaertScene();
-      }
-    });
 
-   this._objects.push(obj);
-    this.physics.add.existing(obj.sprite, true);
 
+
+      if (dialogLines) {
+        const lines = typeof dialogLines === 'function' ? dialogLines(clicked) : dialogLines;
+
+        if (speakerName) {
+           store.timesTalked(speakerName);
+          }
+
+           this._dialog.show(lines, goToLevel, speakerName, speakerImage);
+           }
+
+       else {
+        goToLevel();
+       }
+        
+    }, size,
+    );
+     
+    this._objects.push(obj);
+      store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
   }
 }
