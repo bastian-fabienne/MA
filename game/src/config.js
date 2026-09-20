@@ -13,6 +13,7 @@ import { KuMuScene } from "./scenes/KuMuScene";
 import { MaertScene } from "./scenes/MaertScene";
 import { AtelierScene } from "./scenes/AtelierScene";
 import { ZolliScene } from "./scenes/ZolliScene";
+import { SchneidereiScene } from "./scenes/SchneidereiScene";
 
 
 // In diesem Objekt wird alles definiert was mit dem Spiel zu tun hat.
@@ -39,11 +40,12 @@ export const OBJECT_TYPES = [
   {key: 'Reservierer_full'},
   {key: 'Herr in grau'},
   {key: 'ZitigsBueb_ganz'},
-  {key: 'Schlussel'},
+  {key: 'Schlüssel'},
   {key: 'Zigarette'},
   {key: 'Zitig'},
 
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
+  {key: 'Türe_Schneiderei', sceneName: "SchneidereiScene", sceneClass: SchneidereiScene},
   {key: 'Martha_full'},
   {key: 'Larve'},
 
@@ -56,4 +58,6 @@ export const OBJECT_TYPES = [
   {key: 'eis'},
   {key: 'Feder'},
   {key: 'Statist_1'},
+
+  {key: 'Schneiderin_full'},
 ];

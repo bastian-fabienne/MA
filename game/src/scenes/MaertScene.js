@@ -86,7 +86,7 @@ export class MaertScene extends Phaser.Scene {
             "",
             "Ich wollte schon längst meine",
             "Verwandten dort besuchen.",
-            "!ITEM:Schlussel",
+            "!ITEM:Schlüssel",
             "Hier mein Schlüssel.",
             "Er öffnet dir die Tür",
             "zu meinem Atelier.",
@@ -235,6 +235,14 @@ export class MaertScene extends Phaser.Scene {
       key: 'Atelier_Türe',
       x: 640 / 6,
       y: 480 / 1.49,
+    });
+}
+  //if ((store.getState().Schluessel?.collected ?? 0) > 0) {
+   if (store.getTalkCount('Otto Abt') > 0) {
+    PLACED_OBJECTS.push({
+      key: 'Türe_Schneiderei',
+      x: GAME.width / 1.099,
+      y: GAME.height / 1.85,
     });
 }
 

@@ -91,8 +91,8 @@ export class KuMuScene extends Phaser.Scene {
           "muss Schicksal sein.",
           "Uns wurde ein Kunstwerk gestohlen!",
           "Eine Grusskarte aus dem Jahre 1967",
-          "Sie war handbemalt von dem basler",
-          "Larvenbauer und Künstler Otto Abt.",
+          "Sie war von dem basler Künstler und",
+          "Larvenbauer Otto Abt und handbemalt.",
           "Ich würde ja auf die",
           "Polizei vertrauen...",
           "Aber wieso warten,",
@@ -121,7 +121,7 @@ export class KuMuScene extends Phaser.Scene {
       x: 670 / 2,
       y: 565 / 2,
       dialog: (clicked) => {
-      if (store.getTalkCount('Museumsleiter') > 0) {
+      //if (store.getTalkCount('Museumsleiter') > 0) {
       return clicked.sceneName = "MaertScene",
         clicked.sceneClass = MaertScene,
         ["Suche den Künstler Otto Abt",
@@ -131,13 +131,13 @@ export class KuMuScene extends Phaser.Scene {
         "     Viel Glück!",
         "     Auf ins Jahre 1967!",]
         }
-      return [
-        "",
-        "...",
-        "Willst du nicht erst wissen,",
-        "in was du dich da einlässt?",
-      ]
-      }
+      //return [
+      //  "",
+       // "...",
+       // "Willst du nicht erst wissen,",
+      //  "in was du dich da einlässt?",
+      //]
+      //}
       },
 
     ];
