@@ -68,6 +68,14 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "OttoAbt",
         dialog: () => {
          const count = store.getTalkCount('Otto Abt');
+         if ((store.getState().Brief?.collected ?? 0) > 0) {
+          return [
+            "Mein Mantel!",
+            "Vielen Dank.",
+            "Jetzt fehlt nur noch",
+
+          ]
+         }
          if ((store.getState().Zitig?.collected ?? 0) > 0) {
           return store.registerType('Schluessel', 1),
                  store.collect('Schluessel'),
@@ -212,6 +220,19 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "ZitigsBueb_cut",
        dialog: () => {
         const count = store.getTalkCount('Zeitungsjunge');
+        if ((store.getState().Brief?.collected ?? 0) > 0) {
+          return store.collect('Brief'), 
+          [
+            "Ich bin doch kein Postbote!",
+            "",
+            "...",
+            "",
+            "Nagut, ich bringe den Brief", 
+            "für dich zur Post.",
+            "!ITEM:Brief",
+            "Du hast dem Junden den Brief gegeben",
+          ]}
+       
         if (store.getTalkCount('Otto Abt') > 0) {
           return [
             "Eine Ausgabe für Otto Abt?",

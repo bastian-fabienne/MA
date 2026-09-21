@@ -60,4 +60,6 @@ export const OBJECT_TYPES = [
   {key: 'Statist_1'},
 
   {key: 'Schneiderin_full'},
+  {key: 'Brief'},
+  {key: 'Mantel'},
 ];

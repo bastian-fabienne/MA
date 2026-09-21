@@ -68,22 +68,38 @@ export class SchneidereiScene extends Phaser.Scene {
           speakerImage: "Schneiderin_cut",
           dialog: () => {
          const count = store.getTalkCount('Schneiderin');
+        
+        if ((store.getState().Brief?.collected ?? 0) > 1) {
+        return [
+            "Vielen Dank.",
+            "Hier der Mantel.",
+            "!ITEM:Mantel",
+            "Du hast Ottos' Mantel erhalten.",
+        ]
+        }
+
+        if ((store.getTalkCount('Schneiderin')) > 1) {
+         return [
+            "Hast du den Brief schon",
+            "zur Post gebracht?",
+         ]}
+
           if ((store.getTalkCount('Schneiderin')) > 0) {
-          return [
+          return store.registerType('Brief', 1),
+                store.collect('Brief'), 
+            [
             "Otto's Mantel?",
             "",
             "Ich hatte noch keine Zeit,",
             "ihn fertigzustellen.",
-            "Ich habe momentan so viel zu tun.",
-            "Tut mir leid.",
-            "Wenn du mir etwas unter die Arme",
-            "greifft, schaffe ich es bestimmt",
-            "Mal sehen...",
-            "Ich muss einen Brief zustellen",
-            "",
+            "Ich wollte gerade zur Post.",
+            "Warum gehst nicht du stattdesssen?",
+            "So hätte ich genügend Zeit,",
+            "Ottos' Mantel fertigzustellen.",
+            "!ITEM:Brief",
+            "Du hast einen Brief erhalten.",
 
-          ]
-          }
+          ]}
          return [
           "Wilkommen in meiner Schneiderei",
           "Wie kann ich dir helfen?"
