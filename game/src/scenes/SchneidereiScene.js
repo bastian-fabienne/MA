@@ -49,6 +49,7 @@ export class SchneidereiScene extends Phaser.Scene {
      // Lifecycle Schritt 2: Szene aufbauen.
      // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
      create() {
+      this._objects = [];
        this.add.image(640 / 2, 480 / 2, "Schneiderei");
    
        this._ui = new UI(this);
@@ -191,6 +192,10 @@ export class SchneidereiScene extends Phaser.Scene {
     );
      
     this._objects.push(obj);
+   
+     const typeDef = OBJECT_TYPES.find(t => t.key === key);
+    if (typeDef?.collectible) {
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
+    }
   }
 }

@@ -34,9 +34,9 @@ export class InventoryScene extends Phaser.Scene {
     const panelX = (width - panelW) / 2;
     const panelY = (height - panelH) / 2;
 
-    this.add.rectangle(panelX, panelY, panelW, panelH, 0x1a1a4e)
+    this.add.rectangle(panelX, panelY, panelW, panelH, 0x111111)
       .setOrigin(0, 0)
-      .setStrokeStyle(2, 0x6666cc);
+      .setStrokeStyle(2, 0xffffff);
 
     // ── Titel ─────────────────────────────────────────────────────────────
     this.add.text(width / 2, panelY + PAD, 'Inventar', {
@@ -73,15 +73,15 @@ export class InventoryScene extends Phaser.Scene {
         const countText = `${collected} / ${total}`;
         this.add.text(panelX + panelW - PAD, rowY + ROW_HEIGHT / 2, countText, {
           fontSize: '18px',
-          color: allCollected ? '#66ff66' : '#ffaa33',
+          color: allCollected ? '#eaff03' : '#ffaa00',
         }).setOrigin(1, 0.5);
       });
     }
 
     // ── Hinweis zum Schließen ──────────────────────────────────────────────
-    this.add.text(width / 2, panelY + panelH - PAD, '[Leertaste] Schließen', {
+    this.add.text(width / 2, panelY + panelH -5, '[Leertaste] Schließen', {
       fontSize: '13px',
-      color: '#666688',
+      color: '#ffffff',
     }).setOrigin(0.5, 1);
 
     // ── Leertaste schließt das Inventar wieder ─────────────────────────────

@@ -55,6 +55,7 @@ export class ZolliScene extends Phaser.Scene {
      // Lifecycle Schritt 2: Szene aufbauen.
      // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
      create() {
+      this._objects = [];
        this.add.image(640 / 2, 480 / 2, "Zolli");
    
        this._ui = new UI(this);
@@ -75,7 +76,7 @@ export class ZolliScene extends Phaser.Scene {
            speakerName: "Zoowerter",
            speakerImage: "Zoowärter_cut",
            dialog: (clicked) => {
-           if ((store.getState().eis?.collected ?? 0) > 1) {
+           if ((store.getState().Eis?.collected ?? 0) > 1) {
                clicked.sceneName = "AtelierScene";
                clicked.sceneClass = AtelierScene;
                return  store.registerType('Feder', 1),
@@ -87,10 +88,10 @@ export class ZolliScene extends Phaser.Scene {
                ];
              }
             
-            if ((store.getState().eis?.collected ?? 0) > 0 ) {
-                return  store.collect('eis'),
+            if ((store.getState().Eis?.collected ?? 0) > 0 ) {
+                return  store.collect('Eis'),
                 [
-                 "!ITEM:eis",
+                 "!ITEM:Eis",
                  "Du hast dem Wärter das Eis gegeben.",
                  "Er scheint abgelenkt...",
                  "",
@@ -118,14 +119,15 @@ export class ZolliScene extends Phaser.Scene {
            speakerName: "Zoowerter",
            speakerImage: "Zoowärter_cut",
            dialog: () => {
-            if ((store.getState().eis?.collected ?? 0) > 1 ) {
+            if ((store.getState().Eis?.collected ?? 0) > 1 ) {
               return [
                 "Mjam!",
                 "Ich liebe Eis!",
               ]
             }
 
-            return [
+            return store.registerType('Eis', 1),
+            [
               "Stop!",
                  "",
                  "Besucher dürfen das Pfauengehege",
@@ -148,7 +150,7 @@ export class ZolliScene extends Phaser.Scene {
            speakerImage: "Glacema_cut",
            dialog: () => {
            const count = store.getTalkCount('Glacema');
-            if ((store.getState().eis?.collected ?? 0) > 0) {
+            if ((store.getState().Eis?.collected ?? 0) > 0) {
                 return[
                  "Noch ein Eis?",
                  "Du hast doch schon eins!",  
@@ -177,7 +179,8 @@ export class ZolliScene extends Phaser.Scene {
             "Juhu ich habe meinen Ball!",
           ]
           }
-         return [
+         return store.registerType('Ball', 1),
+         [
           "Oh nein!",
           "Ich habe meinen Ball verloren!",
           ]
@@ -193,18 +196,18 @@ export class ZolliScene extends Phaser.Scene {
           dialog: () => {
          const count = store.getTalkCount('Ballmaa');
          if ((store.getState().Ball?.collected ?? 0) > 0) {
-            store.registerType('eis', 1)
-            store.collect('eis') 
+            store.collect('Eis') 
           return [
             "Wie kann ich dir nur danken?",
             "",
             "Du möchtest ein Eis?",
             "Ich kaufe dir eins!",
-            "!ITEM:eis",
+            "!ITEM:Eis",
             "Der Mann hat dir ein Eis gekauft.",
           ]
           }
-         return [
+         return store.registerType('Ball', 1),
+         [
           "Oh nein!",
           "Mein hat seinen Ball verloren!",
           "Ich wäre dir sehr dankbar,",
@@ -213,18 +216,16 @@ export class ZolliScene extends Phaser.Scene {
          }
         },
 
-        {key: 'Ball',
+        {key: 'roter Ball',
           x: 648 / 2.18,
           y: 480 / 2.13,
           size: 0.8,
           speakerImage: "Ball",
           speakerName: "Neues Item",
           dialog: () => {
-            const count = store.getTalkCount('Ball');
-            store.registerType('Ball', 1)
             store.collect('Ball') 
             return [
-            "!ITEM:Ball",
+            "!ITEM:roter Ball",
             "Du hast einen Ball gefunden!",
           ] 
         }
@@ -339,6 +340,10 @@ export class ZolliScene extends Phaser.Scene {
     );
      
     this._objects.push(obj);
+   
+     const typeDef = OBJECT_TYPES.find(t => t.key === key);
+    if (typeDef?.collectible) {
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
+    }
   }
 }

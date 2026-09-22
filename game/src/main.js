@@ -29,7 +29,7 @@ const config = {
   },
   // InventoryScene wird als Overlay über allen anderen Szenen gestartet,
   // daher muss sie von Anfang an registriert sein.
-  scene: [GameScene, InventoryScene, KuMuScene,  MaertScene, AtelierScene, ZolliScene, CoinScene, SchneidereiScene],
+  scene: [GameScene, KuMuScene,  MaertScene, AtelierScene, ZolliScene, CoinScene, SchneidereiScene, InventoryScene],
 };
 
 // Startet das Spiel mit der oben vorgegebenen Konfiguration

@@ -46,6 +46,7 @@ export class KuMuScene extends Phaser.Scene {
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
+    this._objects = [];
     this.add.image(640 / 2, 480 / 2, "KuMuOhniTüre1");
 
     this._ui = new UI(this);
@@ -172,12 +173,12 @@ export class KuMuScene extends Phaser.Scene {
   }
 
   // Leertaste öffnet / schließt das Inventar-Overlay.
-  _setupInventoryToggle() {
-    this.input.keyboard.on("keydown-SPACE", () => {
-      if (this.scene.isActive("InventoryScene")) {
-        this.scene.stop("InventoryScene");
+    _setupInventoryToggle() {
+    this.input.keyboard.on('keydown-SPACE', () => {
+      if (this.scene.isActive('InventoryScene')) {
+        this.scene.stop('InventoryScene');
       } else {
-        this.scene.launch("InventoryScene");
+        this.scene.launch('InventoryScene');
       }
     });
   }
@@ -234,6 +235,10 @@ export class KuMuScene extends Phaser.Scene {
     );
      
     this._objects.push(obj);
+   
+     const typeDef = OBJECT_TYPES.find(t => t.key === key);
+    if (typeDef?.collectible) {
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
+    }
   }
 }

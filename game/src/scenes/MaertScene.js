@@ -48,6 +48,7 @@ export class MaertScene extends Phaser.Scene {
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
+    this._objects = [];
     this._ui = new UI(this);
 
     this._dialog = new Dialog(this);
@@ -72,7 +73,7 @@ export class MaertScene extends Phaser.Scene {
           return [
             "Mein Mantel!",
             "Vielen Dank.",
-            "Jetzt fehlt nur noch",
+            "Jetzt nur noch", //hier kommt dann noch mehr :')
 
           ]
          }
@@ -108,7 +109,6 @@ export class MaertScene extends Phaser.Scene {
           ]
          }
           if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr Stone') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
-            store.registerType('Zigarette', 1)
             store.collect('Zigarette')
             return [
               "Du hast den Typen gefunden?",
@@ -133,7 +133,8 @@ export class MaertScene extends Phaser.Scene {
               "Der die Zeitung reserviert hat.",
             ]
           }
-          return [ 
+          return store.registerType('Zeitung', 1),
+          [ 
             "Hallo",
             "Mein Name ist Otto Abt.",
             "Ich bin Künstler.",
@@ -184,17 +185,17 @@ export class MaertScene extends Phaser.Scene {
         dialog: () => {
          const count = store.getTalkCount('Herr Stone');
          if ((store.getState().Zigarette?.collected ?? 0) > 0) {
-          return store.registerType('Zitig', 1),
-                 store.collect('Zitig'),
+          return store.collect('Zeitung'),
           [
             "Vielen dank.",
             "Hier die Zeitung.",
-            "!ITEM:Zitig",
+            "!ITEM:Zeitung",
             "Du hast die heutige Zeitung erhalten.",
           ]
         }
            if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0) && (store.getTalkCount('Otto Abt') > 0)) {
-            return [
+            return store.registerType('Zigarette', 1),
+            [
             "Ich lege sehr viel Wert",
             "auf meine Zeigung.",
             "Aber ich würde sie",
@@ -251,7 +252,8 @@ export class MaertScene extends Phaser.Scene {
       },   
     ];
     
-  if ((store.getState().Schluessel?.collected ?? 0) > 0) {
+  //if ((store.getState().Schluessel?.collected ?? 0) > 0) {
+  if (store.getTalkCount('Otto Abt') > 0) {
     PLACED_OBJECTS.push({
       key: 'Atelier_Türe',
       x: 640 / 6,
@@ -339,7 +341,10 @@ export class MaertScene extends Phaser.Scene {
           
     });
       this._objects.push(obj);
+      
+     const typeDef = OBJECT_TYPES.find(t => t.key === key);
+    if (typeDef?.collectible) {
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
+    }
   }
-  
 }

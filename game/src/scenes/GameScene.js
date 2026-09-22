@@ -30,6 +30,7 @@ export class GameScene extends Phaser.Scene {
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
+    this._objects = [];
     this._drawBackground();
     this._ui = new UI(this);
 

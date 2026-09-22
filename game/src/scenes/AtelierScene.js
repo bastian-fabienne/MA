@@ -37,6 +37,7 @@ export class AtelierScene extends Phaser.Scene {
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
+    this._objects = [];
     this.add.image(640 / 2, 480 / 2, "Atelier");
 
     this._ui = new UI(this);
@@ -237,6 +238,7 @@ export class AtelierScene extends Phaser.Scene {
     
   _placeObject(key, x, y, dialogLines, speakerName, speakerImage, size) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
+
       const goToLevel = () => {
         if (clicked.sceneName) {
           this._startScene(clicked.sceneName, clicked.sceneClass);
@@ -262,8 +264,11 @@ export class AtelierScene extends Phaser.Scene {
         
     }, size,
     );
-     
     this._objects.push(obj);
+    
+     const typeDef = OBJECT_TYPES.find(t => t.key === key);
+    if (typeDef?.collectible) {
       store.registerType(key, this._objects.filter(o => o.textureKey === key).length);
+    }
   }
 }
