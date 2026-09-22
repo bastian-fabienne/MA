@@ -38,6 +38,7 @@ export const OBJECT_TYPES = [
   {key: 'Schlüssel', collectible: true},
   {key: 'Zigarette',collectible: true},
   {key: 'Zeitung', collectible: true},
+  {key: 'Gehstock', collectible: true},
 
   {key: 'Atelier_Türe', sceneName: "AtelierScene", sceneClass: AtelierScene},
   {key: 'Türe_Schneiderei', sceneName: "SchneidereiScene", sceneClass: SchneidereiScene},

@@ -61,6 +61,9 @@ class Store {
     return structuredClone(this._state);
   }
 
+  remove(key) {
+    delete this._state[key];
+  }
   
   timesTalked(person) {
     if (!this.talkCounter[person]) {

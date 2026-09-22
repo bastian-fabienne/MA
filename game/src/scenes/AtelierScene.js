@@ -77,12 +77,12 @@ export class AtelierScene extends Phaser.Scene {
               "!ITEM:OttoAbt",
               "Bitte, Martha.",
               "Die Basler Fasnacht ist gerade",
-              "erst zuendegegangen.",
+              "erst zu Ende gegangen.",
               "Jetzt ist der perfekte Moment",
               "einmal in den Urlaub zu fahren.",
               "!ITEM:Martha",
               "Du hast noch Arbeit offen.",
-              "Du muss erst den Pierro fertigmachen.",
+              "Du muss erst den Pierrot fertigmachen.",
               "Das ist die Larve auf dem Tisch.",
               "Danach darfst du los.",
               "Ihr fehlt noch eine Pfauenfeder.",
@@ -113,7 +113,9 @@ export class AtelierScene extends Phaser.Scene {
       }
 
       if ((store.getState().Feder?.collected ?? 0) > 0) {
+        store.remove('Feder');
         return store.collect('Feder'),
+               store.registerType('Mantel', 1),
         [
             "!ITEM:Feder",
             "Du hast Martha die Feder gegeben.",
@@ -122,6 +124,7 @@ export class AtelierScene extends Phaser.Scene {
             "Den Rest schaffe ich",
             "auch ohne Otto.",
             "Jetzt darf er nach Locarno.",
+            "",
             "!ITEM:OttoAbt",
             "Hurra!",
             "Auf nach Locarno!",
@@ -135,7 +138,7 @@ export class AtelierScene extends Phaser.Scene {
             "Ich muss unbedingt",
             "meinen Lieblingsmantel mitnehmen.",
             "Er ist noch im Nähatelier",
-            "zur Reperatur.",
+            "zur Reparatur.",
             "Es ist das gelbe Haus",
             "beim Marktplatz.",
             "!ITEM:Martha",
@@ -174,6 +177,22 @@ export class AtelierScene extends Phaser.Scene {
       }
     ];
     
+    if ((store.getState().Mantel?.collected ?? 0) > 0) {
+      PLACED_OBJECTS.push({
+      key: 'Gehstock',
+      x: GAME.width / 1.5,
+      y: GAME.height / 2,
+       speakerName: "Neues Item",
+          dialog: () => {
+            store.remove('Mantel');
+            store.collect('Gehstock');
+            return [
+            "!ITEM:Gehstock",
+            "Du hast Ottos' Gehstock gefunden!",
+          ] 
+        }
+    });
+}
 
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
    for (const { key, x, y, dialog, speakerName, speakerImage, size} of PLACED_OBJECTS) {

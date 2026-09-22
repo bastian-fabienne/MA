@@ -68,7 +68,7 @@ export class ClickableObject {
   _handleClick() {
     if (!this.alive) return;
 
-    if (this.textureKey === 'roter Ball') {
+    if ((this.textureKey === 'roter Ball') || (this.textureKey ==='Gehstock')) {
    this.alive = false;
    this.scene.tweens.add({
     targets: this.sprite,

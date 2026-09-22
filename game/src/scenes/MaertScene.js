@@ -69,17 +69,41 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "OttoAbt",
         dialog: () => {
          const count = store.getTalkCount('Otto Abt');
-         if ((store.getState().Brief?.collected ?? 0) > 0) {
+
+         if((store.getState().Gehstock?.collected ?? 0) > 0) {
           return [
+            "Mein Gehstock?",
+            "Hurra!",
+            "Vielen Dank für deine Hilfe!",
+            "Jetzt kann ich endlich nach Locarno!",
+          ]
+
+         }
+
+         if ((store.getState().Mantel?.collected ?? 0) > 0) {
+          return store.registerType('Gehstock', 1),
+          [
             "Mein Mantel!",
             "Vielen Dank.",
-            "Jetzt nur noch", //hier kommt dann noch mehr :')
+            "Jetzt nur noch mein Gehstock!",
+            "Ohne ihn kann ich nicht nach Locarno!",
+            "Ich muss ihn verlegt haben...",
 
           ]
          }
-         if ((store.getState().Zitig?.collected ?? 0) > 0) {
-          return store.registerType('Schluessel', 1),
-                 store.collect('Schluessel'),
+         if ((store.getTalkCount('Martha') > 0) || (store.getTalkCount('Larve') > 0)) {
+            return [
+              "Ich muss die Pierrot-Larve",
+              "fertigstellen.",
+              "Sie ist im Atelier.",
+            ]
+          }
+
+         if ((store.getState().Zeitung?.collected ?? 0) > 0) {
+          store.remove("Zeitung");
+          store.remove("Zigarette");
+          return store.registerType('Schlüssel', 1),
+            store.collect('Schlüssel'),
             [
             "Juhu!",
             "Meine Zeitung!",
@@ -104,7 +128,7 @@ export class MaertScene extends Phaser.Scene {
             "!ITEM:OttoAbt",
             "Dort können wir ungestört reden.",
             "Ich möchte aber erst meine Zeitung",
-            "fertiglesen.",
+            "ferti glesen.",
             "Wir treffen uns im Atelier.",
           ]
          }
@@ -114,8 +138,8 @@ export class MaertScene extends Phaser.Scene {
               "Du hast den Typen gefunden?",
               "Super!",
               "Wie bitte?",
-              "Er möchte eine Zigarette defür?",
-              "*Seufz*",
+              "Er möchte eine Zigarette dafür?",
+              "*seufz*",
               "",
               "Ich wollte sowieso mit",
               "dem Rauchen aufhören.",
@@ -157,7 +181,7 @@ export class MaertScene extends Phaser.Scene {
          const count = store.getTalkCount('Mann');
          if (count > 0) {
             return [
-           "ich habe wirklch keine Zeit",
+           "ich habe wirklich keine Zeit",
            "für so etwas.",
            ]
           }
@@ -184,10 +208,18 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "Reservierer_cut",
         dialog: () => {
          const count = store.getTalkCount('Herr Stone');
+
+         if ((store.getTalkCount('Martha') > 0) || (store.getTalkCount('Larve') > 0)) {
+            return [
+              "Bitte lassen Sie mich",
+              "Nun in Ruhe.",
+            ]
+          }
+
          if ((store.getState().Zigarette?.collected ?? 0) > 0) {
           return store.collect('Zeitung'),
           [
-            "Vielen dank.",
+            "Vielen Dank.",
             "Hier die Zeitung.",
             "!ITEM:Zeitung",
             "Du hast die heutige Zeitung erhalten.",
@@ -197,7 +229,7 @@ export class MaertScene extends Phaser.Scene {
             return store.registerType('Zigarette', 1),
             [
             "Ich lege sehr viel Wert",
-            "auf meine Zeigung.",
+            "auf meine Zeitung.",
             "Aber ich würde sie",
             "gegen eine Zigarette tauschen."
           ];
@@ -221,22 +253,24 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "ZitigsBueb_cut",
        dialog: () => {
         const count = store.getTalkCount('Zeitungsjunge');
-        if ((store.getState().Brief?.collected ?? 0) > 0) {
-          return store.collect('Brief'), 
-          [
+
+        if  ((store.getState().Brief?.collected ?? 0) > 0) {
+         store.remove('Brief');
+          return [
             "Ich bin doch kein Postbote!",
             "",
             "...",
             "",
-            "Nagut, ich bringe den Brief", 
+            "Na gut, ich bringe den Brief", 
             "für dich zur Post.",
             "!ITEM:Brief",
-            "Du hast dem Junden den Brief gegeben",
-          ]}
+            "Du hast dem Jungen den Brief gegeben",
+          ]
+        }
        
-        if (store.getTalkCount('Otto Abt') > 0) {
+        if (store.getTalkCount('Otto Abt') < 3) {
           return [
-            "Eine Ausgabe für Otto Abt?",
+          "Eine Ausgabe für Otto Abt?",
           "Tut mir leid.",
           "Die letzte Ausgabe ist für",
           "Herr Stone reserviert.",
@@ -244,6 +278,7 @@ export class MaertScene extends Phaser.Scene {
           "dort drüben.",
           ]
         }
+
         return [ 
           "Ich verkaufe Zeitungen.",
           "Möchten Sie eine kaufen?",

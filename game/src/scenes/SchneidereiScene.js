@@ -70,8 +70,10 @@ export class SchneidereiScene extends Phaser.Scene {
           dialog: () => {
          const count = store.getTalkCount('Schneiderin');
         
-        if ((store.getState().Brief?.collected ?? 0) > 1) {
-        return [
+        if ((!(store.getState().Brief?.collected ?? 0) > 0) && (store.getTalkCount('Schneiderin') > 1)) {
+          return store.registerType('Mantel', 1), //MUSS NOCH WEG
+          store.collect('Mantel'), 
+        [
             "Vielen Dank.",
             "Hier der Mantel.",
             "!ITEM:Mantel",
@@ -89,12 +91,12 @@ export class SchneidereiScene extends Phaser.Scene {
           return store.registerType('Brief', 1),
                 store.collect('Brief'), 
             [
-            "Otto's Mantel?",
+            "Ottos' Mantel?",
             "",
             "Ich hatte noch keine Zeit,",
             "ihn fertigzustellen.",
             "Ich wollte gerade zur Post.",
-            "Warum gehst nicht du stattdesssen?",
+            "Warum gehst nicht du stattdessen?",
             "So hätte ich genügend Zeit,",
             "Ottos' Mantel fertigzustellen.",
             "!ITEM:Brief",
@@ -102,7 +104,7 @@ export class SchneidereiScene extends Phaser.Scene {
 
           ]}
          return [
-          "Wilkommen in meiner Schneiderei",
+          "Willkommen in meiner Schneiderei",
           "Wie kann ich dir helfen?"
           ]
          }

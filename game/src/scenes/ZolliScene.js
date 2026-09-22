@@ -73,33 +73,27 @@ export class ZolliScene extends Phaser.Scene {
           x: 648 / 4.35,
           y: 480 / 1.9,
           size: 1,
-           speakerName: "Zoowerter",
+           speakerName: "Tierpfleger",
            speakerImage: "Zoowärter_cut",
            dialog: (clicked) => {
-           if ((store.getState().Eis?.collected ?? 0) > 1) {
+           if ((store.getState().Eis?.collected ?? 0) > 0) {
                clicked.sceneName = "AtelierScene";
                clicked.sceneClass = AtelierScene;
+               store.remove("Eis");
+               store.remove("Ball");
                return  store.registerType('Feder', 1),
                 store.collect('Feder'), 
                [
+                 "Der Tierpfleger ist durch", 
+                 "das Eis abgelenkt.",
+                 "",
                  "!ITEM:Feder",
                  "Du hast eine Pfauenfeder gefunden!",
                  "Schnell zurück zum Atelier!",
                ];
              }
-            
-            if ((store.getState().Eis?.collected ?? 0) > 0 ) {
-                return  store.collect('Eis'),
-                [
-                 "!ITEM:Eis",
-                 "Du hast dem Wärter das Eis gegeben.",
-                 "Er scheint abgelenkt...",
-                 "",
-
-               ]
-              } 
                 return [
-                 "Stop!",
+                 "Stopp!",
                  "",
                  "Besucher dürfen das Pfauengehege",
                  "nicht betreten!",
@@ -116,19 +110,22 @@ export class ZolliScene extends Phaser.Scene {
           {key: 'Zoowärter_full',
             x: 648 / 4,
             y: 480 / 1.9,
-           speakerName: "Zoowerter",
+           speakerName: "Tierpfleger",
            speakerImage: "Zoowärter_cut",
            dialog: () => {
-            if ((store.getState().Eis?.collected ?? 0) > 1 ) {
-              return [
-                "Mjam!",
-                "Ich liebe Eis!",
-              ]
-            }
+            if ((store.getState().Eis?.collected ?? 0) > 0 ) {
+                return [
+                 "!ITEM:Eis",
+                 "Du hast dem Wärter das Eis gegeben.",
+                 "Er scheint abgelenkt...",
+                 "",
+
+               ]
+              } 
 
             return store.registerType('Eis', 1),
             [
-              "Stop!",
+              "Stopp!",
                  "",
                  "Besucher dürfen das Pfauengehege",
                  "nicht betreten!",
@@ -195,7 +192,13 @@ export class ZolliScene extends Phaser.Scene {
           speakerImage: "Ballmaa",
           dialog: () => {
          const count = store.getTalkCount('Ballmaa');
-         if ((store.getState().Ball?.collected ?? 0) > 0) {
+          if ((store.getState().Eis?.collected ?? 0) > 0) {
+          return [
+            "Vielen Dank für deine Hilfe",
+          ]
+        }
+         if ((store.getState().Ball?.collected ?? 0) > 0 && (!(store.getState().Eis?.collected ?? 0) > 0)) {
+            store.registerType('Eis', 1),
             store.collect('Eis') 
           return [
             "Wie kann ich dir nur danken?",
@@ -223,6 +226,7 @@ export class ZolliScene extends Phaser.Scene {
           speakerImage: "Ball",
           speakerName: "Neues Item",
           dialog: () => {
+            store.registerType('Ball', 1),
             store.collect('Ball') 
             return [
             "!ITEM:roter Ball",

@@ -87,30 +87,30 @@ export class KuMuScene extends Phaser.Scene {
           }
         return [
           "Guten Tag",
-          "Wilkommen im Basler Kunstmuseum",
+          "Willkommen im Basler Kunstmuseum",
           "Das du uns gerade jetzt besuchst,",
           "muss Schicksal sein.",
           "Uns wurde ein Kunstwerk gestohlen!",
           "Eine Grusskarte aus dem Jahre 1967",
-          "Sie war von dem basler Künstler und",
+          "Sie war von dem Basler Künstler und",
           "Larvenbauer Otto Abt und handbemalt.",
           "Ich würde ja auf die",
           "Polizei vertrauen...",
           "Aber wieso warten,",
           "wenn man eine Zeitmaschine hat?",
-          "Du siehst naiv- ähm abendteuerlich",
+          "Du siehst naiv- ähm abenteuerlich",
           "genug aus, um sie auszutesten!",
           "Klicke einfach auf die graue Türe",
           "hinter mir, um einzusteigen.",
           "Keine Sorge, Ort und Zeit sind schon",
           "eingestellt.",
           "Ich schicke dich direkt nach Basel",
-          "ins Jahre 1967.",
+          "ins Jahr 1967.",
           "Otto sollte dort in der Nähe sein.",
-          "Vielleicht braucht er etwas Überzegung,",
+          "Vielleicht braucht er etwas Überzeugung,",
           "nach Locarno zu gehen.",
           "Ich habe aber volles Vertrauen in dich.",
-          "Tu was du für nötig hälst.",
+          "Tu was du für nötig hältst.",
           "Bereit, wenn du es bist.",
         ]
       }
@@ -130,7 +130,7 @@ export class KuMuScene extends Phaser.Scene {
         "!ITEM:Grusskarte",
         "     und finde seine Grusskarte",
         "     Viel Glück!",
-        "     Auf ins Jahre 1967!",]
+        "     Auf ins Jahr 1967!",]
         }
       //return [
       //  "",
