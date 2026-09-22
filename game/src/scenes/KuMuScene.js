@@ -188,15 +188,15 @@ export class KuMuScene extends Phaser.Scene {
     const btn = this.add
       .text(16, 16, "Zurück", {
         fontSize: "18px",
-        color: "#ffffff",
-        backgroundColor: "#333366",
+        color: "#000000",
+        backgroundColor: "#777777",
         padding: { x: 10, y: 6 },
       })
       .setDepth(20)
       .setInteractive({ useHandCursor: true });
 
-    btn.on("pointerover", () => btn.setStyle({ color: "#ffff00" }));
-    btn.on("pointerout", () => btn.setStyle({ color: "#ffffff" }));
+    btn.on("pointerover", () => btn.setStyle({ color: "#ffffff" }));
+    btn.on("pointerout", () => btn.setStyle({ color: "#000000" }));
     btn.on("pointerdown", () => this.scene.start("GameScene"));
   }
     

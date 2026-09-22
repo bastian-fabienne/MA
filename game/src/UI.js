@@ -1,47 +1,16 @@
 // ---------------------------------------------------------------------------
 // UI.js
-// HUD-Anzeige: Score und Hinweis-Text.
+// zeigte einst Score und Hinweis-Text.
 // Kapselt alle Phaser.GameObjects.Text die zum Interface gehören.
 // ---------------------------------------------------------------------------
 
 export class UI {
-  /**
-   * @param {Phaser.Scene} scene
-   */
-  constructor(scene) {
-    // Erklärung: Hier wird ein Muster mit "Sichtbarkeit" von Variablen verwendet.
-    // Man macht das, weil diese Variable einer bestimmten Logik folgen soll. Das 
-    // heisst Score kann nicht irgendwie gesetzt werden, sondern es kann nur über
-    // die Funktionen in dieser Klasse verändert werden. So hat man Kontrolle darüber
-    // wie sich eine Variable verändert. Man sagt das diese Variable "privat" ist,
-    // und somit nur für die Klasse selber lesbar. Man macht eine Variable "privat"
-    // indem man this._score verwendet. Das "this" bezieht sich auf "diese" Klasse,
-    // und mit dem "_" sagt man das die Variable "privat" ist. Es braucht immer beide
-    // Teile.
-    // Damit wir die Variable gewollt verändern können, braucht es noch weitere Teile,
-    // das sind "setter" und "getter". Sie setzen/verändern die Variable, oder geben
-    // den Wert nach aussen zurück. Hier sind das addPoints() und getScore()
-    this._score = 0;
-
-    this._scoreText = scene.add
-      .text(16, 16, 'Score: 0', {
-        fontSize: '26px',
-        fontFamily: 'monospace',
-        fontStyle: 'bold',
-        color: '#ffffff',
-        stroke: '#000000',
-        strokeThickness: 3,
-      })
-      .setDepth(10);
-  }
-
-  /** Addiert Punkte und aktualisiert die Anzeige. */
-  addPoints(points) {
-    this._score += points;
-    this._scoreText.setText(`Score: ${this._score}`);
-  }
-
-  getScore() {
-    return this._score;
-  }
+  //Lieber Herr Geissmann
+  //Ich schätze die Arbeit wirklich sehr, die Sie für mich in das Erstellen des Codes und die vielen Erklärungen gesteckt haben.
+  //Das war sicher anstrengend und Zeitaufwändig.
+  //Sie haben mir auf meiner Reise durch die Welt von JavaScript sehr viel geholfen.
+  //Allerdings brauche ich für mein Spiel keinen Score.
+  //Und leider viel mir auch keine Möglichkeit ein, das Arcade-Konzept aus Coin- und StarScene in mein Spiel einzubauen.
+  //Bitte nehmen Sie das nicht persönlich aber ich muss leider sowohl Coin als auch StarScene löschen, da sie nicht meiner Vorstellung des fertigen Produktes entsprechen.
+  //Ich danke vielmals für Ihr Verständniss.
 }

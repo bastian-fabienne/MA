@@ -295,8 +295,8 @@ export class ZolliScene extends Phaser.Scene {
        const btn = this.add
          .text(16, 16, "Zurück", {
            fontSize: "18px",
-           color: "#ffffff",
-           backgroundColor: "#333366",
+           color: "#000000",
+           backgroundColor: "#777777",
            padding: { x: 10, y: 6 },
          })
          .setDepth(20)

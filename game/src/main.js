@@ -12,7 +12,6 @@ import { MaertScene } from './scenes/MaertScene.js';
 import { KuMuScene } from './scenes/KuMuScene.js';
 import { AtelierScene } from './scenes/AtelierScene.js';
 import { ZolliScene } from './scenes/ZolliScene.js';
-import { CoinScene } from './scenes/CoinScene.js';
 import { SchneidereiScene } from './scenes/SchneidereiScene.js';
 
 const config = {
@@ -29,7 +28,7 @@ const config = {
   },
   // InventoryScene wird als Overlay über allen anderen Szenen gestartet,
   // daher muss sie von Anfang an registriert sein.
-  scene: [GameScene, KuMuScene,  MaertScene, AtelierScene, ZolliScene, CoinScene, SchneidereiScene, InventoryScene],
+  scene: [GameScene, KuMuScene,  MaertScene, AtelierScene, ZolliScene, SchneidereiScene, InventoryScene],
 };
 
 // Startet das Spiel mit der oben vorgegebenen Konfiguration

@@ -7,8 +7,6 @@
 // Namen, statt nur eine Zahl, das macht den Code besser lesbar.
 // ---------------------------------------------------------------------------
 
-import { CoinScene } from "./scenes/CoinScene";
-import { StarScene } from "./scenes/StarScene";
 import { KuMuScene } from "./scenes/KuMuScene";
 import { MaertScene } from "./scenes/MaertScene";
 import { AtelierScene } from "./scenes/AtelierScene";
@@ -28,9 +26,6 @@ export const GAME = {
 // image: true  → Textur wird per preload() aus public/assets/images/ geladen.
 // size wird für programmatisch erzeugte Texturen genutzt (image-Typen ignorieren es).
 export const OBJECT_TYPES = [
-  { key: 'star', sceneName: "StarScene", sceneClass: StarScene },
-  { key: 'coin', sceneName: "CoinScene", sceneClass: CoinScene },
-
   { key: 'KuMu_Türe', sceneName: "KuMuScene", sceneClass: KuMuScene },
   {key: 'Grusskarte'},
 

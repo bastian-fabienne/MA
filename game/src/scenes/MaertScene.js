@@ -308,8 +308,8 @@ export class MaertScene extends Phaser.Scene {
   _addBackButton() {
     const btn = this.add.text(16, 16, 'Exit', {
       fontSize: '18px',
-      color: '#ffffff',
-      backgroundColor: '#474789',
+      color: '#000000',
+      backgroundColor: '#777777',
       padding: { x: 10, y: 6 },
     }).setDepth(20).setInteractive({ useHandCursor: true });
 

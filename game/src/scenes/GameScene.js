@@ -37,27 +37,17 @@ export class GameScene extends Phaser.Scene {
     // Dialog-Box anlegen (ist zu Beginn unsichtbar).
     this._dialog = new Dialog(this);
 
-    this.add.text(GAME.width / 2, GAME.height / 4, "Drüke Start").setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 5, 'Drücke auf Personen/Objekte, um mit ihnen zu interagieren.').setOrigin(0.5, 0.5)
+      this.add.text(GAME.width / 2, GAME.height / 5, 'Drücke "Enter", um den Dialog fortzusetzen.').setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 4, 'Drücke "Leertaste" um das Inventar zu öffnen').setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 2, "Drüke Start um zu beginnen").setOrigin(0.5, 0.5)
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number, dialog? }
     //   dialog (optional): Array von Textzeilen. Ist es gesetzt, erscheint
     //   beim Klick zuerst ein Dialog. Sobald der Dialog fertig gelesen ist,
     //   wird (falls vorhanden) zum passenden Level gewechselt.
-    const PLACED_OBJECTS = [
-      {
-        key: 'star',
-        x: GAME.width / 4,
-        y: GAME.height / 2,
-        dialog: [
-          "Du hast den Stern angeklickt!",
-          "Drücke Enter um weiterzulesen.",
-          "Danach geht es zum Level.",
-          "Los geht's!",
-        ],
-      },
-      { key: 'coin',   x: GAME.width * 3 / 4, y: GAME.height / 2 },
-    ];
+    const PLACED_OBJECTS = [];
     
     // Alle Objekte aus config.js an ihren festen Positionen platzieren
     for (const { key, x, y, dialog } of PLACED_OBJECTS) {
@@ -129,11 +119,11 @@ export class GameScene extends Phaser.Scene {
   
   _addStartButton() {
     const btn = this.add
-      .text(GAME.width / 2, GAME.height / 2 , "Start", {
+      .text(GAME.width / 2, GAME.height - 20, "Start", {
         fontSize: "18px",
         color: "#000000",
-        backgroundColor: "#00d8f9",
-        padding: { x: 20, y: 8 },
+        backgroundColor: "#777777",
+        padding: { x: 100, y: 20 },
       })
       .setOrigin(0.5)
       .setDepth(20)
