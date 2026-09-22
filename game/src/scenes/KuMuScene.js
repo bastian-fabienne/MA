@@ -61,7 +61,7 @@ export class KuMuScene extends Phaser.Scene {
       {key: "Rektor",
         speakerName: "Museumsleiter",
         speakerImage: "Rektor",
-        x: GAME.width / 2.5,
+        x: GAME.width / 3,
         y: GAME.height / 1.4,
         size: 2,
         dialog: () => {

@@ -38,9 +38,9 @@ export class GameScene extends Phaser.Scene {
     this._dialog = new Dialog(this);
 
     this.add.text(GAME.width / 2, GAME.height / 5, 'Drücke auf Personen/Objekte, um mit ihnen zu interagieren.').setOrigin(0.5, 0.5)
-      this.add.text(GAME.width / 2, GAME.height / 5, 'Drücke "Enter", um den Dialog fortzusetzen.').setOrigin(0.5, 0.5)
-    this.add.text(GAME.width / 2, GAME.height / 4, 'Drücke "Leertaste" um das Inventar zu öffnen').setOrigin(0.5, 0.5)
-    this.add.text(GAME.width / 2, GAME.height / 2, "Drüke Start um zu beginnen").setOrigin(0.5, 0.5)
+      this.add.text(GAME.width / 2, GAME.height / 3, 'Drücke "Enter", um Dialog mit Personen fortzusetzen.').setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 2, 'Drücke "Leertaste" um das Inventar zu öffnen').setOrigin(0.5, 0.5)
+    this.add.text(GAME.width / 2, GAME.height / 1.5, "Drüke Start um zu beginnen").setOrigin(0.5, 0.5)
 
     // Hier kannst du die Objekte manuell platzieren.
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number, dialog? }
@@ -119,7 +119,7 @@ export class GameScene extends Phaser.Scene {
   
   _addStartButton() {
     const btn = this.add
-      .text(GAME.width / 2, GAME.height - 20, "Start", {
+      .text(GAME.width / 2, GAME.height/ 1.25, "Start", {
         fontSize: "18px",
         color: "#000000",
         backgroundColor: "#777777",
