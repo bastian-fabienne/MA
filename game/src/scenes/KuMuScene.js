@@ -9,6 +9,7 @@ import { store } from "../Store.js";
 import { UI } from "../UI.js";
 import { Dialog } from '../Dialog.js';
 import { MaertScene } from "./MaertScene.js";
+import { EndScene } from "./EndScene.js";
 //importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
 
 export class KuMuScene extends Phaser.Scene {
@@ -64,9 +65,11 @@ export class KuMuScene extends Phaser.Scene {
         x: GAME.width / 3,
         y: GAME.height / 1.4,
         size: 2,
-        dialog: () => {
+        dialog: (clicked) => {
         const count = store.getTalkCount('Museumsleiter');
         if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
+      clicked.sceneName = "EndScene";
+      clicked.sceneClass = EndScene;
        return [
         "Hurra!",
         "Du hast die Karte wiedergefunden!",
@@ -133,8 +136,11 @@ export class KuMuScene extends Phaser.Scene {
       x: 670 / 2,
       y: 565 / 2,
      dialog: (clicked) => {
-      if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
-       return [
+      //if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
+      if (store.getTalkCount("Museumsleiter") > 0) {
+        clicked.sceneName = "EndScene";
+        clicked.sceneClass = EndScene;
+        return [
         "Hurra!",
         "Du hast die Karte wiedergefunden!",
         "Meine Zeitmaschine hat fuktioniert!",

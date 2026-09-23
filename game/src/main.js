@@ -13,6 +13,7 @@ import { KuMuScene } from './scenes/KuMuScene.js';
 import { AtelierScene } from './scenes/AtelierScene.js';
 import { ZolliScene } from './scenes/ZolliScene.js';
 import { SchneidereiScene } from './scenes/SchneidereiScene.js';
+import { EndScene } from './scenes/EndScene.js';
 
 const config = {
   type: Phaser.AUTO,      // AUTO: bevorzugt WebGL, fällt auf Canvas zurück
@@ -28,7 +29,7 @@ const config = {
   },
   // InventoryScene wird als Overlay über allen anderen Szenen gestartet,
   // daher muss sie von Anfang an registriert sein.
-  scene: [GameScene, KuMuScene,  MaertScene, AtelierScene, ZolliScene, SchneidereiScene, InventoryScene],
+  scene: [GameScene, KuMuScene,  MaertScene, AtelierScene, ZolliScene, SchneidereiScene, EndScene, InventoryScene],
 };
 
 // Startet das Spiel mit der oben vorgegebenen Konfiguration
