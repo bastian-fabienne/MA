@@ -57,13 +57,24 @@ export class AtelierScene extends Phaser.Scene {
         speakerImage: "Martha",
         dialog: () => {
         const count = store.getTalkCount('Martha_full');
-         if ((store.getState().Feder?.collected ?? 0) > 1 ) {
-          return [
-            "!ITEM:Martha",
-            "Na geh schon.",
-            "Du willst doch auf Locarno."
-        ]
-      }
+
+         if (store.getState().Gehstock !== undefined) {
+        return [
+          "Ottos' Gehstock?",
+          "Den habe ich letztens erst gesehen...",
+          "Wo war das nochmal?",
+        ] 
+        }
+
+         if (store.getState().Mantel !== undefined) {
+        return [
+          "Der Mantel ist in der Schneiderei.",
+          "",
+          "Sie ist im gelben Haus",
+          "beim Marktpatz",
+        ] 
+        }
+         
         if ((store.getState().Feder?.collected ?? 0) > 0) {
         return [
           "Hast du schon eine Feder",
@@ -104,6 +115,22 @@ export class AtelierScene extends Phaser.Scene {
         speakerImage: "OttoAbt",
        dialog: (clicked) => {
         const count = store.getTalkCount('Larve');
+
+         if (store.getState().Gehstock !== undefined) {
+          clicked.sceneName = "ZolliScene";
+          clicked.sceneClass = ZolliScene;
+        return [
+          "Du willst im Zoo suchen?",
+          "Nagut...",
+        ] 
+        }
+
+         if (store.getState().Mantel !== undefined) {
+          return [
+            "Der Mantel ist in der Schneiderei.",
+          ]
+         }
+
          if ((store.getState().Feder?.collected ?? 0) > 1 ) {
           return [
             "!ITEM:Martha",

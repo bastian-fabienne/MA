@@ -8,6 +8,7 @@ import { ClickableObject } from '../ClickableObject.js';
 import { UI } from '../UI.js';
 import { store } from '../Store.js';
 import { Dialog } from '../Dialog.js';
+import { KuMuScene } from './KuMuScene.js';
 
 export class MaertScene extends Phaser.Scene {
   constructor() {
@@ -63,22 +64,29 @@ export class MaertScene extends Phaser.Scene {
     // Jeder Eintrag: { key: 'star'|'gem'|'circle'|'coin', x: number, y: number }
     const PLACED_OBJECTS = [
       {key: 'OttoFull', 
-        x: 640 / 3.1, 
-        y: 480 / 1.310,
+        x: GAME.width / 3.1, 
+        y: GAME.height / 1.310,
         speakerName: "Otto Abt",
         speakerImage: "OttoAbt",
-        dialog: () => {
+        dialog: (clicked) => {
          const count = store.getTalkCount('Otto Abt');
-
+           
          if((store.getState().Gehstock?.collected ?? 0) > 0) {
+          store.registerType('Grusskarte', 1);
           return [
             "Mein Gehstock?",
             "Hurra!",
             "Vielen Dank für deine Hilfe!",
             "Jetzt kann ich endlich nach Locarno!",
           ]
-
          }
+
+          if (store.getState().Gehstock !== undefined) {
+          return [
+            "Ich muss den Gehstock",
+            "irgendwo verloren haben.",
+          ]
+          }
 
          if ((store.getState().Mantel?.collected ?? 0) > 0) {
           return store.registerType('Gehstock', 1),
@@ -91,6 +99,14 @@ export class MaertScene extends Phaser.Scene {
 
           ]
          }
+          
+         if (store.getState().Mantel !== undefined) {
+        return [
+          "Die Schneiderei ist im gelben Haus",
+          "gleich dort drüben.",
+        ] 
+        }
+
          if ((store.getTalkCount('Martha') > 0) || (store.getTalkCount('Larve') > 0)) {
             return [
               "Ich muss die Pierrot-Larve",
@@ -98,6 +114,12 @@ export class MaertScene extends Phaser.Scene {
               "Sie ist im Atelier.",
             ]
           }
+
+          if ((store.getState().Schlüssel?.collected ?? 0) > 0) {
+          return [
+            "Ich treffe dich im Atelier",
+          ]
+        }
 
          if ((store.getState().Zeitung?.collected ?? 0) > 0) {
           store.remove("Zeitung");
@@ -132,7 +154,15 @@ export class MaertScene extends Phaser.Scene {
             "Wir treffen uns im Atelier.",
           ]
          }
-          if (((store.getTalkCount('Zeitungsjunge') > 0) && (store.getTalkCount('Herr Stone') > 0)) && (store.getTalkCount('Otto Abt') > 1)) {
+
+         if ((store.getState().Zigarette?.collected ?? 0) > 0) {
+            return [
+              "Ich möchte wirklich gerne",
+              "meine Zeitung lesen.",
+            ]
+          }
+
+          if (store.getState().Zigarette !== undefined) {
             store.collect('Zigarette')
             return [
               "Du hast den Typen gefunden?",
@@ -147,14 +177,10 @@ export class MaertScene extends Phaser.Scene {
               "Hier bitteschön.",
             ]
           }
-          if ((store.getTalkCount('Zeitungsjunge') >0) && (store.getTalkCount('Otto Abt') > 0)) {
+           if (store.getState().Zeitung !== undefined) {
             return [
-              "Was?",
-              "Die letzte Ausgabe ist reserviert?",
-              "Ich bin überzeugt,",
-              "wir finden einen Weg.",
-              "Sprich doch einmal mit dem Herrn,",
-              "Der die Zeitung reserviert hat.",
+              "Ich möchte wirklich gerne",
+              "meine Zeitung lesen.",
             ]
           }
           return store.registerType('Zeitung', 1),
@@ -179,6 +205,13 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "Statist_2",
         dialog: () => {
          const count = store.getTalkCount('Mann');
+        if (store.getState().Gehstock !== undefined) {
+          return [
+            "Einen Gehstock?",
+            "Nicht gesehen.",
+          ]
+        }
+
          if (count > 0) {
             return [
            "ich habe wirklich keine Zeit",
@@ -191,6 +224,7 @@ export class MaertScene extends Phaser.Scene {
           ]
         }
       },
+
       {key: 'Statist_5',
         x: 640 / 13,
         y: 480 / 1.37,
@@ -209,7 +243,14 @@ export class MaertScene extends Phaser.Scene {
         dialog: () => {
          const count = store.getTalkCount('Herr Stone');
 
-         if ((store.getTalkCount('Martha') > 0) || (store.getTalkCount('Larve') > 0)) {
+          if (store.getState().Gehstock !== undefined) {
+            return [
+              "Hast du mich nicht schon", 
+              "genug genervt?",
+            ]
+            }
+        
+         if ((store.getTalkCount('Martha') > 0) || (store.getTalkCount('Larve') > 0) || ((store.getState().Schlüssel?.collected ?? 0) > 0)) {
             return [
               "Bitte lassen Sie mich",
               "Nun in Ruhe.",
@@ -225,7 +266,8 @@ export class MaertScene extends Phaser.Scene {
             "Du hast die heutige Zeitung erhalten.",
           ]
         }
-           if ((store.getTalkCount('Zeitungsjunge') > 0) && (count > 0) && (store.getTalkCount('Otto Abt') > 0)) {
+
+           if (store.getState().Zeitung !== undefined) {
             return store.registerType('Zigarette', 1),
             [
             "Ich lege sehr viel Wert",
@@ -234,6 +276,7 @@ export class MaertScene extends Phaser.Scene {
             "gegen eine Zigarette tauschen."
           ];
           }
+
           if (count > 0) {
             return [
             "!ITEM:Herr in grau",
@@ -246,6 +289,7 @@ export class MaertScene extends Phaser.Scene {
             ];  
           }
       },
+
       {key: 'ZitigsBueb_ganz',
         x: 640 / 2,
         y: 480 / 1.31,
@@ -253,6 +297,13 @@ export class MaertScene extends Phaser.Scene {
         speakerImage: "ZitigsBueb_cut",
        dialog: () => {
         const count = store.getTalkCount('Zeitungsjunge');
+
+         if (store.getState().Gehstock !== undefined) {
+        return [
+          "Ich habe keinen Gehstock gesehen.",
+          "Tut mir leid.",
+        ] 
+        }
 
         if  ((store.getState().Brief?.collected ?? 0) > 0) {
          store.remove('Brief');
@@ -287,16 +338,32 @@ export class MaertScene extends Phaser.Scene {
       },   
     ];
     
-  //if ((store.getState().Schluessel?.collected ?? 0) > 0) {
-  if (store.getTalkCount('Otto Abt') > 0) {
+    if (store.getState().Grusskarte !== undefined) {
+    PLACED_OBJECTS.push({
+      key: 'Grusskarte',
+     x: GAME.width / 3.1, 
+     y: GAME.height / 1.310,
+    dialog: (clicked) => {
+          store.collect('Grusskarte')
+           clicked.sceneName = "KuMuScene";
+           clicked.sceneClass = KuMuScene;
+           return [
+           "!ITEM:Grusskarte",
+           "   Otto hat dir eine Karte gesendet.",
+           "   Schnell zurück zum Museum.",
+         ] 
+       }
+  });
+}
+    
+  if ((store.getState().Schlüssel?.collected ?? 0) > 0) {
     PLACED_OBJECTS.push({
       key: 'Atelier_Türe',
       x: 640 / 6,
       y: 480 / 1.49,
     });
 }
-  //if ((store.getState().Schluessel?.collected ?? 0) > 0) {
-   if (store.getTalkCount('Otto Abt') > 0) {
+  if ((store.getState().Mantel !== undefined) || (store.getState().Gehstock !== undefined)) {
     PLACED_OBJECTS.push({
       key: 'Türe_Schneiderei',
       x: GAME.width / 1.099,
@@ -365,7 +432,7 @@ export class MaertScene extends Phaser.Scene {
         }
       };
       if (dialogLines) {
-        const lines = typeof dialogLines === 'function' ? dialogLines() : dialogLines;
+        const lines = typeof dialogLines === 'function' ? dialogLines(clicked) : dialogLines;
         if (speakerName) {
            store.timesTalked(speakerName);
           }

@@ -76,6 +76,15 @@ export class ZolliScene extends Phaser.Scene {
            speakerName: "Tierpfleger",
            speakerImage: "Zoowärter_cut",
            dialog: (clicked) => {
+
+           if (store.getState().Gehstock !== undefined) {
+             clicked.sceneName = "AtelierScene";
+             clicked.sceneClass = AtelierScene;
+            return [
+              "Im Gehege ist nichts zu sehen.",
+            ]
+           }
+
            if ((store.getState().Eis?.collected ?? 0) > 0) {
                clicked.sceneName = "AtelierScene";
                clicked.sceneClass = AtelierScene;
@@ -86,7 +95,6 @@ export class ZolliScene extends Phaser.Scene {
                [
                  "Der Tierpfleger ist durch", 
                  "das Eis abgelenkt.",
-                 "",
                  "!ITEM:Feder",
                  "Du hast eine Pfauenfeder gefunden!",
                  "Schnell zurück zum Atelier!",
@@ -113,6 +121,14 @@ export class ZolliScene extends Phaser.Scene {
            speakerName: "Tierpfleger",
            speakerImage: "Zoowärter_cut",
            dialog: () => {
+             if (store.getState().Gehstock !== undefined) {
+              return [
+                "Einen Gehstock?",
+              "Der wird wo anders sein.",
+              "Ich habe ihn hier nirgens gesehen.",
+              "Und mir entgeht nichts!",
+              ]
+             }
             if ((store.getState().Eis?.collected ?? 0) > 0 ) {
                 return [
                  "!ITEM:Eis",
@@ -147,6 +163,13 @@ export class ZolliScene extends Phaser.Scene {
            speakerImage: "Glacema_cut",
            dialog: () => {
            const count = store.getTalkCount('Glacema');
+            if (store.getState().Gehstock !== undefined) {
+              return [
+                "Hier wurden keine Fundstücke",
+                "abgegeben.",
+                "Sorry.",
+              ]
+          }
             if ((store.getState().Eis?.collected ?? 0) > 0) {
                 return[
                  "Noch ein Eis?",
@@ -171,6 +194,12 @@ export class ZolliScene extends Phaser.Scene {
           speakerImage: "BallKind",
           dialog: () => {
          const count = store.getTalkCount('BallKind');
+          if (store.getState().Gehstock !== undefined) {
+            return [
+              "Sie scheint mit ihrem",
+              "Ball beschäftigt.",
+            ]
+          }
           if ((store.getState().Ball?.collected ?? 0) > 0) {
           return [
             "Juhu ich habe meinen Ball!",
@@ -192,12 +221,18 @@ export class ZolliScene extends Phaser.Scene {
           speakerImage: "Ballmaa",
           dialog: () => {
          const count = store.getTalkCount('Ballmaa');
+          if (store.getState().Gehstock !== undefined) {
+          return [
+            "Einen Gehstock?",
+            "Tut mir leid.",
+          ]
+          }
           if ((store.getState().Eis?.collected ?? 0) > 0) {
           return [
             "Vielen Dank für deine Hilfe",
           ]
         }
-         if ((store.getState().Ball?.collected ?? 0) > 0 && (!(store.getState().Eis?.collected ?? 0) > 0)) {
+         if ((store.getState().Ball?.collected ?? 0) > 0 ){
             store.registerType('Eis', 1),
             store.collect('Eis') 
           return [
@@ -226,6 +261,12 @@ export class ZolliScene extends Phaser.Scene {
           speakerImage: "Ball",
           speakerName: "Neues Item",
           dialog: () => {
+            if (store.getState().Gehstock !== undefined) {
+            return [
+            "Du hast schon wieder",
+            "einen Ball gefunden.",
+            ]
+            }
             store.registerType('Ball', 1),
             store.collect('Ball') 
             return [
@@ -242,7 +283,14 @@ export class ZolliScene extends Phaser.Scene {
         speakerName: 'Mann',
         speakerImage: "Statist_1",
         dialog: () => {
-         if ((store.getTalkCount('Vater')) || (store.getTalkCount('Kleines Kind')) > 0) {
+         if (store.getState().Gehstock !== undefined) {
+        return [
+          "Ich habe weder einen Ball",
+          "Noch einen Gehstock gefunden.",
+          "Ich bin doch kein Detektiv.",
+        ] 
+        }
+         if (store.getState().Ball !== undefined) {
             return [
            "Einen Ball?",
            "Habe ich nicht gesehen.",

@@ -69,6 +69,16 @@ export class SchneidereiScene extends Phaser.Scene {
           speakerImage: "Schneiderin_cut",
           dialog: () => {
          const count = store.getTalkCount('Schneiderin');
+
+        if (store.getState().Gehstock !== undefined) {
+          return [
+            "Ottos' Gehstock?",
+            "Er bringt immer nur seine Kleider her.",
+            "Seinen Gehstock habe ich",
+            "noch nie gesehen.",
+            "Tut mir leid.",
+          ]
+        }
         
         if ((!(store.getState().Brief?.collected ?? 0) > 0) && (store.getTalkCount('Schneiderin') > 1)) {
           return store.registerType('Mantel', 1), //MUSS NOCH WEG

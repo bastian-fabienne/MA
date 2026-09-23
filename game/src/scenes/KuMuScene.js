@@ -66,6 +66,14 @@ export class KuMuScene extends Phaser.Scene {
         size: 2,
         dialog: () => {
         const count = store.getTalkCount('Museumsleiter');
+        if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
+       return [
+        "Hurra!",
+        "Du hast die Karte wiedergefunden!",
+        "Meine Zeitmaschine hat fuktioniert!",
+        "Juhui!",
+        ];
+      }
           if (store.getTalkCount('Museumsleiter') > 0) {
           return [
             "Geht doch.",
@@ -81,6 +89,7 @@ export class KuMuScene extends Phaser.Scene {
             "Finde seine Karte aus Locarno",
             "und bring sie zu mir zurück",
             "",
+            "...",
             "",
             "Bitte.",
           ]
@@ -107,9 +116,11 @@ export class KuMuScene extends Phaser.Scene {
           "Ich schicke dich direkt nach Basel",
           "ins Jahr 1967.",
           "Otto sollte dort in der Nähe sein.",
-          "Vielleicht braucht er etwas Überzeugung,",
-          "nach Locarno zu gehen.",
-          "Ich habe aber volles Vertrauen in dich.",
+          "...",
+          "Vielleicht braucht er etwas", 
+          "Überzeugung nach Locarno zu gehen.",
+          "Ich habe aber volles Vertrauen", 
+          "in dich.",
           "Tu was du für nötig hältst.",
           "Bereit, wenn du es bist.",
         ]
@@ -121,25 +132,40 @@ export class KuMuScene extends Phaser.Scene {
       speakerImage: "Rektor",
       x: 670 / 2,
       y: 565 / 2,
-      dialog: (clicked) => {
-      //if (store.getTalkCount('Museumsleiter') > 0) {
-      return clicked.sceneName = "MaertScene",
-        clicked.sceneClass = MaertScene,
-        ["Suche den Künstler Otto Abt",
+     dialog: (clicked) => {
+      if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
+       return [
+        "Hurra!",
+        "Du hast die Karte wiedergefunden!",
+        "Meine Zeitmaschine hat fuktioniert!",
+        "Juhui!",
+        ];
+      }
+
+      if (store.getTalkCount('Museumsleiter') > 0) {
+      clicked.sceneName = "MaertScene";
+      clicked.sceneClass = MaertScene;
+      return [
+        "Nagut.",
+        "",
+        "Suche den Künstler Otto Abt",
         "",
         "!ITEM:Grusskarte",
         "     und finde seine Grusskarte",
         "     Viel Glück!",
-        "     Auf ins Jahr 1967!",]
-        }
-      //return [
-      //  "",
-       // "...",
-       // "Willst du nicht erst wissen,",
-      //  "in was du dich da einlässt?",
-      //]
-      //}
-      },
+        "     Auf ins Jahr 1967!",
+      ];
+    }
+       
+      return [
+        "",
+       "...",
+       "Willst du nicht erst wissen,",
+       "in was du dich da einlässt?",
+      ]
+      }
+    }
+  
 
     ];
   
