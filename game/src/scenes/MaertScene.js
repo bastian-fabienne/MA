@@ -180,7 +180,7 @@ export class MaertScene extends Phaser.Scene {
            if (store.getState().Zeitung !== undefined) {
             return [
               "Ich möchte wirklich gerne",
-              "meine Zeitung lesen.",
+              "meine Zeitung weiterlesen.",
             ]
           }
           return store.registerType('Zeitung', 1),
@@ -235,6 +235,7 @@ export class MaertScene extends Phaser.Scene {
           "Ich habe zu tun.",
         ]
       },
+      
       {key: 'Reservierer_full',
         x: 640 / 1.31,
         y: 480 / 1.3,

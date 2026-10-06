@@ -112,7 +112,7 @@ export class AtelierScene extends Phaser.Scene {
         x: 640 / 1.75, 
         y: 480 / 1.70,
         speakerName: 'Larve',
-        speakerImage: "OttoAbt",
+        speakerImage: "Otto Abt",
        dialog: (clicked) => {
         const count = store.getTalkCount('Larve');
 
@@ -152,7 +152,7 @@ export class AtelierScene extends Phaser.Scene {
             "auch ohne Otto.",
             "Jetzt darf er nach Locarno.",
             "",
-            "!ITEM:OttoAbt",
+            "!ITEM:Otto Abt",
             "Hurra!",
             "Auf nach Locarno!",
             "",
@@ -160,7 +160,7 @@ export class AtelierScene extends Phaser.Scene {
             "Otto...",
             "Willst du wirklich so",
             "nach Locarno?",
-            "!ITEM:OttoAbt",
+            "!ITEM:Otto Abt",
             "Stimmt!",
             "Ich muss unbedingt",
             "meinen Lieblingsmantel mitnehmen.",
@@ -176,7 +176,7 @@ export class AtelierScene extends Phaser.Scene {
                clicked.sceneName = "ZolliScene";
                clicked.sceneClass = ZolliScene;
                return [
-                 "!ITEM:OttoAbt",
+                 "!ITEM:Otto Abt",
                  "Meine Pierrot-Larve.", 
                  "Sie ist fast fertig.",
                  "Ihr fehlt nur noch die Pfauenfeder.",
@@ -190,7 +190,7 @@ export class AtelierScene extends Phaser.Scene {
              return [
                 "!ITEM:Martha",
                 "Die muss heute noch fertig ferden.",
-                "!ITEM:OttoAbt",
+                "!ITEM:Otto Abt",
                  "Mist das habe ich ganz vergessen!",
                  "Ich muss die Pierrot Larve dringend",
                  "fertig machen.",

@@ -68,8 +68,8 @@ export class KuMuScene extends Phaser.Scene {
         dialog: (clicked) => {
         const count = store.getTalkCount('Museumsleiter');
         if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
-      clicked.sceneName = "EndScene";
-      clicked.sceneClass = EndScene;
+        clicked.sceneName = "EndScene";
+         clicked.sceneClass = EndScene;
        return [
         "Hurra!",
         "Du hast die Karte wiedergefunden!",
@@ -103,15 +103,19 @@ export class KuMuScene extends Phaser.Scene {
           "Das du uns gerade jetzt besuchst,",
           "muss Schicksal sein.",
           "Uns wurde ein Kunstwerk gestohlen!",
-          "Eine Grusskarte aus dem Jahre 1967",
+          "Eine Grusskarte aus dem Jahre 1967.",
           "Sie war von dem Basler Künstler und",
           "Larvenbauer Otto Abt und handbemalt.",
           "Ich würde ja auf die",
           "Polizei vertrauen...",
           "Aber wieso warten,",
           "wenn man eine Zeitmaschine hat?",
-          "Du siehst naiv- ähm abenteuerlich",
+          "Du siehst naiv -ähm abenteuerlich",
           "genug aus, um sie auszutesten!",
+          "Die Grusskarte stammt aus einem",
+          "Urlaub in Locarno.",
+          "Du musst den Künstler überzeugen",
+          "Nach Locarno zu reisen!",
           "Klicke einfach auf die graue Türe",
           "hinter mir, um einzusteigen.",
           "Keine Sorge, Ort und Zeit sind schon",
@@ -136,8 +140,7 @@ export class KuMuScene extends Phaser.Scene {
       x: 670 / 2,
       y: 565 / 2,
      dialog: (clicked) => {
-      //if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
-      if (store.getTalkCount("Museumsleiter") > 0) {
+      if ((store.getState().Grusskarte?.collected ?? 0) > 0) {
         clicked.sceneName = "EndScene";
         clicked.sceneClass = EndScene;
         return [
