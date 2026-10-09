@@ -5,7 +5,6 @@
 import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
-import { UI } from '../UI.js';
 import { store } from '../Store.js';
 import { Dialog } from '../Dialog.js';
 import { AtelierScene } from './AtelierScene.js';
@@ -57,8 +56,7 @@ export class ZolliScene extends Phaser.Scene {
      create() {
       this._objects = [];
        this.add.image(640 / 2, 480 / 2, "Zolli");
-   
-       this._ui = new UI(this);
+
        this._dialog = new Dialog(this);
    
        this._addBackButton();
@@ -236,6 +234,8 @@ export class ZolliScene extends Phaser.Scene {
             store.registerType('Eis', 1),
             store.collect('Eis') 
           return [
+            "Juhu",
+            "Mein Kind hat seinen Ball.",
             "Wie kann ich dir nur danken?",
             "",
             "Du möchtest ein Eis?",
@@ -247,7 +247,7 @@ export class ZolliScene extends Phaser.Scene {
          return store.registerType('Ball', 1),
          [
           "Oh nein!",
-          "Mein hat seinen Ball verloren!",
+          "Mein Kind hat seinen Ball verloren!",
           "Ich wäre dir sehr dankbar,",
           "Wenn du ihn finden würdest.",
           ]

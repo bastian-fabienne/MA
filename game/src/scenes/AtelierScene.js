@@ -6,7 +6,6 @@ import Phaser from "phaser";
 import { ClickableObject } from "../ClickableObject.js";
 import { GAME, OBJECT_TYPES } from "../config.js";
 import { store } from "../Store.js";
-import { UI } from "../UI.js";
 import { Dialog } from '../Dialog.js';
 import { ZolliScene } from "./ZolliScene.js";
 //importiert Phaser-Bibliothek, Spiel-Konfigurationen, UI, usw.)
@@ -32,6 +31,7 @@ export class AtelierScene extends Phaser.Scene {
         "/assets/images/Atelier.png"
     );
     this.load.image("Martha", "/assets/images/Martha.png");
+    this.load.image("Otto Abt", "/assets/images/Otto Abt.png");
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.
@@ -42,8 +42,6 @@ export class AtelierScene extends Phaser.Scene {
 
     this._ui = new UI(this);
     this._dialog = new Dialog(this);
-
-    this._addBackButton();
     this._setupInventoryToggle();
     
 

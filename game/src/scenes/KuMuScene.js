@@ -6,7 +6,6 @@ import Phaser from "phaser";
 import { ClickableObject } from "../ClickableObject.js";
 import { GAME, OBJECT_TYPES } from "../config.js";
 import { store } from "../Store.js";
-import { UI } from "../UI.js";
 import { Dialog } from '../Dialog.js';
 import { MaertScene } from "./MaertScene.js";
 import { EndScene } from "./EndScene.js";
@@ -50,10 +49,8 @@ export class KuMuScene extends Phaser.Scene {
     this._objects = [];
     this.add.image(640 / 2, 480 / 2, "KuMuOhniTüre1");
 
-    this._ui = new UI(this);
     this._dialog = new Dialog(this);
 
-    this._addBackButton();
     this._setupInventoryToggle();
 
     // Hier kannst du die Objekte manuell platzieren.
@@ -155,7 +152,7 @@ export class KuMuScene extends Phaser.Scene {
       clicked.sceneName = "MaertScene";
       clicked.sceneClass = MaertScene;
       return [
-        "Nagut.",
+        "Nunut.",
         "",
         "Suche den Künstler Otto Abt",
         "",
@@ -218,22 +215,6 @@ export class KuMuScene extends Phaser.Scene {
     });
   }
 
-  // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
-  _addBackButton() {
-    const btn = this.add
-      .text(16, 16, "Zurück", {
-        fontSize: "18px",
-        color: "#000000",
-        backgroundColor: "#777777",
-        padding: { x: 10, y: 6 },
-      })
-      .setDepth(20)
-      .setInteractive({ useHandCursor: true });
-
-    btn.on("pointerover", () => btn.setStyle({ color: "#ffffff" }));
-    btn.on("pointerout", () => btn.setStyle({ color: "#000000" }));
-    btn.on("pointerdown", () => this.scene.start("GameScene"));
-  }
     
     _startScene(sceneName, sceneClass) {
       this.scene.start(sceneName);

@@ -5,7 +5,6 @@
 import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
-import { UI } from '../UI.js';
 import { store } from '../Store.js';
 import { Dialog } from '../Dialog.js';
 
@@ -52,7 +51,6 @@ export class SchneidereiScene extends Phaser.Scene {
       this._objects = [];
        this.add.image(640 / 2, 480 / 2, "Schneiderei");
    
-       this._ui = new UI(this);
        this._dialog = new Dialog(this);
    
        this._addBackButton();
@@ -114,7 +112,7 @@ export class SchneidereiScene extends Phaser.Scene {
 
           ]}
          return [
-          "Willkommen in meiner Schneiderei",
+          "Willkommen in meiner Schneiderei.",
           "Wie kann ich dir helfen?"
           ]
          }

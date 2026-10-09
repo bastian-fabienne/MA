@@ -4,9 +4,7 @@
 
 import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
-import { ClickableObject } from '../ClickableObject.js';
 import { Dialog } from '../Dialog.js';
-import { UI } from '../UI.js';
 
 export class EndScene extends Phaser.Scene {
   constructor() {
@@ -25,7 +23,6 @@ export class EndScene extends Phaser.Scene {
   create() {
     this._objects = [];
     this._drawBackground();
-    this._ui = new UI(this);
 
     this._dialog = new Dialog(this);
 

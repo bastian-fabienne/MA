@@ -5,7 +5,6 @@
 import Phaser from 'phaser';
 import { GAME, OBJECT_TYPES } from '../config.js';
 import { ClickableObject } from '../ClickableObject.js';
-import { UI } from '../UI.js';
 import { store } from '../Store.js';
 import { Dialog } from '../Dialog.js';
 import { KuMuScene } from './KuMuScene.js';
@@ -44,19 +43,16 @@ export class MaertScene extends Phaser.Scene {
     `/assets/images/${key}.png`,
   );
   }
+  this.load.image("Otto Abt", "/assets/images/Otto Abt.png");
   };
 
   // Lifecycle Schritt 2: Szene aufbauen.
   // Wird einmalig aufgerufen, nachdem preload() abgeschlossen ist.
   create() {
     this._objects = [];
-    this._ui = new UI(this);
-
     this._dialog = new Dialog(this);
 
-
     this.add.image(640 / 2, 480 / 2, 'Maert');
-    this._addBackButton();
     this._setupInventoryToggle();
     this.add.image()
 
@@ -142,15 +138,17 @@ export class MaertScene extends Phaser.Scene {
             "Ich wollte schon längst meine",
             "Verwandten dort besuchen.",
             "!ITEM:Schlüssel",
+            "Du hast einen Schlüssel erhalten.",
+            "!ITEM:Otto Abt",
             "Hier mein Schlüssel.",
             "Er öffnet dir die Tür",
             "zu meinem Atelier.",
             "Es ist gleich dort drüben.",
             "",
-            "!ITEM:OttoAbt",
+            "!ITEM:Otto Abt",
             "Dort können wir ungestört reden.",
             "Ich möchte aber erst meine Zeitung",
-            "ferti glesen.",
+            "fertig lesen.",
             "Wir treffen uns im Atelier.",
           ]
          }
@@ -214,7 +212,7 @@ export class MaertScene extends Phaser.Scene {
 
          if (count > 0) {
             return [
-           "ich habe wirklich keine Zeit",
+           "Ich habe wirklich keine Zeit",
            "für so etwas.",
            ]
           }
@@ -407,23 +405,6 @@ export class MaertScene extends Phaser.Scene {
     });
   }
 
-  // Erzeugt einen klickbaren "Zurück"-Button, der zur GameScene navigiert.
-  _addBackButton() {
-    const btn = this.add.text(16, 16, 'Exit', {
-      fontSize: '18px',
-      color: '#000000',
-      backgroundColor: '#777777',
-      padding: { x: 10, y: 6 },
-    }).setDepth(20).setInteractive({ useHandCursor: true });
-
-    btn.on('pointerover', () => btn.setStyle({ color: '#ffff00' }));
-    btn.on('pointerout',  () => btn.setStyle({ color: '#ffffff' }));
-    btn.on('pointerdown', () => this.scene.start('GameScene'));
-  }
-
-  _startScene(sceneName, sceneClass) {
-    this.scene.start(sceneName);
-}
 
   _placeObject(key, x, y, dialogLines, speakerName, speakerImage) {
     const obj = new ClickableObject(this, x, y, key, (clicked) => {
