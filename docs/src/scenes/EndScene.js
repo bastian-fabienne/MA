@@ -16,7 +16,7 @@ export class EndScene extends Phaser.Scene {
 
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image(type.key, `assets/images/${type.key}.png`);
     }
   }
 

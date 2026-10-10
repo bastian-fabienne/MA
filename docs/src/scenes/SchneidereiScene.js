@@ -23,7 +23,7 @@ export class SchneidereiScene extends Phaser.Scene {
   // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image(type.key, `assets/images/${type.key}.png`);
     }
        // Alle aktuell platzierten Objekte in der Szene
        this._objects = [];
@@ -31,7 +31,7 @@ export class SchneidereiScene extends Phaser.Scene {
      
        this.load.image(
            "Schneiderei",
-           "/assets/images/Schneiderei.png",
+           "assets/images/Schneiderei.png",
        );
      const SPEAKER_IMAGES = [
         'Schneiderin_cut'
@@ -40,7 +40,7 @@ export class SchneidereiScene extends Phaser.Scene {
      for (const key of SPEAKER_IMAGES) {
     this.load.image(
     key,
-    `/assets/images/${key}.png`,
+    `assets/images/${key}.png`,
     );
    }
    

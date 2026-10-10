@@ -23,15 +23,15 @@ export class AtelierScene extends Phaser.Scene {
   // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image(type.key, `assets/images/${type.key}.png`);
     }
    
     this.load.image(
         "Atelier",
         "/assets/images/Atelier.png"
     );
-    this.load.image("Martha", "/assets/images/Martha.png");
-    this.load.image("Otto Abt", "/assets/images/Otto Abt.png");
+    this.load.image("Martha", "assets/images/Martha.png");
+    this.load.image("Otto Abt", "assets/images/Otto Abt.png");
   }
 
   // Lifecycle Schritt 2: Szene aufbauen.

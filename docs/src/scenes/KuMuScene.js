@@ -30,16 +30,16 @@ export class KuMuScene extends Phaser.Scene {
       // funktioniert es.
       this.load.image(
         "KuMuOhniTüre1",
-        `/assets/images/KuMu.png`,
+        `assets/images/KuMu.png`,
       );
     }
     this.load.image(
         "KuMu_Türe", 
-        `/assets/images/KuMu_Türe.png`,
+        `assets/images/KuMu_Türe.png`,
       );
     this.load.image(
       "Rektor",
-      `/assets/images/Rektor.png`
+      `assets/images/Rektor.png`
     );
   }
 

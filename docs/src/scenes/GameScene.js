@@ -22,7 +22,7 @@ export class GameScene extends Phaser.Scene {
   // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image(type.key, `assets/images/${type.key}.png`);
     }
   }
 

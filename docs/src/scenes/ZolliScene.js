@@ -23,7 +23,7 @@ export class ZolliScene extends Phaser.Scene {
   // Hier werden alle Bild-Typen aus public/assets/images/ geladen.
   preload() {
     for (const type of OBJECT_TYPES) {
-      this.load.image(type.key, `/assets/images/${type.key}.png`);
+      this.load.image(type.key, `assets/images/${type.key}.png`);
     }
 
        // Alle aktuell platzierten Objekte in der Szene
@@ -32,7 +32,7 @@ export class ZolliScene extends Phaser.Scene {
      
        this.load.image(
            "Zolli",
-           "/assets/images/Zolli.png",
+           "assets/images/Zolli.png",
        );
       
        const SPEAKER_IMAGES = [
@@ -45,7 +45,7 @@ export class ZolliScene extends Phaser.Scene {
      for (const key of SPEAKER_IMAGES) {
     this.load.image(
     key,
-    `/assets/images/${key}.png`,
+    `assets/images/${key}.png`,
     );
    }
    
